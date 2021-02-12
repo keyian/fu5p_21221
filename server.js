@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 const routes = require('./routes/api.js');
 
-mongoose.connect(process.env.DB_URI || 'mongodb://localhost/basic_mern', {
+mongoose.connect(process.env.DB_URI || 'mongodb://localhost/fu5p_21221', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
