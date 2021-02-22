@@ -14,6 +14,7 @@ const useStyles = createUseStyles({
         bottom: 0,
         left: '1rem'
         },
+        padding: 5,
         '& span': {
         // jss-plugin-nested applies this to a child span
         fontWeight: 'bold' // jss-plugin-camel-case turns this into 'font-weight'

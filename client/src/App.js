@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import ItemForm from './components/ItemForm.js';
+import ItemMap from './components/ItemMap.js';
 import './App.css';
 
 class App extends React.Component {
@@ -89,6 +90,7 @@ class App extends React.Component {
           {this.displayBlogPost(this.state.posts)}
         </div>
         <ItemForm />
+        <ItemMap />
       </div>
     );
   }
