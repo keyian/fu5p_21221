@@ -32,36 +32,3 @@ export default function ItemForm() {
       </form>
     );
 }
-
-// class ItemForm extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       item: '',
-//       restaurant: '',
-//       price: 0,
-//       description: '',
-      
-//       };
-
-//     this.handleChange = this.handleChange.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
-  
-
-//   handleChange(event) {
-//     console.log(event.target);
-//     this.setState({[event.target.name]: event.target.value});
-//   }
-
-//   handleSubmit(event) {
-//     alert('An item was submitted: ' + this.state.item);
-//     event.preventDefault();
-//     this.setState({...DEFAULT_STATE})
-//   }
-
-//   render() {
-    
-//   }
-// }
