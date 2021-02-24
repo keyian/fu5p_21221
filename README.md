@@ -1,8 +1,12 @@
 # What is FU5P
 
 # FU5P Libraries and Incorporations Explained...
-* React-JSS
-
+* react-jss
+    * Dynamic styling
+* morgan
+    * http middleware--logging
+* google-map-react
+    * for convenient Google Maps react library
 
 # FU5P Incorporations Down the Line...
  * Higher Order Components

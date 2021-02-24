@@ -2,12 +2,12 @@ const express =  require('express');
 
 const router = express.Router();
 
-const BlogPost = require('../models/blogPost');
+const Item = require('../models/item');
 
 //Routes
 router.get('/', (req, res) => {
 
-  BlogPost.find()
+  Item.find()
   .then((data) => {
     console.log('Data: ', data);
     res.json(data);
@@ -21,15 +21,15 @@ router.post('/save', (req, res) => {
   console.log("Body: ", req.body);
   const data = req.body;
 
-  const newBlogPost = new BlogPost(data);
+  const newItem = new Item(data);
 
   // .save
-  newBlogPost.save((error) => {
+  newItem.save((error) => {
     if(error) {
       res.status(500).json({ msg: 'Sorry, internal server errors' });
       return;
     } 
-      // BlogPost
+      // Item
     return res.json({
         msg: "Your data has been saved!!!!!"
     });

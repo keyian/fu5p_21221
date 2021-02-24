@@ -20,17 +20,6 @@ mongoose.connection.on('connected', () => {
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-// Schema
-const Schema = mongoose.Schema;
-const BlogPostSchema = new Schema({
-  title: String,
-  body: String,
-  date: {
-    type: String,
-    default: Date.now()
-  }
-});
-
 //HTTP Request Logger
 app.use(morgan('tiny'));
 app.use('/api', routes);
