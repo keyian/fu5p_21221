@@ -1,6 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+
+const multer = require('multer');
+const mimeToExt = {
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg",
+  "image/png": "png"
+}
+
 const path = require('path');
 
 const app = express();

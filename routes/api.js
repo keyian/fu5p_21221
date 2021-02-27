@@ -3,18 +3,52 @@ const express =  require('express');
 const router = express.Router();
 
 const Item = require('../models/item');
+const Place = require('../models/place');
+
 
 //Routes
-router.get('/', (req, res) => {
 
-  Item.find()
-  .then((data) => {
+router.get('/getItems', (req, res) => {
+  Item.find({}).populate('place').then((data) => {
     console.log('Data: ', data);
     res.json(data);
   })
   .catch((error) => {
     console.log('error: ', error)
-  })
+  });
+});
+
+router.post('/saveItem', (req, res) => {
+  let data = req.body;
+  new Place({
+    name: data.placeName,
+    formatted_address: data.address,
+    coordinates: data.coordinates,
+    items: []
+  }).save(function(err, pl, count) {
+    if(err) {
+      console.log("Error saving place...");
+    } else {
+      new Item({
+        name: data.itemName,
+        price: data.price,
+        place: pl,
+        favorites: 0,
+        imgPath: '',
+        videoUrl: ''
+      }).save(function(err, item, count){
+        if(err) {
+          console.log("Error saving item...");
+        } else {
+          pl.items.push(item);
+          pl.save(function(err, pl, count) {
+            // do nothing
+            res.send(item);
+          });
+        }
+      });
+    }
+  });
 });
 
 router.post('/save', (req, res) => {
@@ -37,14 +71,6 @@ router.post('/save', (req, res) => {
   });
 
   
-});
-
-router.get('/name', (req, res) => {
-  const data = {
-    username: 'peterson',
-    age: 5
-  };
-  res.json(data);
 });
 
 module.exports = router;

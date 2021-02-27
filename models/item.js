@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 // Schema
-const Schema = mongoose.Schema;
-const ItemSchema = new Schema({
-  itemName: String,
-  restaurant: String, //*** THIS IS A STUB FOR NOW... RESTAURANT WILL BE A MODEL */
-  price: Number,
-  description: String,
-  date: {
-    type: String,
-    default: Date.now()
-  }
+const ItemSchema = new mongoose.Schema({
+  name: {type: String, required: true},
+  price: {type: Number, required: true},
+  place: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
+  favorites: {type: Number, required: false},
+  imgPath: {type: String, required: false},
+  videoUrl: {type: String, required: false}
+},
+{
+  timestamps: true
 });
 
 ItemSchema.methods.giveImage

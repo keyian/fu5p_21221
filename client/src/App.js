@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import ItemForm from './components/ItemForm.js';
@@ -6,26 +6,24 @@ import ItemMap from './components/ItemMap.js';
 import './App.css';
 //this is a test commit  to check an internal git problem.
 function App() {
-
-  useEffect(() => {
-    getItems();
-  })
-
+  const [items, setItems] = useState([]);
   const getItems = () => {
-    axios.get('/api')
+    axios.get('/api/getItems')
       .then((response) => {
-        console.log('Data has been received');
+        setItems(response);
+        console.log(response, 'Data has been received');
       })
       .catch(() => {
         alert('Error retrieving data!**!');
       })
   }
+  useEffect(() => { getItems() }, [] );
 
     return(
       <div className="app">
         <h2>Under 5</h2>
         <ItemForm />
-        <ItemMap />
+        <ItemMap items={items}/>
       </div>
     );
 }
