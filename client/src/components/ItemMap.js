@@ -10,12 +10,12 @@ function ItemMap(props) {
   });
 
   const [zoom, setZoom] = useState(11);
-
-  let items = props.items.data;
-  console.log("Items: ", items);
-  return (items!=undefined) ? (
+  const [items, setItems] = [props.items, props.setItems];
+  useEffect(() => { setItems(props.items); }, [props.items] );
+  return (items!==undefined) ? (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
+        <p>{props.test}</p>
         <GoogleMapReact
           defaultCenter={center}
           defaultZoom={zoom}
@@ -26,7 +26,7 @@ function ItemMap(props) {
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}
         </GoogleMapReact>
       </div>
-    ) : (<p>Loading</p>);
+    ) : (<p>Loading...</p>);
 }
 
 export default ItemMap;
