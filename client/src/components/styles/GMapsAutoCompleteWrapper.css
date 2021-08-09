@@ -1,0 +1,33 @@
+* {
+
+}
+
+.places-outer-div {
+    background-color: black;
+    padding: 10px;
+    padding-right: 10px;
+
+}
+
+.places-inner-div {
+    background-color: black;
+}
+
+.suggestions-div {
+    color: green;
+    /* font-weight: bold; */
+    font-family: "Comic-Sans", "Comic Sans", sans-serif;
+
+}
+
+input {
+    width: 100%;
+    height: 50px;
+}
+
+@supports (-webkit-text-stroke: 1px black) {
+    .suggestions-div {
+      -webkit-text-stroke: 1px #152BFF;
+      -webkit-text-fill-color: #00E5E8;
+    }
+  }
