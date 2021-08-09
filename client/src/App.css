@@ -20,7 +20,7 @@ button {
   padding: 10px;
 }
 
-form{
+form>input, form>label, form>textarea{
   width: 50%;
 }
 
@@ -40,4 +40,47 @@ form{
 
 label {
   display:block;
+  width: 100%;
+}
+
+#map-holder {
+  width: 100%;
+  height: 0px;
+  margin: auto;
+  z-index: 1;
+}
+
+#form-holder {
+  z-index: 2;
+  position:fixed;
+}
+
+@font-face {
+  font-family: 'Comic-Sans';
+  src: url(./fonts/comic-sans-ms/COMIC.TTF);
+}
+
+#title {
+  font-size: 5em;
+  padding: 0px;
+  margin: 0px;
+}
+
+@supports (-webkit-text-stroke: 5px black) {
+  #title {
+    -webkit-text-stroke: 4px #F0F600;
+    -webkit-text-fill-color: #FF3CC7;
+    font-family: 'Arial Black', Arial, sans-serif;
+    margin: auto;
+    text-align: center;
+  }
+}
+
+form {
+  width: 100%;
+  background-color: black;
+}
+
+body {
+  background-color: #FF3CC7;
 }

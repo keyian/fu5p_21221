@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
+import './styles/ItemMap.css';
 
 function ItemMap(props) {
-
   const [center, setCenter] = useState({
         lat: 40.7128,
         lng: -74.0060
   });
-
+  const [itemsies, setItemsies] = [props.items, props.setItems];
   const [zoom, setZoom] = useState(11);
-  const [items, setItems] = [props.items, props.setItems];
-  useEffect(() => { setItems(props.items); }, [props.items] );
-  return (items!==undefined) ? (
+  useEffect(() => { setItemsies(props.items);}, [props.items] );
+  return (itemsies!==undefined) ? (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
-        <p>{props.test}</p>
         <GoogleMapReact
           defaultCenter={center}
           defaultZoom={zoom}
         >
-        {items.map((item) =>
+        {itemsies.map((item, index) =>
           <MapMarker lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} />
         )}
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}

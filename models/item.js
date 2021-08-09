@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // Schema
 const ItemSchema = new mongoose.Schema({
   name: {type: String, required: true},
+  creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   price: {type: Number, required: true},
   place: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
   favorites: {type: Number, required: false},

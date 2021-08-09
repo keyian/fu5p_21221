@@ -10,6 +10,7 @@ const PlaceSchema = new Schema({
       lng: Number
   }, 
   items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item", required: true},
+  placeId: {type: String, required: true}
 });
 
 //Model

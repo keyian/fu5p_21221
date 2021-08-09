@@ -3,6 +3,9 @@ import './../App.css';
 import Button from './Button.js';
 import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
 import axios from 'axios';
+//css
+import './styles/ItemForm.css';
+
 
 export default function ItemForm(props) {
   const [itemName, setItemName] = useState("");
@@ -16,9 +19,10 @@ export default function ItemForm(props) {
       lat: null,
       lng: null
   });
-
+  const [placeId, setPlaceId] = useState("");
   /*
   * Clears the form, called after submit has been processed. 
+  * UPDATE with other form fields as added, since they will also need to be cleared.
   */
   const clear = () => {
     setItemName('');
@@ -27,14 +31,7 @@ export default function ItemForm(props) {
     setDescription('');
     setAddress('');
     setCoordinates({lat: null, lng: null});
-  }
-
-  /*
-  * Stub for method that will retrieve items from database and post.
-  */
-  const getItems = () => {
-    //this is a stub for now
-    return;
+    setPlaceId('');
   }
 
   const handleSubmit = (event) => {
@@ -45,9 +42,14 @@ export default function ItemForm(props) {
       price: price,
       description: description,
       address: address,
-      coordinates: coordinates
+      coordinates: coordinates,
+      placeId: placeId
     };
     
+    //monitoring during submit, before handoff to API
+    console.log("Place ID: ", placeId)
+    
+    //send to API
     axios({
       url: '/api/saveItem',
       method: 'POST',
@@ -67,7 +69,7 @@ export default function ItemForm(props) {
       <form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>What's under $5?</label>
         <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} />
-        <GMapsAutoCompleteWrapper hooks={{address, setAddress, coordinates, setCoordinates, placeName, setPlaceName}} />
+        <GMapsAutoCompleteWrapper hooks={{address, setAddress, coordinates, setCoordinates, placeName, setPlaceName, placeId, setPlaceId}} />
         <label>Price</label>
           <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} />
         <label>Image</label>
