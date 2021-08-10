@@ -10,7 +10,6 @@ function ItemMap(props) {
   });
   const [itemsies, setItemsies] = [props.items, props.setItems];
   const [zoom, setZoom] = useState(11);
-  useEffect(() => { setItemsies(props.items);}, [props.items] );
   return (itemsies!==undefined) ? (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>

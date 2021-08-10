@@ -88,9 +88,11 @@ function App() {
     return(
       <div className="app">
         {(login) ? <img src={picture}/> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
-        <h2 id="title">Under 5</h2>
-        <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
-        <div id="form-holder"><ItemForm addItem={addItemB4Refresh} /></div>
+        <h2 class="title">Under 5</h2>
+        <div id="map-and-form-holder">
+          <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
+          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh}/> : <h2 class="message">Login w FB Above</h2>}</div>
+        </div>  
       </div>
     );
 }

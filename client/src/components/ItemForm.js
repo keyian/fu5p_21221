@@ -73,11 +73,11 @@ export default function ItemForm(props) {
         <label>Price</label>
           <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} />
         <label>Image</label>
-          <textarea rows="4" cols="50" name="description" value={description} onChange={e => setDescription(e.target.value)} />
+          <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} />
         <label>Description/Any comments?</label>
-          <textarea rows="4" cols="50" name="description" value={description} onChange={e => setDescription(e.target.value)} />
+          <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} />
         <br />
-        <Button>SUBMIT</Button>
+        <Button id="itemform-button">SUBMIT</Button>
       </form>
     );
 }

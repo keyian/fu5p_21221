@@ -1,11 +1,25 @@
-form>input, textarea {
-    border-width: 5px;
-    border-color: black;
+
+
+
+
+
+@supports (-webkit-text-stroke: 5px black) {
+    button {
+        -webkit-text-stroke: .75px #00E5E8;
+        -webkit-text-fill-color: #152BFF;
+    }
+
+    label {
+        -webkit-text-stroke: .75px #152BFF;
+        -webkit-text-fill-color: #00E5E8;
+    }
 }
-label {
-    font-size: 24px;
-    font-family: Helvetica-Bold;
-    padding: 2px;
-    background-color: black;
-    color: white;
+
+input, label, textarea {
+    margin-bottom: 4.5px;
 }
+
+
+  label {
+    display: inline-block;
+  }
