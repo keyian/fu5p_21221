@@ -27,7 +27,6 @@ function GMapsAutoCompleteWrapper(props) {
         setAddress(formatted_add);
         setPlaceId(address_Results[0].place_id);
         setCoordinates(latLng);
-        console.log(extractName(value));
     };
 
     const renderFunc = ({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (

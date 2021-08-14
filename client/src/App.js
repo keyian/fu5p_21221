@@ -14,37 +14,23 @@ import './App.css';
 function App() {
   //facebook-login hooks
   const [login, setLogin] = useState(false);
-  const [data, setData] = useState({});
+  const [userData, setUserData] = useState({});
   const [picture, setPicture] = useState('');
 
 
   const [items, setItems] = useState([]);
 
-  //facebook callback function
-  // const responseFacebook = (response) => {
-  //   console.log("in response");
-  //   console.log(response);
-  //   setData(response);
-  //   setPicture(response.picture.data.url);
-  //   if (response.accessToken) {
-  //     setLogin(true);
-  //   } else {
-  //     setLogin(false);
-  //   }
-  // }
-
-    const responseFacebook = (response) => {
-    //monitor
+  const responseFacebook = (response) => {
+    //monitoring
     console.log("in response");
-    //view response
-    console.log(response);
-    setData(response);
+     
     setPicture(response.picture.data.url);
     if (response.accessToken) {
-    setLogin(true);
+      setLogin(true);
     } else {
-    setLogin(false);
+      setLogin(false);
     }
+
     //send request with this body
     const payload = {
       fbid: response.id,
@@ -57,11 +43,13 @@ function App() {
       url: '/api/save-user',
       method: 'POST',
       data: payload
+    }).then((response) => {
+      console.log("we in post-savveeeee");
+      setUserData(response.data);
     }).catch((e) => {
-        console.log("Error saving user: ", e);
-    }).then();
-    
-    };
+      console.log("Error saving user: ", e);
+    })
+  };
 
 
   const getItems = () => {
@@ -87,11 +75,11 @@ function App() {
 
     return(
       <div className="app">
-        {(login) ? <img src={picture}/> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
+        {(login) ? <img alt="facebook profile photo" src={picture}/> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
         <h2 class="title">Under 5</h2>
         <div id="map-and-form-holder">
           <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
-          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh}/> : <h2 class="message">Login w FB Above</h2>}</div>
+          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 class="message">Login w FB Above</h2>}</div>
         </div>  
       </div>
     );

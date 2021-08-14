@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 // Schema
 const Schema = mongoose.Schema;
 const PlaceSchema = new Schema({
-  name: {type: String, required: true},
-  formatted_address: {type: String, required: true},
+  name: {type: String, required: false},
+  formatted_address: {type: String, required: false},
   coordinates: {
       lat: Number,
       lng: Number
   }, 
-  items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item", required: true},
-  placeId: {type: String, required: true}
+  items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item", required: false},
+  placeId: {type: String, required: false}
 });
 
 //Model

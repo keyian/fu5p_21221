@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 // Schema
 const ItemSchema = new mongoose.Schema({
-  name: {type: String, required: true},
+  name: {type: String, required: false},
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  price: {type: Number, required: true},
+  price: {type: Number, required: false},
   place: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
   favorites: {type: Number, required: false},
-  imgPath: {type: String, required: false},
-  videoUrl: {type: String, required: false}
+  img: {type: String, required: false},
+  videoUrl: {type: String, required: false},
 },
 {
   timestamps: true

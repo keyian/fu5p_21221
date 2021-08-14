@@ -1,6 +1,9 @@
 const express =  require('express');
-
+const axios = require('axios');
 const router = express.Router();
+
+
+const imgLoc = 'images/uploads';
 
 const Item = require('../models/item');
 const Place = require('../models/place');
@@ -10,7 +13,6 @@ const User = require('../models/user');
 
 router.get('/getItems', (req, res) => {
   Item.find({}).populate('place').then((data) => {
-    console.log('Data: ', data);
     res.json(data);
   })
   .catch((error) => {
@@ -19,52 +21,45 @@ router.get('/getItems', (req, res) => {
 });
 
 router.post('/saveItem', (req, res) => {
+  
   let data = req.body;
-  new Place({
+  console.log("data: ", data);
+  //does place exist?
+  let placeFields = {
     name: data.placeName,
     formatted_address: data.address,
     coordinates: data.coordinates,
     items: [],
     placeId: data.placeId
-  }).save(function(err, pl, count) {
-    if(err) {
-      console.log("Error saving place...");
-    } else {
-      new Item({
-        name: data.itemName,
-        price: data.price,
-        place: pl,
-        favorites: 0,
-        imgPath: '',
-        videoUrl: ''
-      }).save(function(err, item, count){
-        if(err) {
-          console.log("Error saving item...");
-        } else {
-          pl.items.push(item);
-          pl.save(function(err, pl, count) {
-            // do nothing
-            res.send(item);
-          });
-        }
-      });
-    }
-  });
+  };
+
+  createOrFindPlace(placeFields).then((place) => {
+    console.log("this is place: ", place);
+
+     new Item({
+      name: data.itemName,
+      creator: data.user,
+      price: data.price,
+      place: place,
+      favorites: 0,
+      img: data.localImageLoc,
+      videoUrl: ''
+    }).save(function(err, item, count){
+      if(err) {
+        console.log("Error saving item..." , err);
+      } else {
+        place.items.push(item);
+        place.save(function(err, pl, count) {
+          // do nothing
+          res.json(item);
+        });
+      }
+    });
+  }).catch((error) => console.log("There was an error during create or find place...: ", error));
 });
 
 router.post('/save-user', (req, res) => {
   const data = req.body;
-  console.log("Here's req.body...", req.body);
-  //add user's favorites (stub array), last-login (now), name, and email
-  //  previous code
-  //  User.findByIdAndUpdate({fbid: data.fbid}, {upsert: true, new: true}, (err, user) => {
-  //   if(err) {
-  //     console.log("Error while saving user: ", err);
-  //   }
-  //   console.log("THIS IS USER", user);
-  //   res.send(user);
-  // })
-
 
   //experiment with this
   //does user exist? Find
@@ -88,42 +83,68 @@ router.post('/save-user', (req, res) => {
           return;
         }
         console.log("we in the post-save world");
-        return res.json({
-          msg: 'we gucci',
-          user: user
-        });
+        return res.send(user);
       })
     } else {
       console.log("we in  user already exists");
       user.lastLogin = Date.now();
       console.log(user.lastLogin);
-      user.save();
+      user.save((error, user) => {
+        if(!error) { 
+         res.send(user);
+        } else {
+          console.log("error in saving user, here it is ", user);
+        }
+      });
     }
-    console.log("THIS IS USER", user);
-    res.send(user);
   });
 });
 
-router.post('/save', (req, res) => {
-  console.log("Body: ", req.body.fbid);
-  const data = req.body;
 
-  const newItem = new Item(data);
+//helperzzz
 
-  // .save
-  newItem.save((error) => {
-    if(error) {
-      res.status(500).json({ msg: 'Sorry, internal server errors' });
-      return;
-    } 
-      // Item
-    return res.json({
-        msg: "Your data has been saved!!!!!"
+async function createOrFindPlace(placeFields) {
+  let placePromise = await new Promise((resolve, reject) => {
+    Place.findOneAndUpdate(
+      {placeId: placeFields.placeId}, 
+      {upsert: true}, 
+      (err, place) => {
+        if(err) {
+          console.log("Error while saving place: ", err);
+        } 
+        //if place wasn't found
+        if(!place) {
+          console.log("in place didn exist section\nhere is placefields: ", placeFields);
+          Place({
+              name: placeFields.name,
+              formatted_address: placeFields.address,
+              coordinates: placeFields.coordinates,
+              items: [],
+              placeId: placeFields.placeId
+            }).save(async (error, place) => {
+              console.log("we in place save");
+              if(error) {
+                console.log("in save error");
+                res.status(500).json({msg: 'Sry, server error while adding place...'});
+                reject('ERror with place saving');
+              } else {
+                console.log("No error, here is place: ", place);
+                resolve(place);
+              }
+              console.log("we in the post-save place world");
+            });
+        } else {
+          resolve(place);
+        }
     });
-    
   });
+  return placePromise;
+}
 
-  
-});
+
+
+
+
+
 
 module.exports = router;
