@@ -35,6 +35,7 @@ router.post('/saveItem', (req, res) => {
 
   createOrFindPlace(placeFields).then((place) => {
     console.log("this is place: ", place);
+    console.log("this is data.localImageLoc", data.localImageLoc);
 
      new Item({
       name: data.itemName,
@@ -42,7 +43,7 @@ router.post('/saveItem', (req, res) => {
       price: data.price,
       place: place,
       favorites: 0,
-      img: data.localImageLoc,
+      img:  data.localImageLoc,
       videoUrl: ''
     }).save(function(err, item, count){
       if(err) {

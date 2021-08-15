@@ -8,6 +8,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+const HTTPS = process.env.HTTPS || true;
 
 const routes = require('./routes/api.js');
 
@@ -65,7 +66,7 @@ app.post('/api/uploadImage', upload.single('item_image'), (function(req, res, ne
   console.log("req.body", req.body);
   //we should only get the path AFTER whatever is static...
   var path = req.file.path;
-  path = path.substr(path.indexOf(imgLoc));
+ 
   console.log("path",path);
   res.send(path);
 }));

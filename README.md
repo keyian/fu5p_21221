@@ -8,6 +8,8 @@
 * google-map-react
     * for convenient Google Maps react library
 
+* download nodemon!
+
 # FU5P Incorporations Down the Line...
  * Higher Order Components
     * Ello

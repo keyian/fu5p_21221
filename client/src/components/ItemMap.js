@@ -18,7 +18,7 @@ function ItemMap(props) {
           defaultZoom={zoom}
         >
         {itemsies.map((item, index) =>
-          <MapMarker lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} />
+          <MapMarker lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} item={item}/>
         )}
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}
         </GoogleMapReact>
