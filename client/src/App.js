@@ -75,7 +75,7 @@ function App() {
 
     return(
       <div className="app">
-        {(login) ? <img alt="facebook profile photo" src={picture}/> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
+        {(login) ? <div id="loginDiv"><img alt="facebook profile photo" src={picture}/><span id="loginName">{userData.name}</span></div> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
         <h2 class="title">Under 5</h2>
         <div id="map-and-form-holder">
           <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
