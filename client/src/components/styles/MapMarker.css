@@ -1,0 +1,13 @@
+div.marker {
+    transition: transform .2s;
+
+    
+}
+
+img.marker {
+    object-fit: cover;
+}
+
+div.marker:hover {
+    transform: scale(15);
+}
