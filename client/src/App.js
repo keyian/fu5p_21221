@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 //facebook-login
 import FacebookLogin from "react-facebook-login";
@@ -75,11 +76,20 @@ function App() {
 
     return(
       <div className="app">
-        {(login) ? <div id="loginDiv"><img alt="facebook profile photo" src={picture}/><span id="loginName">{userData.name}</span></div> : <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />}
-        <h2 class="title">Under 5</h2>
+        {(login) ? 
+        <Link to={`/user/${userData._id}`}>
+          <div id="loginDiv">
+            <img alt="facebook profile photo" src={picture}/>
+            <span id="loginName">{userData.name}</span>
+          </div>
+        </Link> 
+        : 
+        <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />
+        }
+        <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>
         <div id="map-and-form-holder">
           <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
-          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 class="message">Login w FB Above</h2>}</div>
+          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}</div>
         </div>  
       </div>
     );

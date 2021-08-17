@@ -107,7 +107,7 @@ export default function ItemForm(props) {
       console.log("here da item: ", item);
       props.addItem(item.data);
       clear();
-    });
+    });  
   }
 
   return (

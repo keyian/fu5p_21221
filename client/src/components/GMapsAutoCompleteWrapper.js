@@ -30,10 +30,10 @@ function GMapsAutoCompleteWrapper(props) {
     };
 
     const renderFunc = ({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div class="places-outer-div">
+          <div className="places-outer-div">
             <input {...getInputProps({ placeholder: "Where dat good shet?" })} />
 
-            <div class="places-inner-div">
+            <div className="places-inner-div">
               {loading ? <div>...loading</div> : null}
               {suggestions.map(suggestion => {
                 const style = {
@@ -41,7 +41,7 @@ function GMapsAutoCompleteWrapper(props) {
                 };
 
                 return (
-                  <div class="suggestions-div" {...getSuggestionItemProps(suggestion, { style })}>
+                  <div className="suggestions-div" {...getSuggestionItemProps(suggestion, { style })}>
                     {suggestion.description}
                   </div>
                 );
