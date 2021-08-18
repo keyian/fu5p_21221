@@ -2,20 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { Switch, Route, HashRouter } from 'react-router-dom';
+import { Link, Switch, Route, HashRouter } from 'react-router-dom';
 
 //import components that Router will link to...
 import App from './App';
 import User from './components/User';
 
+
+
   // <React.StrictMode>
-  ReactDOM.render(
-  (<HashRouter>
-    <Switch>
-      <Route exact path="/" component={App} />
-      <Route path="/user/:user" component={User} />
-    </Switch>
-  </HashRouter>),
+  ReactDOM.render((
+    <HashRouter>
+      <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/user/:user" component={User} />
+        <Route component={App} />
+      </Switch>
+    </HashRouter>),
   document.getElementById('root'));
   {/* // </React.StrictMode>, */}
   

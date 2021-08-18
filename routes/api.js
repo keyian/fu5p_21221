@@ -20,6 +20,23 @@ router.get('/getItems', (req, res) => {
   });
 });
 
+router.get('/populate-user-favorites', (req, res) => {
+  console.log("in populate user", req.query.userID);
+  let userID = req.query.userID;
+  User.findById(userID)
+  .populate({
+    path: 'favorites',
+    populate: {path: 'place'}
+  })
+  .exec(function(err, user) {
+    if(err) {
+      console.log("error getting populated user", err);
+      return;
+    }
+    res.send(user);
+  });
+});
+
 router.post('/saveItem', (req, res) => {
   
   let data = req.body;
