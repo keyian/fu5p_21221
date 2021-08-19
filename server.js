@@ -38,12 +38,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //multer stuph
 if(process.env.NODE_ENV === "PRODUCTION") {
-  saveLoc = './client/build/'+imgLoc;
+  //saveLoc = './client/build/'+imgLoc;
+  saveLoc = imgLoc;
+  console.log("We are identifying production");
+
 } else {
-  saveLoc = './client/public/'+imgLoc;
+  //saveLoc = './client/public/'+imgLoc;
+  saveLoc = imgLoc;
+  console.log("We are identifying development");
+
 }
 var storage = multer.diskStorage({
-
   destination: function (req, file, cb) {
     cb(null, saveLoc)
   },
@@ -73,6 +78,7 @@ app.post('/api/uploadImage', upload.single('item_image'), (function(req, res, ne
 
 //Step 3
 if (process.env.NODE_ENV === 'production') {
+  console.log("We are identifying production");
   app.use(express.static('client/build'));
 } 
 
