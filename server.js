@@ -38,7 +38,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //multer stuph
 if(process.env.NODE_ENV === "production") {
-  saveLoc = './client/build/'+imgLoc;
+  //saveLoc = './client/build/'+imgLoc;
+  saveLoc = imgLoc;
   console.log("We are identifying production");
 } else {
   saveLoc = './client/public/'+imgLoc;
