@@ -3,7 +3,7 @@ import React from 'react';
 import './styles/MapMarker.css';
 //import anya from 'anya.png';
 //remove the file root...
-const FILE_ROOT = '/client/public';
+let FILE_ROOT = '/client/public';
 if(process.env.NODE_ENV === 'production') {
   FILE_ROOT = '/client/build';
 } 

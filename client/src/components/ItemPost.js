@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles/ItemPost.css';
 import LikeHeart from './LikeHeart';
-const FILE_ROOT = '/client/public';
+let FILE_ROOT = '/client/public';
 if(process.env.NODE_ENV === 'production') {
   FILE_ROOT = '/client/build';
 } 
