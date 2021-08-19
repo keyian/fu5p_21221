@@ -12,7 +12,7 @@ function ItemMap(props) {
   const [zoom, setZoom] = useState(11);
   return (itemsies!==undefined) ? (
       // Important! Always set the container height explicitly
-      <div style={{ height: '75vh', width: '100%' }}>
+      <div id="map-div" >
         <GoogleMapReact
           defaultCenter={center}
           defaultZoom={zoom}

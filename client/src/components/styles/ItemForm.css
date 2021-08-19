@@ -1,4 +1,22 @@
 
+form {
+    max-width: 300px;
+    width: 55%;
+    /* background-color: #FF3CC7; */
+    padding: 10px 0px 10px 10px;
+    /* animation-name: bgColor;
+    animation-duration: 10s;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-iteration-count: infinite; */
+    top: 200px;
+    left: 0px;
+    min-width: 200px;
+    position: absolute;
+    margin: 0px;
+    text-align: center;
+  
+  }
+
 
 
 

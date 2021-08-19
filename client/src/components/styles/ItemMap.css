@@ -1,0 +1,12 @@
+#map-div {
+    margin: 15px;
+    min-height: 400px;
+    height: 75vh; 
+    width: 75%;
+}
+
+#map-holder {
+    border-width:5px;
+    border-color: black;
+}
+
