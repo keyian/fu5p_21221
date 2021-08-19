@@ -37,16 +37,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
 //multer stuph
-if(process.env.NODE_ENV === "PRODUCTION") {
-  //saveLoc = './client/build/'+imgLoc;
-  saveLoc = imgLoc;
+if(process.env.NODE_ENV === "production") {
+  saveLoc = './client/build/'+imgLoc;
   console.log("We are identifying production");
-
 } else {
-  //saveLoc = './client/public/'+imgLoc;
-  saveLoc = imgLoc;
+  saveLoc = './client/public/'+imgLoc;
   console.log("We are identifying development");
-
 }
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

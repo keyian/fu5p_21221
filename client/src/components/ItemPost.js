@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import './styles/ItemPost.css';
 import LikeHeart from './LikeHeart';
-//const FILE_ROOT = '/client/public';
+const FILE_ROOT = '/client/public';
+if(process.env.NODE_ENV === 'production') {
+  FILE_ROOT = '/client/build';
+} 
 
 export default function ItemPost(props) {
     let item = props.item;
     let place = item.place;
-    //let filename = item.img.substring(FILE_ROOT.length);
-    let filename = item.img;
+    let filename = item.img.substring(FILE_ROOT.length);
     console.log("thisis item prop in itempost", item);
     console.log(filename);
 
