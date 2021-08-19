@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 if(process.env.NODE_ENV === "production") {
   // saveLoc = './client/build/'+imgLoc;
   // saveLoc = imgLoc;
-  saveLoc = "/";
+  saveLoc = "./client/build";
   console.log("We are identifying production");
 } else {
   saveLoc = './client/public/'+imgLoc;
