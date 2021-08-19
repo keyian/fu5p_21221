@@ -1,5 +1,5 @@
 div.marker {
-    transition: transform .2s;
+    transition: transform 1s;
 
     
 }
@@ -9,5 +9,5 @@ img.marker {
 }
 
 div.marker:hover {
-    transform: scale(15);
+    transform: scale(5);
 }

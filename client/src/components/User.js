@@ -4,13 +4,15 @@ import ItemMap from './ItemMap';
 import axios from 'axios';
 
 export default function User(props) {
+    //state
+    const [favorites, setFavorites] = useState([]);
+
     console.log("we in userrr");
     console.log(props);
     //get the local storage...
     let user = JSON.parse(window.localStorage.getItem('userData'));    //populate favorites upon load?
     console.log("what does user in local storage look like...", user);
     function populateFavorites() {
-        const [favorites, setFavorites] = useState([]);
         
         axios.get('/api/populate-user-favorites',
             { params: {

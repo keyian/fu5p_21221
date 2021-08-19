@@ -6,6 +6,7 @@ import FacebookLogin from "react-facebook-login";
 //components
 import ItemForm from './components/ItemForm.js';
 import ItemMap from './components/ItemMap.js';
+import ItemFeed from './components/ItemFeed.js';
 //css
 import './App.css';
 //helpers
@@ -123,6 +124,9 @@ function App() {
           <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
           <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}</div>
         </div>  
+        <div id="itemfeed-container">
+          <ItemFeed items={items} user={userData} login={login} />
+        </div>
       </div>
     );
 }

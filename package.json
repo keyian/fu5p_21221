@@ -9,7 +9,7 @@
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node server.js",
-    "client-mac": "cd client && npm start-mac",
+    "client-mac": "cd client && npm run start-mac",
     "client-windows": "cd client && npm run start-windows",
     "dev-mac": "concurrently -n 'server,client', -c 'red, green' \"nodemon server.js\" \"npm run client-mac\"",
     "dev-windows": "concurrently -n 'server,client', -c 'red, green' \"nodemon server.js\" \"npm run client-windows\""

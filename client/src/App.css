@@ -68,7 +68,6 @@ button {
 
 #map-holder {
   width: 100%;
-  height: 0px;
   margin: auto;
   z-index: 1;
 }
@@ -135,4 +134,8 @@ body {
 
 @media only screen and (max-width: 480px) {
   
+}
+
+#itemfeed-container, #map-and-form-holder {
+  display: block;
 }

@@ -20,6 +20,43 @@ router.get('/getItems', (req, res) => {
   });
 });
 
+router.post('/favorite-click', (req, res) => {
+  let { userID, itemID, liked } = req.body;
+  Item.findOne({_id: itemID}, function(err, item) {
+    if(err) {
+      console.log("error finding item to favorite...", err);
+      return;
+    }
+    (liked) ? item.favorites-- : item.favorites++;
+    item.save(function(err, item) {
+      if(err) {
+        console.log("error saving item favorite change");
+        return;
+      }
+      User.findOne({_id: userID}, function(err, user) {
+        if(err) {
+          console.log("error finding user to change favorite", err);
+          return;
+        } 
+        if(liked) {
+          let index = user.favorites.indexOf(item._id);
+          user.favorites.splice(index, 1);
+        } else {
+          user.favorites.push(item._id);
+        }
+        user.save(function(err, user) {
+          if(err) {
+            console.log("error saving user favorie change", err);
+            return;
+          }
+          res.send({item: item, user: user});
+        });
+    });
+  });
+
+  });
+});
+
 router.get('/populate-user-favorites', (req, res) => {
   console.log("in populate user", req.query.userID);
   let userID = req.query.userID;
