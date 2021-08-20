@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './styles/User.css';
 import ItemMap from './ItemMap';
 import axios from 'axios';
+import Header from './Header.js';
 
 export default function User(props) {
     //state
@@ -34,6 +35,7 @@ export default function User(props) {
     useEffect(populateFavorites, []);
     return (
         <div id="userbg">
+            {/* <Header loginHooks={props.loginHooks}/> */}
             <h1 id="userh1"> HELLO {user.name}</h1>
             <ItemMap items={favorites} />
         </div>

@@ -10,10 +10,17 @@ if(process.env.NODE_ENV === 'production') {
 
 const MapMarker = (props) => {
 let source = props.item.img.substring(FILE_ROOT.length);
-
+function handleClick() {
+  console.log(props);
+  //if already is center, then go to the item
+  // if not center, then zoom in and center (via props.onclick)
+  props.onClick({lat: props.lat, lng: props.lng});
+  //href={"#"+props.item._id} 
+}
   return (
     <div className="marker">
-        <a href={"#"+props.item._id} ><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></a>
+        <a onClick={handleClick}><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></a>
+        {/* <a href={"#"+props.item._id} ><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></a> */}
     </div>
   );
 }
