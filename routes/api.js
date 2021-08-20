@@ -22,6 +22,8 @@ router.get('/getItems', (req, res) => {
 
 router.post('/favorite-click', (req, res) => {
   let { userID, itemID, liked } = req.body;
+  console.log(userID);
+  if(userID){
   Item.findOne({_id: itemID}, function(err, item) {
     if(err) {
       console.log("error finding item to favorite...", err);
@@ -55,6 +57,7 @@ router.post('/favorite-click', (req, res) => {
   });
 
   });
+  }
 });
 
 router.get('/populate-user-favorites', (req, res) => {
