@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/LikeHeart.css';
 
@@ -41,7 +41,7 @@ export default function LikeHeart(props) {
 
     return(
         <div>
-            <div className="notFilled" onClick={handleLikeClick}></div>
+            <div className="notFilled" onClick={handleLikeClick}>&hearts;</div>
             <p>Favorites: {item.favorites}</p>
         </div>
     );

@@ -1,20 +1,16 @@
-
-
-.places-outer-div {
-    /* background-color: #152BFF; */
-    border-radius: 1rem;
-    border-width: 5px;
-    border-color: #152BFF;
-
+#autocomplete-div {
+    
 
 }
 
-.places-inner-div {
-    /* background-color: #152BFF; */
-    border-radius: 1rem;
+.places-outer-div input {
+   
+    border-style: solid;
+    border-color:#152BFF;
     border-width: 5px;
-    border-color: #152BFF;
 }
+
+
 
 .suggestions-div {
     color: green;
@@ -22,8 +18,8 @@
     font-family: "Comic-Sans", "Comic Sans", sans-serif;
     border-radius: 1rem;
     border-width: 5px;
+  
 }
-
 input {
     width: 100%;
 

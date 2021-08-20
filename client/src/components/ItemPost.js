@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles/ItemPost.css';
 import LikeHeart from './LikeHeart';
 let FILE_ROOT = '/client/public';
@@ -7,8 +7,11 @@ if(process.env.NODE_ENV === 'production') {
 } 
 
 export default function ItemPost(props) {
+    // props
     let item = props.item;
     let place = item.place;
+    let user = props.user;
+    
     let filename = item.img.substring(FILE_ROOT.length);
     console.log("thisis item prop in itempost", item);
     console.log(filename);
@@ -16,8 +19,12 @@ export default function ItemPost(props) {
     return(
         <div id={item._id} className="item-post">
             <h1>{item.name} @ {place.name}</h1>
-            <img className="item-image" src={filename} />
-            <LikeHeart item={item} user={props.user} login={props.login}/>
+            <div>
+                <img src={user.picture} alt="facebook pic" />
+                <p> {user.name} </p>
+            </div>
+            <img alt={item.name} className="item-image" src={filename} />
+            <LikeHeart item={item} user={user} login={props.login}/>
         </div>
     );
 }

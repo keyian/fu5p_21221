@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './styles/Login.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import axios from 'axios';
 import FacebookLogin from "react-facebook-login";
 
 export default function Login(props) {
-    let {login, setLogin, userData, setUserData, picture, setPicture} = props;
+    let {login, setLogin, userData, setUserData, picture, setPicture} = props.hooks;
     //check if fb login is already stored in local storage...
   function checkFBLogin() {
     console.log('getting userdata: ');
@@ -68,15 +68,15 @@ export default function Login(props) {
     })
   };
 
-    useEffect(() => {checkFBLogin() }, []);
+    useEffect(checkFBLogin, []);
 
     return(
-        <div>
+        <div id="outer-login-div">
             {(login) ? 
             <Link to={{pathname: `/user/${userData._id}`, state: {user: userData}}} >
-            <div id="loginDiv">
-                <img alt="facebook profile photo" src={picture}/>
-                <span id="loginName">{userData.name}</span>
+            <div id="login-div">
+                <div id="login-img-div" ><img alt="facebook" src={picture}/></div>
+                <span id="login-span">{userData.name}</span>
             </div>
             </Link> 
             : 

@@ -18,7 +18,7 @@ function extractName(suggestion) {
 
 function GMapsAutoCompleteWrapper(props) {
     //sharing hooks parent to child...
-    const {address, setAddress, coordinates, setCoordinates, placeName, setPlaceName, placeId, setPlaceId } = props.hooks;
+    const {address, setAddress, setCoordinates, setPlaceName, setPlaceId } = props.hooks;
     const handleSelect = async value => {
         const address_Results = await geocodeByAddress(value);
         const latLng = await getLatLng(address_Results[0]);
@@ -51,11 +51,11 @@ function GMapsAutoCompleteWrapper(props) {
         );
 
     return (
-        <div>
+        <div id="autocomplete-div">
       <PlacesAutoComplete 
       value={address} 
       onChange={setAddress} 
-      onSelect={handleSelect}>
+      onSelect={handleSelect} >
          {renderFunc}
        </PlacesAutoComplete>
        </div>

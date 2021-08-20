@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './../App.css';
-import Button from './Button.js';
 import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
 import axios from 'axios';
+
+//componentz
+import Draggable from 'react-draggable';
+import Button from './Button.js';
+
 //css
 import './styles/ItemForm.css';
 
@@ -10,7 +14,7 @@ import './styles/ItemForm.css';
 export default function ItemForm(props) {
   const [itemName, setItemName] = useState("");
   const [placeName, setPlaceName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState();
   const [description, setDescription] = useState("");
   const [imageName, setImageName] = useState("");
   const userData = props.userData;
@@ -21,7 +25,6 @@ export default function ItemForm(props) {
       lng: null
   });
   const [placeId, setPlaceId] = useState("");
-  const [item, setItem] = useState({});
   /*
   * Clears the form, called after submit has been processed. 
   * UPDATE with other form fields as added, since they will also need to be cleared.
@@ -111,24 +114,26 @@ export default function ItemForm(props) {
   }
 
   return (
-      <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
-        <label>What's under $5?</label>
-        <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} />
-        <GMapsAutoCompleteWrapper hooks={{address, setAddress, coordinates, setCoordinates, placeName, setPlaceName, placeId, setPlaceId}} />
-        <label>Price</label>
-          <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} />
-        <label>Image</label>
-          <input 
-                type="file" 
-                accept=".png, .jpg, .jpeg"
-                name="item_image"
-                id="itemImage"
-                onChange={onChangeImage}
-            />
-        <label>Description/Any comments?</label>
-          <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} />
-        <br />
-        <Button id="itemform-button">SUBMIT</Button>
-      </form>
+      <Draggable>
+
+            <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
+              <span id="drag-span">DRAG THIS</span>
+              <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
+              <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
+                <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
+              <label>Image</label>
+                <input 
+                    type="file" 
+                    accept=".png, .jpg, .jpeg"
+                    name="item_image"
+                    id="itemImage"
+                    onChange={onChangeImage}
+                    placeholder="Image"
+                  />
+                <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
+              <br />
+              <Button id="itemform-button">SUBMIT</Button>
+            </form>
+      </Draggable>
     );
 }

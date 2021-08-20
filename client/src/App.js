@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 //components
 import ItemForm from './components/ItemForm.js';
 import ItemMap from './components/ItemMap.js';
 import ItemFeed from './components/ItemFeed.js';
-import Login from './components/Login.js'
+import Login from './components/Login.js';
+import Header from './components/Header.js';
 //css
 import './App.css';
 //helpers
@@ -34,7 +34,6 @@ function App() {
           console.log('Error retrieving getItems data!**: ', err);
         });
     }
-
   }
 
 
@@ -46,15 +45,13 @@ function App() {
 
   }
 
-    useEffect(() => { getItems() }, []);
+    useEffect(getItems, []);
 
     return(
       <div className="app">
-        <Login login={login} setLogin={setLogin} userData={userData} setUserData={setUserData} picture={picture} setPicture={setPicture} />
-        <div id="map-and-form-holder">
-          <div id="map-holder" ><ItemMap items={items} setItems={setItems} /></div>
-          <div id="form-holder">{(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}</div>
-        </div>  
+        <Header hooks={{login, setLogin, userData, setUserData, picture, setPicture}}  />
+        <ItemMap items={items} setItems={setItems} />
+        {(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}
         <div id="itemfeed-container">
           <ItemFeed items={items} user={userData} login={login} />
         </div>

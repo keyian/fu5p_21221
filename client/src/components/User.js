@@ -31,7 +31,7 @@ export default function User(props) {
             console.log('Error retrieving populate favorites data!**: ', error);
         })
     }
-    useEffect(() => { populateFavorites()}, []);
+    useEffect(populateFavorites, []);
     return (
         <div id="userbg">
             <h1 id="userh1"> HELLO {user.name}</h1>

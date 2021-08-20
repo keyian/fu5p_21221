@@ -1,66 +1,22 @@
-.app {
-  padding: 0px;
-}
-
-/* form stuff */
-
-
-
-form input, form textarea {
-  width: 80%;
-  max-height: 30px;
-}
-
-
-form>input, form>label, form>textarea{
-  border-radius: 1rem;
-}
-
-form>input, textarea {
-  border-width: 5px;
-  border-color: #152BFF;
-
-}
-
-label {
-  font-size: 14px;
-  font-family: "Comic-Sans";
-  padding: 5px;
-  background-color: white;
-  color: #00E5E8;
-  text-align: left;
-  width: 80%;
-}
-
-button {
-  background-color: #152BFF;
-  padding: .375rem .75rem;
-  font-size: 2.25rem;
-  line-height: 1.5;
-  border-radius: .1rem;
-  cursor: pointer;
-  outline: none;
-  color: #00E5E8;
-  font-weight: 725;
-  font-family: Helvetica, sans-serif;
-  letter-spacing: 8px;
-  align-self: center;
-  
-}
-
-
-
-
 @font-face {
   font-family: 'Comic-Sans';
   src: url(./fonts/comic-sans-ms/COMIC.TTF);
 }
 
+@font-face {
+  font-family: 'Impacted';
+  src: url(./fonts/Impact-Font/Impacted.ttf);
+}
+
+
 .title {
+  display: inline;
   font-size: 5em;
   padding: 10px;
   margin: 10px;
-  position: relative;
+  font-family: 'Arial Black', Arial, sans-serif;
+  margin: auto;
+  text-shadow: 5px 5px #152BFF;
   /* animation-name: square;
   animation-timing-function: ease-in-out;
   animation-duration: 1s;
@@ -87,9 +43,11 @@ button {
   .title {
     -webkit-text-stroke: 4px #F0F600;
     -webkit-text-fill-color: #FF3CC7;
-    font-family: 'Arial Black', Arial, sans-serif;
-    margin: auto;
   }
+}
+
+p{
+  display: inline;
 }
 
 
@@ -112,8 +70,4 @@ body {
 
 @media only screen and (max-width: 480px) {
   
-}
-
-#itemfeed-container, #map-and-form-holder {
-  display: block;
 }

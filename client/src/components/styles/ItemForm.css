@@ -1,4 +1,21 @@
 
+#drag-span {
+  /* animation-name: fade-out;
+  animation-timing-function: ease-in;
+  animation-duration: 5s;
+  animation-delay: 5s;
+  animation-fill-mode: forwards; */
+  font-weight: 900;
+  font-size: 24px;
+  
+}
+
+@keyframes fade-out {
+  0% {opacity: 100%; display: block;}
+  100% {opacity: 0%; display: none;}
+}
+
+
 form {
     max-width: 300px;
     width: 55%;
@@ -8,29 +25,65 @@ form {
     animation-duration: 10s;
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     animation-iteration-count: infinite; */
-    top: 200px;
+    top: 140px;
     left: 0px;
     min-width: 200px;
     position: absolute;
     margin: 0px;
     text-align: center;
+    background-color: white;
+  }
+
+#item-form-bar, #outer-form-div {
+  display: inline;
+}
+
+#item-form-bar {
+  background-color: #152BFF;
+  min-height: 30px;
+  min-width: 200px;
+}
+
+
+
+form input, form textarea {
+    width: 80%;
+    max-height: 30px;
+}
+
+form>input, textarea {
+    border-width: 5px;
+    border-color: #152BFF;
   
   }
 
 
 
-
-
 @supports (-webkit-text-stroke: 5px black) {
     button {
-        -webkit-text-stroke: .75px #00E5E8;
-        -webkit-text-fill-color: #152BFF;
+      -webkit-text-stroke: .75px #00E5E8;
+      -webkit-text-fill-color: #152BFF;
+
     }
 
-    label {
-        -webkit-text-stroke: .75px #152BFF;
-        -webkit-text-fill-color: #00E5E8;
+    #drag-span{
+      -webkit-text-stroke: .5px #FF3CC7;
+      -webkit-text-fill-color: #F0F600;
     }
+
+
+    
+
+    input, textarea {
+      -webkit-text-stroke: .75px #152BFF;
+      -webkit-text-fill-color: #00E5E8;
+    }
+
+    input::placeholder, textarea::placeholder, label {
+        -webkit-text-stroke: .75px black;
+        -webkit-text-fill-color: #e8e8e8;
+    }
+
 }
 
 input, label, textarea {
@@ -40,4 +93,33 @@ input, label, textarea {
 
   label {
     display: inline-block;
+    font-size: 14px;
+    font-family: "Comic-Sans";
+    padding: 5px;
+    background-color: white;
+    color: #00E5E8;
+    text-align: left;
+    width: 80%;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #FF3CC7;
+    border-radius: 100px;
   }
+  
+  button {
+    background-color: #152BFF;
+    padding: .375rem .75rem;
+    font-size: 2.25rem;
+    line-height: 1.5;
+    border-radius: .1rem;
+    cursor: pointer;
+    outline: none;
+    color: #00E5E8;
+    font-weight: 725;
+    font-family: Helvetica, sans-serif;
+    letter-spacing: 8px;
+    align-self: center;
+    
+  }
+
+  

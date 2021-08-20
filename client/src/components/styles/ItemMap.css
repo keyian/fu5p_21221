@@ -3,6 +3,9 @@
     min-height: 400px;
     height: 75vh; 
     width: 75%;
+    display: block;
+    margin: auto;
+    resize: both;
 }
 
 #map-holder {
