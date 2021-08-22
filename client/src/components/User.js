@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import './styles/User.css';
 import ItemMap from './ItemMap';
 import axios from 'axios';
-import Header from './Header.js';
 
 export default function User(props) {
     //state

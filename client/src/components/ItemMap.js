@@ -17,17 +17,17 @@ function ItemMap(props) {
   const mapState = {center: center};
   const zoomState = {zoom: zoom};
 
-  function handleMarkerClick(coords) {
+  function handleMarkerClick(coords, itemID) {
     console.log("hit handlemarkerclick");
-    let nuCenter = center;
-    // nuCenter.lat = coordinates.lat;
-    // nuCenter.lng = coordinates.lng;
     let lat=coords.lat;
     let lng=coords.lng;
-    
-    setCenter(prevState => ({...prevState, lat: lat, lng: lng}));
-    console.log(center);
-    setZoom(15);
+    //if we already have centered this marker, then take us to it...
+    if(center.lat == lat && center.lng ==lng) {
+      document.getElementById(itemID).scrollIntoView(true);
+    } else {
+      setCenter(prevState => ({...prevState, lat: lat, lng: lng}));
+      setZoom(15);
+    }  
  }
   return (itemsies!==undefined) ? (
       // Important! Always set the container height explicitly
@@ -37,13 +37,11 @@ function ItemMap(props) {
           zoom={zoomState.zoom}
         >
         {itemsies.map((item, index) =>
-          <MapMarker onClick={handleMarkerClick} lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} item={item}/>
+          <MapMarker key={index} onClick={handleMarkerClick} lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} item={item}/>
         )}
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}
         </GoogleMapReact>
-      
-      <button onClick={handleMarkerClick}>ey </button>;
-      </div>
+       </div>
     ) : (<p>Loading...</p>);
 }
 

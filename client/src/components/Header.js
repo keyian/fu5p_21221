@@ -5,10 +5,7 @@ import './styles/Header.css';
 
 
 export default function Header(props) {
-    const {login, setLogin, 
-    userData, setUserData, 
-    picture, setPicture} = props.hooks;
-
+    console.log(props);
     return (
         <div id="header-div">
             <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>
