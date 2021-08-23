@@ -45,6 +45,13 @@ export default function ItemForm(props) {
     if(e.target.value.length > 0) {
       setImageName(e.target.files[0]);
     }
+    const [file] = e.target.files;
+    let imgPrev =document.getElementById("img-prev");
+    if (file) {
+      imgPrev.src = URL.createObjectURL(file);
+    }
+    imgPrev.style.display = "inline";
+
     console.log('in handle photo, image name: ',imageName);
   }
 
@@ -122,6 +129,7 @@ export default function ItemForm(props) {
               <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
                 <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
               <label>Image</label>
+              <img id="img-prev" src="#" alt="your image" />
                 <input 
                     type="file" 
                     accept=".png, .jpg, .jpeg"

@@ -34,6 +34,13 @@ form {
     background-color: white;
   }
 
+
+#img-prev {
+  width: 50px;
+  display: none;
+
+}
+
 #item-form-bar, #outer-form-div {
   display: inline;
 }

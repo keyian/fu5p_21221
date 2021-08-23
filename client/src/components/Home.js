@@ -32,9 +32,9 @@ export default function Home(props) {
 
 
     return (
-        <div id="map-feed-div">
+        <div id="map-form-feed-div">
             <ItemMap items={items} setItems={setItems} />
-                {(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}
+            {(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}
             <div id="itemfeed-container">
                 <ItemFeed items={items} user={userData} login={login} />
             </div>
