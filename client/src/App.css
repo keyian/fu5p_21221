@@ -8,6 +8,10 @@
   src: url(./fonts/Impact-Font/Impacted.ttf);
 }
 
+a{
+  text-decoration: none;
+}
+
 
 .title {
   display: inline;

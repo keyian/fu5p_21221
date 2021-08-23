@@ -3,7 +3,7 @@ import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
 import ItemForm from './ItemForm';
 import axios from 'axios';
-
+import './styles/Home.css';
 
 export default function Home(props) {
     const [items, setItems] = useState([]);
@@ -32,7 +32,7 @@ export default function Home(props) {
 
 
     return (
-        <div>
+        <div id="map-feed-div">
             <ItemMap items={items} setItems={setItems} />
                 {(login)?<ItemForm login={login} addItem={addItemB4Refresh} userData={userData} /> : <h2 className="message">Login w FB Above</h2>}
             <div id="itemfeed-container">

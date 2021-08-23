@@ -22,7 +22,7 @@ function ItemMap(props) {
     let lat=coords.lat;
     let lng=coords.lng;
     //if we already have centered this marker, then take us to it...
-    if(center.lat == lat && center.lng ==lng) {
+    if(center.lat === lat && center.lng ===lng) {
       document.getElementById(itemID).scrollIntoView(true);
     } else {
       setCenter(prevState => ({...prevState, lat: lat, lng: lng}));
