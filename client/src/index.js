@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { Switch, Route, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 //import components that Router will link to...
 import App from './App';
-import User from './components/User';
 
   ReactDOM.render((
     <HashRouter>

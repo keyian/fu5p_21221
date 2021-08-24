@@ -8,17 +8,9 @@ const imgLoc = 'images/uploads';
 const Item = require('../models/item');
 const Place = require('../models/place');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 
 //Routes
-
-router.get('/getItems', (req, res) => {
-  Item.find({}).populate('place').then((data) => {
-    res.json(data);
-  })
-  .catch((error) => {
-    console.log('error: ', error)
-  });
-});
 
 router.post('/favorite-click', (req, res) => {
   let { userID, itemID, liked } = req.body;
@@ -57,7 +49,22 @@ router.post('/favorite-click', (req, res) => {
   });
 
   });
-  }
+  } 
+});
+
+router.get('/get-comments', (req, res) => {
+  let itemID = req.query.itemID;
+  console.log('getComments', itemID);
+});
+
+
+router.get('/getItems', (req, res) => {
+  Item.find({}).populate('place').then((data) => {
+    res.json(data);
+  })
+  .catch((error) => {
+    console.log('error: ', error)
+  });
 });
 
 router.get('/populate-user-favorites', (req, res) => {

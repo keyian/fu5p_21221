@@ -122,26 +122,25 @@ export default function ItemForm(props) {
 
   return (
       <Draggable>
-
-            <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
-              <span id="drag-span">DRAG THIS</span>
-              <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
-              <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
-                <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
-              <label>Image</label>
-              <img id="img-prev" src="#" alt="your image" />
-                <input 
-                    type="file" 
-                    accept=".png, .jpg, .jpeg"
-                    name="item_image"
-                    id="itemImage"
-                    onChange={onChangeImage}
-                    placeholder="Image"
-                  />
-                <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
-              <br />
-              <Button id="itemform-button">SUBMIT</Button>
-            </form>
+        <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
+          <span id="drag-span">DRAG THIS</span>
+          <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
+          <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
+            <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
+          <label>Image</label>
+          <img id="img-prev" src="#" alt="your pic" />
+            <input 
+                type="file" 
+                accept=".png, .jpg, .jpeg"
+                name="item_image"
+                id="itemImage"
+                onChange={onChangeImage}
+                placeholder="Image"
+              />
+            <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
+          <br />
+          <Button id="itemform-button">SUBMIT</Button>
+        </form>
       </Draggable>
     );
 }

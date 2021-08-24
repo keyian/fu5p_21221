@@ -10,7 +10,8 @@ if(process.env.NODE_ENV === 'production') {
 
 const MapMarker = (props) => {
 let source = props.item.img.substring(FILE_ROOT.length);
-function handleMarkerClick() {
+function handleMarkerClick(e) {
+  e.preventDefault();
   console.log(props);
   //if already is center, then go to the item
   // if not center, then zoom in and center (via props.onclick)
