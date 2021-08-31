@@ -5,6 +5,8 @@ export default function CommentBox(props) {
     const[comments, setComments] = useState([]);
     const[input, setInput] = useState("");
     const itemID = props.itemID;
+    const user = props.user;
+    const login = props.login;
     
 
     function getComments() {
@@ -17,7 +19,7 @@ export default function CommentBox(props) {
     }
 
     function handleChange(e){
-        setInput(e.target.value);
+        setInput(e.target.value);n
     }
 
     function handleEnter(e) {
@@ -27,8 +29,14 @@ export default function CommentBox(props) {
         }
     }
 
+    function re 
+
     function submitComment() {
-        return;
+        let comment = {comment: input, itemID: itemID, user: user}
+        axios.post("/api/add-comment", comment)
+        .then(
+
+        );
     }
 
     useEffect(getComments, []);

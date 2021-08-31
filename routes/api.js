@@ -12,6 +12,33 @@ const Comment = require('../models/comment');
 
 //Routes
 
+router.post("/add-comment", function(req, res){
+  let comment = req.body;
+  new Comment({
+    text: comment.comment,
+    item: comment.itemID,
+    user: comment.user._id,
+    userName: comment.user.name
+  }).save(function(err, comment) {
+    if(err) {
+      console.log("Error adding comment...", err);
+    } else {
+      User.findOne({_id: comment.user}, function (err, user) {
+        if(err) {
+          console.log("Error at finding user  in comments..", err)
+          return;
+        }
+
+        user.comments.push(comment._id);
+
+        user.save(function(err, user) {
+          res.send(comment);
+        })
+      })
+    }
+  })
+})
+
 router.post('/favorite-click', (req, res) => {
   let { userID, itemID, liked } = req.body;
   console.log(userID);
@@ -54,6 +81,14 @@ router.post('/favorite-click', (req, res) => {
 
 router.get('/get-comments', (req, res) => {
   let itemID = req.query.itemID;
+  Comment.find({'item': item}).exec(
+    function(err, comments, count) {
+      if(err) {
+        console.log("Error while getting comments... ", error);
+      }
+      res.send(comments);
+    }
+  )
   console.log('getComments', itemID);
 });
 

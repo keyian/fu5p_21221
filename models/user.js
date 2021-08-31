@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
   lastLogin: {type: Date, required: true},
   picture: {type: String, required: true},
   fbid: {type: String, required: true},
-  email: {type: String, required: true}
+  email: {type: String, required: true},
+  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
 },
 {
   timestamps: true
