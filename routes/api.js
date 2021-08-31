@@ -81,12 +81,13 @@ router.post('/favorite-click', (req, res) => {
 
 router.get('/get-comments', (req, res) => {
   let itemID = req.query.itemID;
-  Comment.find({'item': item}).exec(
+  Comment.find({'item': itemID}).exec(
     function(err, comments, count) {
       if(err) {
         console.log("Error while getting comments... ", error);
+      } else {
+        res.send(comments);
       }
-      res.send(comments);
     }
   )
   console.log('getComments', itemID);

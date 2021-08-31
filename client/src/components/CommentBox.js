@@ -8,18 +8,31 @@ export default function CommentBox(props) {
     const user = props.user;
     const login = props.login;
     
+    const sock = props.sock;
+
+    sock.onmessage = function(e) {
+        const message = JSON.parse(e.data);
+        const dataToSend = JSON.stringify(message);
+        console.log(message);
+        if(itemID == message.data.item) {
+            setComments(comments => [...comments, message.data]);
+            console.log("this is comments post setComments", comments);
+        }
+            
+    };
 
     function getComments() {
         axios.get('/api/get-comments',
         { params: {
             itemID: itemID
         }}).then((response) => {
-            return;
+            setComments(response.data);
+            console.log("get comments response", response);
         })
     }
 
     function handleChange(e){
-        setInput(e.target.value);n
+        setInput(e.target.value);
     }
 
     function handleEnter(e) {
@@ -29,13 +42,17 @@ export default function CommentBox(props) {
         }
     }
 
-    function re 
 
     function submitComment() {
         let comment = {comment: input, itemID: itemID, user: user}
         axios.post("/api/add-comment", comment)
-        .then(
-
+        .then(res => {
+            const json = {type: 'comment'};
+            console.log("called add comment. now in socket portion");
+            json.data = res.data;
+            sock.send(JSON.stringify(json));
+            setInput("");
+        }
         );
     }
 

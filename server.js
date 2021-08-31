@@ -3,10 +3,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+//websockets
+const expressWs = require('express-ws');
 
 const path = require('path');
 
 const app = express();
+
+//websockets
+const wsInstance = expressWs(app);
+
 const PORT = process.env.PORT || 8080;
 const HTTPS = process.env.HTTPS || true;
 
@@ -73,6 +79,21 @@ app.post('/api/uploadImage', upload.single('item_image'), (function(req, res, ne
   console.log("path",path);
   res.send(path);
 }));
+
+//websocket stuff...
+//live commenting
+app.ws('/comment', function(ws, req) {
+  ws.on('message', function incoming(msg) {
+    console.log(msg);
+    ws.broadcast(msg);
+  });
+
+  ws.broadcast = function broadcast(data) {
+    wsInstance.getWss().clients.forEach(function each(client) {
+      client.send(data);
+    })
+  }
+});
 
 //Step 3
 if (process.env.NODE_ENV === 'production') {
