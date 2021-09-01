@@ -25,7 +25,7 @@ export default function ItemPost(props) {
                 <p> {user.name} </p>
             </div>
             <img alt={item.name} className="item-image" src={filename} />
-            <Likes item={item} user={user} login={props.login}/>
+            <Likes sock={props.sock} item={item} user={user} login={props.login}/>
             <CommentBox sock={props.sock} itemID={item._id} user={user} login={props.login} />
         </div>
     );

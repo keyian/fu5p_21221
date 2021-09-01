@@ -82,18 +82,34 @@ app.post('/api/uploadImage', upload.single('item_image'), (function(req, res, ne
 
 //websocket stuff...
 //live commenting
-app.ws('/comment', function(ws, req) {
+app.ws('/', function(ws, req) {
+  console.log('in /comment websocket here is ws and req');
   ws.on('message', function incoming(msg) {
-    console.log(msg);
+    console.log('this is message in websocket', msg);
     ws.broadcast(msg);
   });
 
   ws.broadcast = function broadcast(data) {
     wsInstance.getWss().clients.forEach(function each(client) {
+      console.log("client");
       client.send(data);
     })
   }
 });
+
+// //live liking
+// app.ws('/like', function(ws, req) {
+//   ws.on('message', function incoming(msg) {
+//     console.log("coming from /like socket", msg);
+//     //ws.broadcast(msg);
+//   });
+
+//   // ws.broadcast = function broadcast(data) {
+//   //   wsInstance.getWss().clients.forEach(function each(client) {
+//   //     client.send(data);
+//   //   })
+//   // }
+// });
 
 //Step 3
 if (process.env.NODE_ENV === 'production') {

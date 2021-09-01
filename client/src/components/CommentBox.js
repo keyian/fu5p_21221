@@ -11,14 +11,14 @@ export default function CommentBox(props) {
     const sock = props.sock;
 
     sock.onmessage = function(e) {
+        console.log("sock on msg");
         const message = JSON.parse(e.data);
-        const dataToSend = JSON.stringify(message);
-        console.log(message);
-        if(itemID == message.data.item) {
-            setComments(comments => [...comments, message.data]);
-            console.log("this is comments post setComments", comments);
-        }
-            
+        console.log("this is mesage in sock.onmessage", message);
+        if(message.type === "comment") { 
+            if(itemID == message.data.item) {
+                console.log("this is comments post setComments", comments);
+            }
+        }         
     };
 
     function getComments() {
@@ -45,13 +45,13 @@ export default function CommentBox(props) {
 
     function submitComment() {
         let comment = {comment: input, itemID: itemID, user: user}
+        setInput("");
         axios.post("/api/add-comment", comment)
         .then(res => {
             const json = {type: 'comment'};
             console.log("called add comment. now in socket portion");
             json.data = res.data;
             sock.send(JSON.stringify(json));
-            setInput("");
         }
         );
     }

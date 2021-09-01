@@ -9,6 +9,7 @@
     * for convenient Google Maps react library
 * express-ws
     * for implementation of WebSockets thru express, for live commenting (& possibly more)
+    * Adopted this great [express-ws boiler plate](https://github.com/itsUnsmart/express-ws-boiler)
 
 * download nodemon!
 

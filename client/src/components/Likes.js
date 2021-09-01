@@ -8,11 +8,11 @@ export default function Likes(props) {
     const [user, setUser] = useState(props.user);
     let login = props.login;
     const [item, setItem] = useState(props.item);
-    console.log("his is likes' item", item);
+    const [likes, setLikes] = useState(item.likes);
+    const [dislikes, setDislikes] = useState(item.dislikes);
     const [liked, setLiked] = useState(isItemLiked());
     const [disliked, setDisliked] = useState(isItemDisliked());
-    
-    
+
     function isItemLiked() {
         return login ? user.liked.includes(item._id) : false;
     }
@@ -21,10 +21,25 @@ export default function Likes(props) {
         return login ? user.disliked.includes(item._id) : false;
     }
 
+    const sock = props.sock;
+
+    sock.onmessage = function(e) {
+        console.log("sock on msg");
+        const message = JSON.parse(e.data);
+        console.log("this is mesage in sock.onmessage", message);
+        if(message.type === "likes") { 
+            if(item._id == message.data._id) {
+                setLikes(message.data.likes);
+                setDislikes(message.data.dislikes);
+            }
+        }         
+    };
+
     function handleClick(action) {
         //preserve so db knows what to do 
         let oldLiked = liked;
         let oldDisliked = disliked;
+        //need to send data this way because of Hook being inside state-closure
         let nuLiked = false;
         let nuDisliked = false;
         console.log(liked, disliked);
@@ -64,6 +79,10 @@ export default function Likes(props) {
                  window.localStorage.setItem('userData', JSON.stringify(user));
                  setUser(user);
                  setItem(item);
+                 
+                 const json = {type: 'likes'};
+                 json.data = item;
+                 sock.send(JSON.stringify(json));
             })
         .catch((error)=>console.log("error in favorite-click: ", error));
     }
@@ -83,8 +102,8 @@ export default function Likes(props) {
             }
             
 
-            <p>Likes: {item.likes}</p> 
-            <p>Dislikes: {item.dislikes}</p>
+            <p>Likes: {likes}</p> 
+            <p>Dislikes: {dislikes}</p>
         </div>
     );
 }

@@ -4,14 +4,17 @@ import './styles/ItemFeed.css';
 
 import ItemPost from './ItemPost';
 
+//live commenting websocket
+const sock = new WebSocket('ws://localhost:8080/');
+sock.onopen = function() {
+    console.log('open');
+};
+
+
+
 export default function ItemFeed(props) {
     let items = props.items;
 
-    //live commenting websocket
-    const sock = new WebSocket('ws://localhost:8080/comment');
-    sock.onopen = function() {
-        console.log('open');
-    };
     
 
     return(
