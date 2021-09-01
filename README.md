@@ -7,6 +7,8 @@
     * http middleware--logging
 * google-map-react
     * for convenient Google Maps react library
+* express-ws
+    * for implementation of WebSockets thru express, for live commenting (& possibly more)
 
 * download nodemon!
 

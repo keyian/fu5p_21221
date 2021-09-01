@@ -39,43 +39,84 @@ router.post("/add-comment", function(req, res){
   })
 })
 
-router.post('/favorite-click', (req, res) => {
-  let { userID, itemID, liked } = req.body;
-  console.log(userID);
+router.post('/like-click', (req, res) => {
+  let { userID, itemID, liked, disliked, oldLiked, oldDisliked } = req.body;
+  console.log("in like click");
+  console.log("his is user id:", userID);
   if(userID){
-  Item.findOne({_id: itemID}, function(err, item) {
-    if(err) {
-      console.log("error finding item to favorite...", err);
-      return;
-    }
-    (liked) ? item.favorites-- : item.favorites++;
-    item.save(function(err, item) {
+    Item.findOne({_id: itemID}, function(err, item) {
       if(err) {
-        console.log("error saving item favorite change");
+        console.log("error finding item to favorite...", err);
         return;
       }
-      User.findOne({_id: userID}, function(err, user) {
-        if(err) {
-          console.log("error finding user to change favorite", err);
-          return;
-        } 
-        if(liked) {
-          let index = user.favorites.indexOf(item._id);
-          user.favorites.splice(index, 1);
-        } else {
-          user.favorites.push(item._id);
+      console.log("this is req.body", req.body);
+      //no matter what like goes up, or it wouldnt be liked.
+      if(liked) {
+        item.likes++;
+        console.log("newly liked");
+        if(oldDisliked) {
+          item.dislikes--;
+          console.log("newly un-disliked");
         }
-        user.save(function(err, user) {
-          if(err) {
-            console.log("error saving user favorie change", err);
-            return;
-          }
-          res.send({item: item, user: user});
-        });
-    });
-  });
+      } else if (disliked) {
+        item.dislikes++;
+        console.log("newly disliked");
+        if(oldLiked) {
+          item.likes--;
+          console.log("newly un-liked");
 
-  });
+        }
+      } else if (oldLiked) {
+        item.likes--;
+      } else if (oldDisliked) {
+        item.dislikes--;
+      }
+
+      item.save(function(err, item) {
+        if(err) {
+          console.log("error saving item favorite change");
+          return;
+        }
+        User.findOne({_id: userID}, function(err, user) {
+          if(err) {
+            console.log("error finding user to change favorite", err);
+            return;
+          } 
+          if(liked) {
+            user.liked.push(item._id);
+            console.log("user pushed to liked");
+
+            if(oldDisliked) {
+              let index = user.disliked.indexOf(item._id);
+              user.disliked.splice(index, 1);
+              console.log("user removed from disliked");
+            } 
+          } else if (disliked) {
+            user.disliked.push(item._id);
+            console.log("user pushed to disliked");
+            if(oldLiked) {
+              let index = user.liked.indexOf(item._id);
+              user.liked.splice(index, 1);
+              console.log("user removed from liked");
+            }
+          } else if (oldLiked) {
+            let index = user.liked.indexOf(item._id);
+            user.liked.splice(index, 1);
+          } else if (oldDisliked) {
+            let index = user.disliked.indexOf(item._id);
+            user.disliked.splice(index, 1);
+          }
+          user.save(function(err, user) {
+            if(err) {
+              console.log("error saving user favorie change", err);
+              return;
+            }
+            res.send({item: item, user: user});
+          });
+      });
+    });
+
+    });
   } 
 });
 
@@ -142,7 +183,8 @@ router.post('/saveItem', (req, res) => {
       creator: data.user,
       price: data.price,
       place: place,
-      favorites: 0,
+      likes: 0,
+      dislikes: 0,
       img:  data.localImageLoc,
       videoUrl: ''
     }).save(function(err, item, count){

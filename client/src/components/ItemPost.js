@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/ItemPost.css';
-import LikeHeart from './LikeHeart';
+import Likes from './Likes';
 import CommentBox from './CommentBox';
 let FILE_ROOT = '/client/public';
 if(process.env.NODE_ENV === 'production') {
@@ -25,7 +25,7 @@ export default function ItemPost(props) {
                 <p> {user.name} </p>
             </div>
             <img alt={item.name} className="item-image" src={filename} />
-            <LikeHeart item={item} user={user} login={props.login}/>
+            <Likes item={item} user={user} login={props.login}/>
             <CommentBox sock={props.sock} itemID={item._id} user={user} login={props.login} />
         </div>
     );

@@ -15,7 +15,7 @@ import './App.css';
 function App(props) {
 
   //facebook-login hooks
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
   const [userData, setUserData] = useState({});
   const [picture, setPicture] = useState('');
   const hooks = {login, setLogin, userData, setUserData, picture, setPicture};

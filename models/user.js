@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 // Schema
 const UserSchema = new mongoose.Schema({
   name: {type: String, required: true},
-  favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+  liked: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+  disliked: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
   lastLogin: {type: Date, required: true},
   picture: {type: String, required: true},
   fbid: {type: String, required: true},
