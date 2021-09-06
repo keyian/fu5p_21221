@@ -1,0 +1,9 @@
+.comments-ul {
+    list-style-type: none;
+}
+
+.comments-scroll-div {
+    width: 325px;
+    height: 125px;
+    overflow:auto;
+}

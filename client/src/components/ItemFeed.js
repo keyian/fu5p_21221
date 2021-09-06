@@ -18,8 +18,10 @@ export default function ItemFeed(props) {
     
 
     return(
-        items.map(
+        <div id="itemfeed-div">
+        {items.map(
             (item, i) => <ItemPost key={i} sock={sock} item={item} user={props.user} login={props.login} />
-        )
+        )}
+        </div>
     );
 }

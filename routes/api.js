@@ -149,7 +149,7 @@ router.get('/populate-user-favorites', (req, res) => {
   let userID = req.query.userID;
   User.findById(userID)
   .populate({
-    path: 'favorites',
+    path: 'liked',
     populate: {path: 'place'}
   })
   .exec(function(err, user) {

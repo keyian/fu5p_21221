@@ -90,19 +90,19 @@ export default function Likes(props) {
     // useEffect(()=>{console.log("useEffect",liked, disliked);}, [liked, disliked])
 
     return(
-        <div>
+        <div className="likes-div">
             {/* two divs, one thumbs up, one thumbs down */}
             {(login)?
                 <div>
-                    <div className="notFilled" onClick={()=>handleClick("like")}>&hearts;</div>
-                    <div className="filled" onClick={()=>handleClick("dislike")}>anything</div>
+                    <div className="notFilled like-button" onClick={()=>handleClick("like")}>{liked ? "👍" : "⬆️" }</div>
+                    <div className="notFilled like-button" onClick={()=>handleClick("dislike")}>{disliked ? "👎" : "⬇️"} </div>
                 </div>
                 :
                 <p id="login-to-like-p"> login to like and dislike items! </p>
             }
             
 
-            <p>Likes: {likes}</p> 
+            <p>Likes: {likes}&nbsp;&nbsp;&nbsp;</p>
             <p>Dislikes: {dislikes}</p>
         </div>
     );

@@ -29,7 +29,7 @@ function App(props) {
       <div className="app">
         <Header hooks={hooks} />
         <Route exact path="/"><Home login={login} userData={userData} /></Route>
-        <Route path="/user/:user" component={User} />
+        <Route path="/user/:user"><User login={login} userData={userData} /></Route>
       </div>
     );
 }

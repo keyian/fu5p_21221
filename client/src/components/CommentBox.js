@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import './styles/CommentBox.css';
 
 export default function CommentBox(props) {
     const[comments, setComments] = useState([]);
@@ -7,7 +8,8 @@ export default function CommentBox(props) {
     const itemID = props.itemID;
     const user = props.user;
     const login = props.login;
-    
+    const scrollID = props.key+"-scroll-div";
+    console.log('this is scroll id', scrollID);
     const sock = props.sock;
 
     sock.onmessage = function(e) {
@@ -16,6 +18,7 @@ export default function CommentBox(props) {
         console.log("this is mesage in sock.onmessage", message);
         if(message.type === "comment") { 
             if(itemID == message.data.item) {
+                setComments(comments => [...comments, message.data]);
                 console.log("this is comments post setComments", comments);
             }
         }         
@@ -55,13 +58,22 @@ export default function CommentBox(props) {
         }
         );
     }
+    
+    function scrollToBottom() {
+        let commentsDiv =  document.getElementById(scrollID);
+        commentsDiv.scrollTop = commentsDiv.scrollHeight;
+        console.log('commentsDiv: ', commentsDiv);
+    }
 
     useEffect(getComments, []);
+    useEffect(scrollToBottom, [comments]);
     return(
         <div>
-            <ul>
-                {comments.map((comment, i) => <li key={i}><span>{comment.userName}:</span> {comment.text}</li>)}
-            </ul>
+            <div id={scrollID} className="comments-scroll-div">
+                <ul className="comments-ul">
+                    {comments.map((comment, i) => <li key={i}><span>{comment.userName.split(" ")[0]}:</span> {comment.text}</li>)}
+                </ul>
+            </div>
             <textarea value={input} style={{resize: "none"}} rows="4" placeholder="Comment..." onChange={handleChange} onKeyPress={handleEnter}>
             </textarea>
         </div>

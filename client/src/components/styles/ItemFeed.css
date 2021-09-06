@@ -1,5 +1,6 @@
 #itemfeed-div {
     display: flex;
     flex-wrap: wrap-reverse;
+    flex-direction: row;
 
 }

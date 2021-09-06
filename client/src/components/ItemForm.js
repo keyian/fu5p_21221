@@ -14,7 +14,7 @@ import './styles/ItemForm.css';
 export default function ItemForm(props) {
   const [itemName, setItemName] = useState("");
   const [placeName, setPlaceName] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [imageName, setImageName] = useState("");
   const userData = props.userData;
@@ -124,9 +124,9 @@ export default function ItemForm(props) {
       <Draggable>
         <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
           <span id="drag-span">DRAG THIS</span>
-          <input type="text" name="itemName" value={itemName} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
+          <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
           <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
-            <input type="text" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
+            <div id="price-input-div"><span id="dollar-span">$</span><input type="text" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" /></div>
           <label>Image</label>
           <img id="img-prev" src="#" alt="your pic" />
             <input 

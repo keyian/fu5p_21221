@@ -1,3 +1,18 @@
+button {
+  background-color: #152BFF;
+  padding: .375rem .75rem;
+  font-size: 2.25rem;
+  line-height: 1.5;
+  border-radius: .1rem;
+  cursor: pointer;
+  outline: none;
+  color: #00E5E8;
+  font-weight: 725;
+  font-family: Helvetica, sans-serif;
+  letter-spacing: 8px;
+  align-self: center;
+  
+}
 
 #drag-span {
   /* animation-name: fade-out;
@@ -15,6 +30,9 @@
   100% {opacity: 0%; display: none;}
 }
 
+#dollar-span {
+  flex-grow: 1;
+}
 
 form {
     max-width: 300px;
@@ -32,6 +50,12 @@ form {
     margin: 0px;
     text-align: center;
     background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #FF3CC7;
+    box-shadow: 2px 2px #af2989;
+
   }
 
 
@@ -78,6 +102,14 @@ form>input, textarea {
       -webkit-text-fill-color: #F0F600;
     }
 
+    #dollar-span{
+      -webkit-text-stroke: 1.8px #28502E;
+      -webkit-text-fill-color: #63C132;
+      font-size: 72px;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 5;
+    }
+
 
     
 
@@ -112,21 +144,22 @@ input, label, textarea {
     border-color: #FF3CC7;
     border-radius: 100px;
   }
-  
-  button {
-    background-color: #152BFF;
-    padding: .375rem .75rem;
-    font-size: 2.25rem;
-    line-height: 1.5;
-    border-radius: .1rem;
-    cursor: pointer;
-    outline: none;
-    color: #00E5E8;
-    font-weight: 725;
-    font-family: Helvetica, sans-serif;
-    letter-spacing: 8px;
-    align-self: center;
-    
+
+  #price-input {
+    height: 40px;
+    width: 40px;
   }
+
+  #price-input-div {
+    float: left;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+
+  }
+  
+  
 
   
