@@ -10,15 +10,17 @@ export default function Likes(props) {
     const [item, setItem] = useState(props.item);
     const [likes, setLikes] = useState(item.likes);
     const [dislikes, setDislikes] = useState(item.dislikes);
-    const [liked, setLiked] = useState(isItemLiked());
-    const [disliked, setDisliked] = useState(isItemDisliked());
+    const [liked, setLiked] = useState(login ? user.liked.includes(item._id) : false);
+    const [disliked, setDisliked] = useState(login ? user.disliked.includes(item._id) : false);
 
     function isItemLiked() {
-        return login ? user.liked.includes(item._id) : false;
+        console.log("isItemLiked iteration");
+        setLiked(login ? user.liked.includes(item._id) : false);
     }
 
     function isItemDisliked() {
-        return login ? user.disliked.includes(item._id) : false;
+        console.log("isItemDisLiked iteration");
+        setDisliked(login ? user.disliked.includes(item._id) : false);
     }
 
     const sock = props.sock;
@@ -47,24 +49,23 @@ export default function Likes(props) {
         if(action == "like") {
             console.log('in like acion');
             if(oldLiked) {
-                setLiked(false);
+                // ** setLiked(false);
                 nuLiked = false;
                 console.log(liked);
             } else {
-                setLiked(true);
+                //** */ setLiked(true);
                 nuLiked = true;
-                setDisliked(false);
+                //** */ setDisliked(false);
                 nuDisliked = false;
-                console.log("was not liked,", liked, disliked)
             }
         } else {
             if(oldDisliked) {
-                setDisliked(false);
+                //** */ setDisliked(false);
                 nuDisliked = false;
             } else {
-                setDisliked(true);
+                // **setDisliked(true);
                 nuDisliked = true;
-                setLiked(false);
+                //** */ setLiked(false);
                 nuLiked = false;
             }
         }
@@ -87,13 +88,12 @@ export default function Likes(props) {
         .catch((error)=>console.log("error in favorite-click: ", error));
     }
 
-    // useEffect(()=>{console.log("useEffect",liked, disliked);}, [liked, disliked])
+    useEffect(()=>{isItemLiked(); isItemDisliked();}, [user]);
 
     return(
-        <div className="likes-div">
-            {/* two divs, one thumbs up, one thumbs down */}
+        <div className="likes-container-div">
             {(login)?
-                <div>
+                <div className="likes-div">
                     <div className="notFilled like-button" onClick={()=>handleClick("like")}>{liked ? "👍" : "⬆️" }</div>
                     <div className="notFilled like-button" onClick={()=>handleClick("dislike")}>{disliked ? "👎" : "⬇️"} </div>
                 </div>
@@ -101,9 +101,10 @@ export default function Likes(props) {
                 <p id="login-to-like-p"> login to like and dislike items! </p>
             }
             
-
-            <p>Likes: {likes}&nbsp;&nbsp;&nbsp;</p>
-            <p>Dislikes: {dislikes}</p>
+            <div className="likes-count-div">
+                <p>👍: {likes}&nbsp;&nbsp;&nbsp;</p>
+                <p>👎: {dislikes}</p>
+            </div>
         </div>
     );
 }

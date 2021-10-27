@@ -14,19 +14,28 @@ export default function ItemPost(props) {
     let place = item.place;
     let user = props.user;
     let userFirstName = user.name.split(" ")[0];
-    
     let filename = item.img.substring(FILE_ROOT.length);
+    //item state object to pass through link
+    let itemStateObject = {
+        itemName: item.name,
+        itemImgFilename: filename,
+        itemPlaceName: place.name,
+
+
+    };
+    
+   
     console.log("thisis item prop in itempost", item);
     console.log(filename);
     
 
     return(
-        <div id={item._id} className="item-post">
-            <h1 className="itempost-h1">{item.name} @ {place.name}</h1>
+        <div id={item._id} className="item-post-container">
+            <div className="item-title-div"><Link to={{pathname: `/item/${item._id}`, state: JSON.stringify(item)}}><h1 className="itempost-h1">{item.name} @ {place.name}</h1></Link></div>
             
-            <img alt={item.name} className="item-image" src={filename} />
+            <div className="item-image-div"><img alt={item.name} className="item-image" src={filename} /></div>
             <Likes sock={props.sock} item={item} user={user} login={props.login}/>
-            <CommentBox key={props.key} sock={props.sock} itemID={item._id} user={user} login={props.login} />
+            <CommentBox dataRef={props.dataRef} sock={props.sock} itemID={item._id} user={user} login={props.login} />
             <div className="itempost-user-img-name-div">
                 <p className="itempost-username-p">added by</p>
                 <img className="itempost-fb-img" src={user.picture} alt="facebook pic" />

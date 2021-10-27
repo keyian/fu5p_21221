@@ -8,7 +8,7 @@ export default function CommentBox(props) {
     const itemID = props.itemID;
     const user = props.user;
     const login = props.login;
-    const scrollID = props.key+"-scroll-div";
+    const scrollID = props.dataRef+"-scroll-div";
     console.log('this is scroll id', scrollID);
     const sock = props.sock;
 
@@ -68,14 +68,16 @@ export default function CommentBox(props) {
     useEffect(getComments, []);
     useEffect(scrollToBottom, [comments]);
     return(
-        <div>
+        <div className="comments-container-div">
             <div id={scrollID} className="comments-scroll-div">
                 <ul className="comments-ul">
-                    {comments.map((comment, i) => <li key={i}><span>{comment.userName.split(" ")[0]}:</span> {comment.text}</li>)}
+                    {comments.map((comment, i) => <li key={i}><span className="comment-username-span">{comment.userName.split(" ")[0]}:</span> <span className="comment-span">{comment.text}</span></li>)}
                 </ul>
             </div>
-            <textarea value={input} style={{resize: "none"}} rows="4" placeholder="Comment..." onChange={handleChange} onKeyPress={handleEnter}>
-            </textarea>
+            <div className="comments-textarea-div">
+                <textarea className="comments-textarea" value={input} style={{resize: "none"}} rows="4" placeholder="Comment..." onChange={handleChange} onKeyPress={handleEnter}>
+                </textarea>
+            </div>
         </div>
     )
 }

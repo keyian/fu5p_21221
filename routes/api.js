@@ -23,15 +23,15 @@ router.post("/add-comment", function(req, res){
     if(err) {
       console.log("Error adding comment...", err);
     } else {
-      User.findOne({_id: comment.user}, function (err, user) {
+      Item.findOne({_id: comment.item}, function (err, item) {
         if(err) {
-          console.log("Error at finding user  in comments..", err)
+          console.log("Error at finding item  in comments..", err)
           return;
         }
 
-        user.comments.push(comment._id);
+        item.comments.push(comment._id);
 
-        user.save(function(err, user) {
+        item.save(function(err, item) {
           res.send(comment);
         })
       })
@@ -143,6 +143,19 @@ router.get('/getItems', (req, res) => {
     console.log('error: ', error)
   });
 });
+
+router.get('/getOneItem', (req, res) => {
+  console.log("in getOneItem");
+  Item.findById(req.query.itemID).populate({
+    path: 'comments'
+  }).exec(function(err, item) {
+    if(err) {
+      console.log("error getting populated item", err);
+      return;
+    }
+    res.send(item);
+  })
+})
 
 router.get('/populate-user-favorites', (req, res) => {
   console.log("in populate user", req.query.userID);

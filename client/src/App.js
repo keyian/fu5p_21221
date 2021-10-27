@@ -7,6 +7,7 @@ import {Route} from 'react-router-dom';
 import Header from './components/Header.js';
 import Home from './components/Home';
 import User from './components/User';
+import Item from './components/Item';
 
 //css
 import './App.css';
@@ -30,6 +31,7 @@ function App(props) {
         <Header hooks={hooks} />
         <Route exact path="/"><Home login={login} userData={userData} /></Route>
         <Route path="/user/:user"><User login={login} userData={userData} /></Route>
+        <Route path="/item/:item"><Item login={login} userData={userData} /></Route>
       </div>
     );
 }

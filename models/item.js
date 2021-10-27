@@ -6,6 +6,7 @@ const ItemSchema = new mongoose.Schema({
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   price: {type: Number, required: false},
   place: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
+  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: 'false'}],
   likes: {type: Number, required: true},
   dislikes: {type: Number, required: true},
   img: {type: String, required: false},

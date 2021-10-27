@@ -1,9 +1,38 @@
-.comments-ul {
-    list-style-type: none;
+.comments-container-div {
+    text-align: center;
+    flex-basis: 100%;
+    margin-top: 10px;
 }
 
 .comments-scroll-div {
-    width: 325px;
+    width: 320px;
     height: 125px;
     overflow:auto;
+    text-align: left;
+    background-color: #fff;
+}
+
+.comments-textarea {
+    margin-top: 10px; 
+}
+
+.comments-textarea-div {
+    flex-basis: 100%;
+    background-color: white;
+}
+
+.comments-ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+@supports (-webkit-text-stroke: 5px black) {
+    .comment-username-span {
+        -webkit-text-stroke: .75px #e8e8e8;
+        -webkit-text-fill-color: black;
+    }
+    .comment-span {
+        -webkit-text-stroke: .75px black;
+        -webkit-text-fill-color: #e8e8e8; 
+    }
 }

@@ -1,14 +1,26 @@
-.notFilled {background-color: white;
-width: 50px;
-height: 50px;}
+
 
 .filled {background-color: red;}
 
-.likes-div {
+.likes-container-div {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-basis:100%;
+    margin: auto;
+    background-color: white;
+    padding: 15px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
 }
+
 
 .like-button{
     font-size: 48px;
 }
+
+.notFilled {background-color: white;
+    width: 50px;
+    height: 50px;}
