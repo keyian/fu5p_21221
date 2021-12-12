@@ -4,6 +4,7 @@ import ItemFeed from './ItemFeed';
 import ItemForm from './ItemForm';
 import axios from 'axios';
 import './styles/Home.css';
+import ItemFinder from '../apis/ItemFinder';
 
 export default function Home(props) {
     const [items, setItems] = useState([]);
@@ -12,9 +13,9 @@ export default function Home(props) {
 
     function getItems() {
         if(items.length === 0){
-            axios.get('/api/getItems')
+            ItemFinder.get('/get-items')
             .then((response) => {
-              setItems(response.data);
+              setItems(response.data.data.items);
             })
             .catch((err) => {
               console.log('Error retrieving getItems data!**: ', err);

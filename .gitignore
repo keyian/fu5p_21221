@@ -1,3 +1,4 @@
 #DEPENDENCIES
 node_modules
 client/public/images/
+.env

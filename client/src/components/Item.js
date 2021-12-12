@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from "react-router-dom";
-import axios from 'axios';
+import ItemFinder from '../apis/ItemFinder';
 
 
 import './styles/Item.css';
@@ -26,7 +26,7 @@ export default function Item(props) {
         let itemID = splitPath[splitPath.length-1];
         console.log("in request item");
 
-        axios.get('/api/getOneItem', { params: {
+        ItemFinder.get('/get-one-item', { params: {
             itemID: itemID
         }})
             .then((response) => {

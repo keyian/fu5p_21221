@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './styles/Login.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import UserFinder from '../apis/UserFinder.js';
 //facebook-login
 import FacebookLogin from "react-facebook-login";
 
@@ -12,7 +12,7 @@ export default function Login(props) {
     console.log('getting userdata: ');
 
     let userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
-    console.log(userDataLS);
+    console.log('userdata: ', userDataLS);
 
     if(userDataLS) {
       //set state to match local storage... 
@@ -33,10 +33,10 @@ export default function Login(props) {
 
   const responseFacebook = (response) => {
     //monitoring
-    console.log("in response");
+    console.log("in fb login response");
 
     
-     
+     console.log("this is the facebook login response: ", response);
     setPicture(response.picture.data.url);
     if (response.accessToken) {
       console.log("identifying response access token?");
@@ -54,18 +54,22 @@ export default function Login(props) {
       email: response.email,
     }
 
-    axios({
-      url: '/api/save-user',
-      method: 'POST',
-      data: payload
-    }).then((response) => {
-      console.log("we in post-savveeeee");
-      setUserData(response.data);
-      //throw the crucial stuff into local storage...
-      setUserLocalStorage(response.data);
-    }).catch((e) => {
-      console.log("Error saving user: ", e);
-    })
+    const addUser = async (payload) => {
+      try {
+        const response = await UserFinder.post('/save-user', payload);
+        console.log("response of save-user", response);
+        setUserData(response.data);
+        setUserLocalStorage(response.data.user);
+        console.log("adding a user worked!. Here's response: ", response);
+      } catch(err) {
+        console.log("Error saving user: ", err);
+      }
+      
+    }
+    if(!userData) {
+      addUser(payload);
+    }
+    
   };
 
     useEffect(checkFBLogin, []);

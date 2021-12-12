@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './../App.css';
 import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
-import axios from 'axios';
-
+import ItemFinder from '../apis/ItemFinder'; 
 //componentz
 import Draggable from 'react-draggable';
 import Button from './Button.js';
@@ -71,15 +70,15 @@ export default function ItemForm(props) {
     let formData = new FormData(daForm);
     console.log('initial formdata;', formData);
     const payload = {
-      itemName: itemName,
-      placeName: placeName,
-      price: price,
-      description: description,
-      address: address,
-      coordinates: coordinates,
-      placeId: placeId,
+      item_name: itemName,
+      place_name: placeName,
+      price,
+      description,
+      address,
+      coordinates,
+      google_place_id: placeId,
       user: userData,
-      imageName: imageName
+      image_name: imageName
     };
 
     handleSubmitStartImgUpload(event, formData, payload);
@@ -90,7 +89,7 @@ export default function ItemForm(props) {
     console.log("this is formdata", formData);
 
     //send formdata to image
-    axios.post('/api/uploadImage', formData)
+    ItemFinder.post('/upload-image', formData)
       .then((response) => {uploadImgInitialCB(response, payload)})
       .catch((error) => {console.log("Error: ", error)});
     //send to API
@@ -112,7 +111,7 @@ export default function ItemForm(props) {
 
   const uploadImgResponseCB = (payload) => {
     console.log("What is payload in uploadImgResponseCB???", payload);
-    axios.post('/api/saveItem', payload)
+    ItemFinder.post('/save-item', payload)
     .then((item)=> {
       console.log("here da item: ", item);
       props.addItem(item.data);

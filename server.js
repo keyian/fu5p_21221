@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 //websockets
@@ -28,15 +28,16 @@ var mimeToExt = {
 }
 
 
-mongoose.connect(process.env.DB_URI || 'mongodb://localhost/fu5p_21221', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect(process.env.DB_URI || 'mongodb://localhost/fu5p_21221', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 
-mongoose.connection.on('connected', () => {
-  console.log('Mongoose is connected baby!');
-});
+// mongoose.connection.on('connected', () => {
+//   console.log('Mongoose is connected baby!');
+// });
 
+app.use(cors());
 // for parsing application/json
 app.use(bodyParser.json()); 
 // for parsing application/xwww-
@@ -69,11 +70,14 @@ var upload  = multer({storage: storage});
 app.use(morgan('tiny'));
 app.use('/api', routes);
 
-app.post('/api/uploadImage', upload.single('item_image'), (function(req, res, next) {
+app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(req, res, next) {
   console.log("we startin upload image");
   console.log("req.file", req.file);
   console.log("req.body", req.body);
   //we should only get the path AFTER whatever is static...
+  payload = {
+    path
+  }
   var path = req.file.path;
  
   console.log("path",path);

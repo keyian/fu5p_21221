@@ -1,6 +1,7 @@
 const express =  require('express');
-const axios = require('axios');
 const router = express.Router();
+const db = require('../db');
+
 
 
 const imgLoc = 'images/uploads';
@@ -12,7 +13,7 @@ const Comment = require('../models/comment');
 
 //Routes
 
-router.post("/add-comment", function(req, res){
+router.post("/v1/comments/add-comment", function(req, res){
   let comment = req.body;
   new Comment({
     text: comment.comment,
@@ -39,10 +40,8 @@ router.post("/add-comment", function(req, res){
   })
 })
 
-router.post('/like-click', (req, res) => {
+router.post('/v1/likes/like-click', (req, res) => {
   let { userID, itemID, liked, disliked, oldLiked, oldDisliked } = req.body;
-  console.log("in like click");
-  console.log("his is user id:", userID);
   if(userID){
     Item.findOne({_id: itemID}, function(err, item) {
       if(err) {
@@ -53,18 +52,13 @@ router.post('/like-click', (req, res) => {
       //no matter what like goes up, or it wouldnt be liked.
       if(liked) {
         item.likes++;
-        console.log("newly liked");
         if(oldDisliked) {
           item.dislikes--;
-          console.log("newly un-disliked");
         }
       } else if (disliked) {
         item.dislikes++;
-        console.log("newly disliked");
         if(oldLiked) {
           item.likes--;
-          console.log("newly un-liked");
-
         }
       } else if (oldLiked) {
         item.likes--;
@@ -84,20 +78,16 @@ router.post('/like-click', (req, res) => {
           } 
           if(liked) {
             user.liked.push(item._id);
-            console.log("user pushed to liked");
 
             if(oldDisliked) {
               let index = user.disliked.indexOf(item._id);
               user.disliked.splice(index, 1);
-              console.log("user removed from disliked");
             } 
           } else if (disliked) {
             user.disliked.push(item._id);
-            console.log("user pushed to disliked");
             if(oldLiked) {
               let index = user.liked.indexOf(item._id);
               user.liked.splice(index, 1);
-              console.log("user removed from liked");
             }
           } else if (oldLiked) {
             let index = user.liked.indexOf(item._id);
@@ -120,7 +110,7 @@ router.post('/like-click', (req, res) => {
   } 
 });
 
-router.get('/get-comments', (req, res) => {
+router.get('/v1/comments/get-comments', (req, res) => {
   let itemID = req.query.itemID;
   Comment.find({'item': itemID}).exec(
     function(err, comments, count) {
@@ -135,16 +125,22 @@ router.get('/get-comments', (req, res) => {
 });
 
 
-router.get('/getItems', (req, res) => {
-  Item.find({}).populate('place').then((data) => {
-    res.json(data);
-  })
-  .catch((error) => {
-    console.log('error: ', error)
-  });
+router.get('/v1/items/get-items', async (req, res) => {
+  try {
+    const results = await db.query("select * from items");
+    res.status(200).json({
+        status: "success",
+        results: results.rows.length,
+        data: {
+            items: results.rows
+        }
+    });
+  } catch(err) {
+      console.log(err);
+  }
 });
 
-router.get('/getOneItem', (req, res) => {
+router.get('/v1/items/get-one-item', (req, res) => {
   console.log("in getOneItem");
   Item.findById(req.query.itemID).populate({
     path: 'comments'
@@ -157,7 +153,7 @@ router.get('/getOneItem', (req, res) => {
   })
 })
 
-router.get('/populate-user-favorites', (req, res) => {
+router.get('/v1/users/populate-user-favorites', (req, res) => {
   console.log("in populate user", req.query.userID);
   let userID = req.query.userID;
   User.findById(userID)
@@ -174,7 +170,7 @@ router.get('/populate-user-favorites', (req, res) => {
   });
 });
 
-router.post('/saveItem', (req, res) => {
+router.post('/v1/items/save-item', (req, res) => {
   
   let data = req.body;
   console.log("data: ", data);
@@ -214,46 +210,26 @@ router.post('/saveItem', (req, res) => {
   }).catch((error) => console.log("There was an error during create or find place...: ", error));
 });
 
-router.post('/save-user', (req, res) => {
+router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
 
-  //experiment with this
-  //does user exist? Find
-  User.findOneAndUpdate({fbid: data.fbid}, {upsert: true}, (err, user) => {
-    if(err) {
-      console.log("Error while saving user: ", err);
-    } 
-    if(!user) {
-      console.log("in user didn exist section");
-      new User({
-        name: data.name,
-        lastLogin: Date.now(),
-        picture: data.picture,
-        fbid: data.fbid,
-        email: data.email
-      }).save((error, user) => {
-        console.log("we in user save");
-        if(error) {
-          console.log("in save error");
-          res.status(500).json({msg: 'Sry, server error while adding user...'});
-          return;
-        }
-        console.log("we in the post-save world");
-        return res.send(user);
-      })
-    } else {
-      console.log("we in  user already exists");
-      user.lastLogin = Date.now();
-      console.log(user.lastLogin);
-      user.save((error, user) => {
-        if(!error) { 
-         res.send(user);
-        } else {
-          console.log("error in saving user, here it is ", user);
-        }
-      });
-    }
-  });
+  try {
+    //eventually this should  figure out the fb picture situation
+    const results = await db.query(
+      "INSERT INTO users (name, picture, facebook_id, email) values ($1, $2, $3, $4) on conflict(facebook_id) do nothing returning *", [data.name, data.picture, data.fbid, data.email]
+    );
+
+    console.log(results.rows[0]);
+
+    res.status(201).json({
+      status: "success",
+      user: results.rowCount > 0 ? results.rows[0] : data
+    });
+
+  } catch(err) {
+    console.log(err);
+  }
+
 });
 
 
