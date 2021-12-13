@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './styles/User.css';
 import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
-import axios from 'axios';
+import UserFinder from '../apis/UserFinder';
 
 export default function User(props) {
     //state
@@ -15,10 +15,9 @@ export default function User(props) {
     console.log(props);
     //get the local storage...
     let user = JSON.parse(window.localStorage.getItem('userData'));    //populate favorites upon load?
-    console.log("what does user in local storage look like...", user);
     function populateFavorites() {
         
-        axios.get('/api/populate-user-favorites',
+        UserFinder.get('/populate-user-favorites',
             { params: {
                     userID: user._id
                 }

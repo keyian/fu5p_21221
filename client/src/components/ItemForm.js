@@ -105,7 +105,7 @@ export default function ItemForm(props) {
     }
     // Examine the text in the response
     console.log("this is respose in uploadimginitialcb", response);
-    payload.localImageLoc = response.data;
+    payload.imagePayload = response;
     uploadImgResponseCB(payload);
   };
 

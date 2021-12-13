@@ -6,15 +6,12 @@ const bodyParser = require('body-parser');
 //websockets
 const expressWs = require('express-ws');
 
-const path = require('path');
-
 const app = express();
 
 //websockets
 const wsInstance = expressWs(app);
 
 const PORT = process.env.PORT || 8080;
-const HTTPS = process.env.HTTPS || true;
 
 const routes = require('./routes/api.js');
 
@@ -74,14 +71,18 @@ app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(re
   console.log("we startin upload image");
   console.log("req.file", req.file);
   console.log("req.body", req.body);
+
+  
   //we should only get the path AFTER whatever is static...
   payload = {
-    path
+    size: req.file.size,
+    filename: req.file.filename,
+    filepath: req.file.path,
+    mimetype: req.file.mimetype
   }
-  var path = req.file.path;
  
-  console.log("path",path);
-  res.send(path);
+  console.log("payload",payload);
+  res.send(payload);
 }));
 
 //websocket stuff...

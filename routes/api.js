@@ -1,15 +1,14 @@
 const express =  require('express');
 const router = express.Router();
-const db = require('../db');
 const knex = require('../knex/knex.js');
 
 
 const imgLoc = 'images/uploads';
 
-const Item = require('../models/item');
-const Place = require('../models/place');
-const User = require('../models/user');
-const Comment = require('../models/comment');
+// const Item = require('../models/item');
+// const Place = require('../models/place');
+// const User = require('../models/user');
+// const Comment = require('../models/comment');
 
 //Routes
 
@@ -179,11 +178,6 @@ router.get('/v1/items/get-one-item', async (req, res) => {
 
     const itemComments =  await knex.from('items')
       .innerJoin('comments', 'items.item_id', 'comments.item_id');
-    //comments of item...
-    //refine to become one query?
-    // const comments = await knex.select('*')
-    //   .from('comments')
-    //   .where({item_id: req.query.itemID});
 
     res.send(itemComments);
 
@@ -191,41 +185,44 @@ router.get('/v1/items/get-one-item', async (req, res) => {
     console.log("Error getting ONE item: ", err);
   }
   
-
-
-
-  // Item.findById(req.query.itemID).populate({
-  //   path: 'comments'
-  // }).exec(function(err, item) {
-  //   if(err) {
-  //     console.log("error getting populated item", err);
-  //     return;
-  //   }
-  //   res.send(item);
-  // })
 })
 
-router.get('/v1/users/populate-user-favorites', (req, res) => {
-  console.log("in populate user", req.query.userID);
-  let userID = req.query.userID;
-  User.findById(userID)
-  .populate({
-    path: 'liked',
-    populate: {path: 'place'}
-  })
-  .exec(function(err, user) {
-    if(err) {
-      console.log("error getting populated user", err);
-      return;
-    }
-    res.send(user);
-  });
+router.get('/v1/users/populate-user-favorites', async (req, res) => {
+  try {
+    console.log("in populate user", req.query.userID);
+    let userID = req.query.userID;
+    const userLikes = await knex.from("users")
+      .innerJoin("item-likes", "users.user_id", "item-likes.user_id")
+      .innerJoin("items", "item-likes.item_id", "items.item_id");
+  
+    res.send(userLikes);
+  } catch (err) {
+    console.log("Error populating user favorites: ", err);
+  }
+  
+
+  // User.findById(userID)
+  // .populate({
+  //   path: 'liked',
+  //   populate: {path: 'place'}
+  // })
+  // .exec(function(err, user) {
+  //   if(err) {
+  //     console.log("error getting populated user", err);
+  //     return;
+  //   }
+  //   res.send(user);
+  // });
 });
 
-router.post('/v1/items/save-item', (req, res) => {
-  
+router.post('/v1/items/save-item', async (req, res) => {
+  try { 
   let data = req.body;
-  console.log("data: ", data);
+  console.log("data in save-item: ", data);
+
+  const image = await saveImage(data.imagePayload);
+  console.log("this is returned image after insert...", image);
+
   //does place exist?
   let placeFields = {
     name: data.placeName,
@@ -235,51 +232,52 @@ router.post('/v1/items/save-item', (req, res) => {
     placeId: data.placeId
   };
 
-  createOrFindPlace(placeFields).then((place) => {
-    console.log("this is place: ", place);
-    console.log("this is data.localImageLoc", data.localImageLoc);
+  const place = await createOrFindPlace(placeFields);
+  console.log("this is place after insert: ", place);
+  
+  saveItem(data, place.place_id, image.image_id);
 
-     new Item({
-      name: data.itemName,
-      creator: data.user,
-      price: data.price,
-      place: place,
-      likes: 0,
-      dislikes: 0,
-      img:  data.localImageLoc,
-      videoUrl: ''
-    }).save(function(err, item, count){
-      if(err) {
-        console.log("Error saving item..." , err);
-      } else {
-        place.items.push(item);
-        place.save(function(err, pl, count) {
-          // do nothing
-          res.json(item);
-        });
-      }
-    });
-  }).catch((error) => console.log("There was an error during create or find place...: ", error));
+    //  new Item({
+    //   name: data.itemName,
+    //   creator: data.user,
+    //   price: data.price,
+    //   place: place,
+    //   likes: 0,
+    //   dislikes: 0,
+    //   img:  data.localImageLoc,
+    //   videoUrl: ''
+    // }).save(function(err, item, count){
+    //   if(err) {
+    //     console.log("Error saving item..." , err);
+    //   } else {
+    //     place.items.push(item);
+    //     place.save(function(err, pl, count) {
+    //       // do nothing
+    //       res.json(item);
+    //     });
+    //   }
+    // });
+  } catch (err) {
+    console.log("There was an error during create or find place...: ", error);
+  } 
 });
 
 router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
-
+  console.log("this is req.body in save-user", req.body);
   try {
-    await knex("users").insert({
+  console.log("we made it to try");
+   const user = await knex("users").insert({
       name: data.name,
       picture: data.picture,
       facebook_id: data.fbid,
       email: data.email
     })
     .onConflict("facebook_id")
-    .ignore().then(function(resp) {
-      res.status(201).json({
-        status: "success",
-        user: resp.rowCount > 0 ? results.rows[0] : data
-      });
+    .ignore();
+    res.status(201).json({
+      status: "success",
     });
-
   } catch(err) {
     console.log(err);
   }
@@ -290,45 +288,75 @@ router.post('/v1/users/save-user', async (req, res) => {
 //helperzzz
 
 async function createOrFindPlace(placeFields) {
-  let placePromise = await new Promise((resolve, reject) => {
-    Place.findOneAndUpdate(
-      {placeId: placeFields.placeId}, 
-      {upsert: true}, 
-      (err, place) => {
-        if(err) {
-          console.log("Error while saving place: ", err);
-        } 
-        //if place wasn't found
-        if(!place) {
-          console.log("in place didn exist section\nhere is placefields: ", placeFields);
-          Place({
-              name: placeFields.name,
-              formatted_address: placeFields.address,
-              coordinates: placeFields.coordinates,
-              items: [],
-              placeId: placeFields.placeId
-            }).save(async (error, place) => {
-              console.log("we in place save");
-              if(error) {
-                console.log("in save error");
-                res.status(500).json({msg: 'Sry, server error while adding place...'});
-                reject('ERror with place saving');
-              } else {
-                console.log("No error, here is place: ", place);
-                resolve(place);
-              }
-              console.log("we in the post-save place world");
-            });
-        } else {
-          resolve(place);
-        }
-    });
-  });
-  return placePromise;
+  try {
+    const place = await knex("places").insert({
+      name: placeFields.name,
+      formatted_address: placeFields.formatted_address,
+      coordinates: [placeFields.coordinates.lat, placeFields.coordinates.lng],
+      google_place_id: placeFields.placeId})
+      .onConflict("google_place_id")
+      .ignore().union(function() {
+        this.from("places").where({google_place_id: placeFields.placeId});
+      });
+  
+      console.log("Place in createOrFindPlace: ", place);
+  
+      return place;
+  } catch (err) {
+    console.log("Error creating or finding place: ", err);
+  }
+  
+    // Place.findOneAndUpdate(
+    //   {placeId: placeFields.placeId}, 
+    //   {upsert: true}, 
+    //   (err, place) => {
+    //     if(err) {
+    //       console.log("Error while saving place: ", err);
+    //     } 
+    //     //if place wasn't found
+    //     if(!place) {
+    //       console.log("in place didn exist section\nhere is placefields: ", placeFields);
+    //       Place({
+    //           name: placeFields.name,
+    //           formatted_address: placeFields.address,
+    //           coordinates: placeFields.coordinates,
+    //           items: [],
+    //           placeId: placeFields.placeId
+    //         }).save(async (error, place) => {
+    //           console.log("we in place save");
+    //           if(error) {
+    //             console.log("in save error");
+    //             res.status(500).json({msg: 'Sry, server error while adding place...'});
+    //             reject('ERror with place saving');
+    //           } else {
+    //             console.log("No error, here is place: ", place);
+    //             resolve(place);
+    //           }
+    //           console.log("we in the post-save place world");
+    //         });
+    //     } else {
+    //       resolve(place);
+    //     }
+    // });
+
 }
 
+async function saveImage(payload) {
+  const {size, filename, filepath, mimetype} = payload;
+  return await knex("images").insert({
+    size, filename, filepath, mimetype
+  });
+}
 
-
+async function saveItem(payload, placeID, imageID) {
+  const {price, name, description } = payload;
+  return await knex("items").insert({
+    price,
+    likes: 0,
+    image_id: imageID,
+    creator_id: payload
+  });
+}
 
 
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './styles/Likes.css';
+import Liker from '../apis/Liker';
 
 
 export default function Likes(props) {
@@ -72,7 +72,7 @@ export default function Likes(props) {
 
         let body = {userID: user._id, itemID: item._id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
         
-        axios.post('/api/like-click', body)
+        Liker.post('/like-click', body)
         .then((res)=>{
                 let {item, user} = res.data;
                 console.log(user);

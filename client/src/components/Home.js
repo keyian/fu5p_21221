@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
 import ItemForm from './ItemForm';
-import axios from 'axios';
 import './styles/Home.css';
 import ItemFinder from '../apis/ItemFinder';
 

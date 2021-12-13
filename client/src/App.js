@@ -21,10 +21,6 @@ function App(props) {
   const [picture, setPicture] = useState('');
   const hooks = {login, setLogin, userData, setUserData, picture, setPicture};
 
-  
-   
-  console.log(props);
-
 
     return(
       <div className="app">

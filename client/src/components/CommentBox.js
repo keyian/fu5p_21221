@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import './styles/CommentBox.css';
+import Commenter from '../apis/Commenter';
 
 export default function CommentBox(props) {
     const[comments, setComments] = useState([]);
@@ -25,7 +25,7 @@ export default function CommentBox(props) {
     };
 
     function getComments() {
-        axios.get('/api/get-comments',
+        Commenter.get('/get-comments',
         { params: {
             itemID: itemID
         }}).then((response) => {
@@ -49,7 +49,7 @@ export default function CommentBox(props) {
     function submitComment() {
         let comment = {comment: input, itemID: itemID, user: user}
         setInput("");
-        axios.post("/api/add-comment", comment)
+        Commenter.post("/add-comment", comment)
         .then(res => {
             const json = {type: 'comment'};
             console.log("called add comment. now in socket portion");

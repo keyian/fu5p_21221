@@ -11,13 +11,16 @@ export default function Login(props) {
   function checkFBLogin() {
     console.log('getting userdata: ');
 
-    let userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
+    const userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
     console.log('userdata: ', userDataLS);
 
     if(userDataLS) {
+      console.log('inside userdatals');
       //set state to match local storage... 
       setLogin(true);
       setUserData(userDataLS);
+      console.log("post setUserData", userData);
+
       setPicture(userDataLS.picture);
     }  else {
       setLogin(false);
@@ -34,9 +37,9 @@ export default function Login(props) {
   const responseFacebook = (response) => {
     //monitoring
     console.log("in fb login response");
-
+    console.log("userd in response fb", userData);
     
-     console.log("this is the facebook login response: ", response);
+    console.log("this is the facebook login response: ", response);
     setPicture(response.picture.data.url);
     if (response.accessToken) {
       console.log("identifying response access token?");
@@ -58,15 +61,18 @@ export default function Login(props) {
       try {
         const response = await UserFinder.post('/save-user', payload);
         console.log("response of save-user", response);
-        setUserData(response.data);
-        setUserLocalStorage(response.data.user);
+        setUserData(payload);
+        setUserLocalStorage(payload);
         console.log("adding a user worked!. Here's response: ", response);
       } catch(err) {
         console.log("Error saving user: ", err);
       }
       
     }
-    if(!userData) {
+    console.log("this is userdata", userData);
+    if(!(JSON.parse(window.localStorage.getItem('userData')))) {
+      console.log(userData);
+      console.log("not user data?");
       addUser(payload);
     }
     
