@@ -29,6 +29,9 @@ select column_name, data_type from information_schema.columns where table_name =
 
 select column_name, data_type from information_schema.columns where table_name = 'images';
 
+select column_name, data_type from information_schema.columns where table_name = 'users';
+
+
 
 alter table places
 alter column coordinates type float[];
@@ -89,3 +92,60 @@ add column main_image_filepath text not null;
 
 alter table items
 alter column creator_id type bigint;
+
+--test on my item query... need an item first
+insert into items(name, creator_id, price, place_id, likes, image_id, description)
+values ('poop', 557357067800523, 2, 11, 0, 26, 'blah blah');
+
+with inserted_item as 
+(insert into items(name, creator_id, price, place_id, likes, image_id, description)
+values('poop', 557357067800523, 2, 11, 0, 26, 'blah blah') 
+returning *)
+select * from inserted_item
+inner join images on inserted_item.image_id = images.image_id
+inner join places on inserted_item.place_id = places.place_id;
+
+insert into users(name, picture, facebook_id, email) 
+values('Keyian Vafai', 
+'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=557357067800523&height=50&width=50&ext=1642009943&hash=AeSQ-1u5sXnGDvZaWgU', 
+'557357067800523', 
+'ksv216@nyu.edu')
+
+with inserted_user as (insert into users(name, picture, facebook_id, email) 
+values('Keyian Vafai', 
+'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=557357067800523&height=50&width=50&ext=1642009943&hash=AeSQ-1u5sXnGDvZaWgU', 
+557357067800523, 
+'ksv216@nyu.edu') 
+on conflict(facebook_id)
+do nothing)
+inserted_user
+union
+select * from users where facebook_id = 557357067800523;
+
+--without alias?
+insert into users(name, picture, facebook_id, email) 
+values('Keyian Vafai', 
+'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=557357067800523&height=50&width=50&ext=1642009943&hash=AeSQ-1u5sXnGDvZaWgU', 
+557357067800523, 
+'ksv216@nyu.edu') 
+on conflict(facebook_id)
+do nothing
+union
+select * from users where facebook_id = 557357067800523;
+
+
+--simple case without worry about concurrent writing..?
+WITH ins_user AS (
+   INSERT INTO users(name, picture, facebook_id, email)
+   VALUES ('Keyian Vafai', 
+'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=557357067800523&height=50&width=50&ext=1642009943&hash=AeSQ-1u5sXnGDvZaWgU', 
+557357067800523, 
+'ksv216@nyu.edu')
+   ON CONFLICT ON CONSTRAINT names_name_key DO NOTHING  -- no lock needed
+   RETURNING id
+   )
+SELECT id FROM ins
+UNION  ALL
+SELECT id FROM names
+WHERE  name = 'bob'  -- only executed if no INSERT
+LIMIT  1;

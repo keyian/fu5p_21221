@@ -27,30 +27,6 @@ router.post("/v1/comments/add-comment", async (req, res) => {
     console.log("error adding comment: ", err);
   }
   
-
-  // new Comment({
-  //   text: comment.comment,
-  //   item: comment.itemID,
-  //   user: comment.user._id,
-  //   userName: comment.user.name
-  // }).save(function(err, comment) {
-  //   if(err) {
-  //     console.log("Error adding comment...", err);
-  //   } else {
-  //     Item.findOne({_id: comment.item}, function (err, item) {
-  //       if(err) {
-  //         console.log("Error at finding item  in comments..", err)
-  //         return;
-  //       }
-
-  //       item.comments.push(comment._id);
-
-  //       item.save(function(err, item) {
-  //         res.send(comment);
-  //       })
-  //     })
-  //   }
-  // })
 })
 
 router.post('/v1/likes/like-click', async (req, res) => {
@@ -208,19 +184,6 @@ router.get('/v1/users/populate-user-favorites', async (req, res) => {
     console.log("Error populating user favorites: ", err);
   }
   
-
-  // User.findById(userID)
-  // .populate({
-  //   path: 'liked',
-  //   populate: {path: 'place'}
-  // })
-  // .exec(function(err, user) {
-  //   if(err) {
-  //     console.log("error getting populated user", err);
-  //     return;
-  //   }
-  //   res.send(user);
-  // });
 });
 
 router.post('/v1/items/save-item', async (req, res) => {
@@ -262,17 +225,26 @@ router.post('/v1/items/save-item', async (req, res) => {
 
 router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
-  console.log("this is req.body in save-user", req.body);
   try {
   console.log("we made it to try");
-   const user = await knex("users").insert({
+   let user = await knex("users").insert({
       name: data.name,
       picture: data.picture,
       facebook_id: data.fbid,
       email: data.email
     })
     .onConflict("facebook_id")
-    .ignore().union(knex.raw(`select * from users where facebook_id = ${data.fbid}`));
+    .ignore().returning('*')
+    .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
+
+    //until i can make this one query...
+    if(!user.length) {
+      console.log("in not user length");
+      user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
+      .from("users").where({facebook_id: data.fbid})
+      .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
+      console.log(user);
+    }
     console.log("here's user in save-user", user);
     res.status(201).json({
       status: "success",

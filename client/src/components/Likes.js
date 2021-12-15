@@ -10,17 +10,19 @@ export default function Likes(props) {
     const [item, setItem] = useState(props.item);
     const [likes, setLikes] = useState(item.likes);
     const [dislikes, setDislikes] = useState(item.dislikes);
-    const [liked, setLiked] = useState(login ? user.liked.includes(item._id) : false);
-    const [disliked, setDisliked] = useState(login ? user.disliked.includes(item._id) : false);
+    const [liked, setLiked] = useState(login ? user.like_status==1: false);
+    const [disliked, setDisliked] = useState(login ? user.like_status==-1 : false);
 
     function isItemLiked() {
         console.log("isItemLiked iteration");
-        setLiked(login ? user.liked.includes(item._id) : false);
+        //determine logic later, after testing liking
+        // setLiked(login ? user.liked.includes(item._id) : false);
     }
 
     function isItemDisliked() {
         console.log("isItemDisLiked iteration");
-        setDisliked(login ? user.disliked.includes(item._id) : false);
+        //determine logic later, after testing liking
+        // setDisliked(login ? user.disliked.includes(item._id) : false);
     }
 
     const sock = props.sock;
