@@ -9,7 +9,7 @@ if(process.env.NODE_ENV === 'production') {
 } 
 
 const MapMarker = (props) => {
-let source = props.item.img.substring(FILE_ROOT.length);
+let source = props.item.filepath.substring(FILE_ROOT.length);
 function handleMarkerClick(e) {
   e.preventDefault();
   console.log(props);

@@ -23,6 +23,9 @@ export default function ItemForm(props) {
       lat: null,
       lng: null
   });
+
+
+
   const [placeId, setPlaceId] = useState("");
   /*
   * Clears the form, called after submit has been processed. 
@@ -70,8 +73,8 @@ export default function ItemForm(props) {
     let formData = new FormData(daForm);
     console.log('initial formdata;', formData);
     const payload = {
-      item_name: itemName,
-      place_name: placeName,
+      itemName,
+      placeName,
       price,
       description,
       address,
@@ -121,6 +124,7 @@ export default function ItemForm(props) {
 
   return (
       <Draggable>
+
         <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
           <span id="drag-span">DRAG THIS</span>
           <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>

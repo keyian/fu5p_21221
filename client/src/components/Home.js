@@ -10,17 +10,23 @@ export default function Home(props) {
     const login = props.login;
     const userData = props.userData;
 
+
+
     function getItems() {
-        if(items.length === 0){
-            ItemFinder.get('/get-items')
-            .then((response) => {
-              setItems(response.data.data.items);
-            })
-            .catch((err) => {
-              console.log('Error retrieving getItems data!**: ', err);
-            });
+        console.log("Running get Items");
+        const runGetItems = async () => {
+            try {
+                const itemsResponse = await ItemFinder.get('/get-items');
+                console.log("response of getitems ", itemsResponse);
+                setItems(itemsResponse.data.data.items);
+            }
+            catch(err) {
+                console.log('Error retrieving getItems data!: ', err);
+            }
         }
-      }
+        if(items.length === 0){
+        runGetItems();}
+    }
 
        //trigger this when an item is added...
     const addItemB4Refresh = (nuItem) => {

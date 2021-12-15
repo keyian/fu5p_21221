@@ -14,16 +14,7 @@ export default function ItemPost(props) {
     let place = item.place;
     let user = props.user;
     let userFirstName = user.name.split(" ")[0];
-    let filename = item.img.substring(FILE_ROOT.length);
-    //item state object to pass through link
-    let itemStateObject = {
-        itemName: item.name,
-        itemImgFilename: filename,
-        itemPlaceName: place.name,
-
-
-    };
-    
+    let filename = item.filepath.substring(FILE_ROOT.length);
    
     console.log("thisis item prop in itempost", item);
     console.log(filename);
@@ -31,7 +22,12 @@ export default function ItemPost(props) {
 
     return(
         <div id={item._id} className="item-post-container">
-            <div className="item-title-div"><Link to={{pathname: `/item/${item._id}`, state: JSON.stringify(item)}}><h1 className="itempost-h1">{item.name} @ {place.name}</h1></Link></div>
+            <div className="item-title-div">
+                <Link to={{pathname: `/item/${item.item_id}`, state: JSON.stringify(item)}}>
+                    {/* 12-14-21 temporary... this should be item name @ place name */}
+                    <h1 className="itempost-h1">{item.coordinates} @ {item.filename}</h1>
+                </Link>
+            </div>
             
             <div className="item-image-div"><img alt={item.name} className="item-image" src={filename} /></div>
             <Likes sock={props.sock} item={item} user={user} login={props.login}/>

@@ -73,3 +73,19 @@ add constraint fk_user
 foreign key(user_id)
 references users(facebook_id)
 on delete set null;
+
+alter table items
+drop constraint fk_user,
+drop column user_id;
+
+alter table items
+add constraint fk_user
+foreign key(creator_id)
+references users(facebook_id)
+on delete set null;
+
+alter table items
+add column main_image_filepath text not null;
+
+alter table items
+alter column creator_id type bigint;

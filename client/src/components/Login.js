@@ -19,7 +19,6 @@ export default function Login(props) {
       //set state to match local storage... 
       setLogin(true);
       setUserData(userDataLS);
-      console.log("post setUserData", userData);
 
       setPicture(userDataLS.picture);
     }  else {
@@ -69,12 +68,14 @@ export default function Login(props) {
       }
       
     }
-    console.log("this is userdata", userData);
-    if(!(JSON.parse(window.localStorage.getItem('userData')))) {
-      console.log(userData);
-      console.log("not user data?");
+    // console.log("this is userdata", userData);
+    // if(!(JSON.parse(window.localStorage.getItem('userData')))) {
+    //   console.log(userData);
+    //   console.log("not user data?");
+
+    //calling addUser regardless, commenting out the conditional above...
       addUser(payload);
-    }
+    // }
     
   };
 

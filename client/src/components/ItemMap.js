@@ -29,15 +29,18 @@ function ItemMap(props) {
       setZoom(15);
     }  
  }
-  return (itemsies!==undefined) ? (
+
+
+  return (itemsies.length > 0) ? (
       // Important! Always set the container height explicitly
       <div id="map-div" >
+        {console.log("this is itemsies. You're watching VH1: ", itemsies)}
         <GoogleMapReact
           center={mapState.center}
           zoom={zoomState.zoom}
         >
         {itemsies.map((item, index) =>
-          <MapMarker key={index} onClick={handleMarkerClick} lat={item.place.coordinates.lat} lng={item.place.coordinates.lng} item={item}/>
+          <MapMarker key={index} onClick={handleMarkerClick} lat={item.coordinates[0]} lng={item.coordinates[1]} item={item}/>
         )}
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}
         </GoogleMapReact>

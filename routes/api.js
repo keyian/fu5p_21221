@@ -154,7 +154,9 @@ router.get('/v1/comments/get-comments', async (req, res) => {
 
 router.get('/v1/items/get-items', async (req, res) => {
   try {
-    const response = await knex.select("*").from("items");
+    const response = await knex.select("*").from("items")
+    .innerJoin('places', 'items.place_id', 'places.place_id')
+    .innerJoin('images', 'items.image_id', 'images.image_id');
     console.log("response is...", response);
     res.status(200).json({
       status: "success",
@@ -179,7 +181,13 @@ router.get('/v1/items/get-one-item', async (req, res) => {
     const itemComments =  await knex.from('items')
       .innerJoin('comments', 'items.item_id', 'comments.item_id');
 
-    res.send(itemComments);
+    res.status(200).json({
+      status: "success",
+      results: response.length,
+      data: {
+          itemComments
+      }
+    }) 
 
   } catch (err) {
     console.log("Error getting ONE item: ", err);
@@ -190,7 +198,7 @@ router.get('/v1/items/get-one-item', async (req, res) => {
 router.get('/v1/users/populate-user-favorites', async (req, res) => {
   try {
     console.log("in populate user", req.query.userID);
-    let userID = req.query.userID;
+    
     const userLikes = await knex.from("users")
       .innerJoin("item-likes", "users.user_id", "item-likes.user_id")
       .innerJoin("items", "item-likes.item_id", "items.item_id");
@@ -222,43 +230,33 @@ router.post('/v1/items/save-item', async (req, res) => {
 
   const image = await saveImage(data.imagePayload);
   console.log("this is returned image after insert...", image);
-
   //does place exist?
   let placeFields = {
     name: data.placeName,
     formatted_address: data.address,
-    coordinates: data.coordinates,
+    coordinates: [data.coordinates.lat, data.coordinates.lng],
     items: [],
-    placeId: data.placeId
+    google_place_id: data.google_place_id
   };
+
+  console.log("here are placeFields", placeFields);
+
 
   const place = await createOrFindPlace(placeFields);
   console.log("this is place after insert: ", place);
   
-  saveItem(data, place.place_id, image.image_id);
+  const item = saveItem(data, place.place_id, image.image_id, image.filepath);
 
-    //  new Item({
-    //   name: data.itemName,
-    //   creator: data.user,
-    //   price: data.price,
-    //   place: place,
-    //   likes: 0,
-    //   dislikes: 0,
-    //   img:  data.localImageLoc,
-    //   videoUrl: ''
-    // }).save(function(err, item, count){
-    //   if(err) {
-    //     console.log("Error saving item..." , err);
-    //   } else {
-    //     place.items.push(item);
-    //     place.save(function(err, pl, count) {
-    //       // do nothing
-    //       res.json(item);
-    //     });
-    //   }
-    // });
+  res.status(201).json({
+    status: "success",
+    results: response.length,
+    data: {
+        item
+    }
+  }) 
+
   } catch (err) {
-    console.log("There was an error during create or find place...: ", error);
+    console.log("There was an error during Save Item...: ", err);
   } 
 });
 
@@ -274,7 +272,8 @@ router.post('/v1/users/save-user', async (req, res) => {
       email: data.email
     })
     .onConflict("facebook_id")
-    .ignore();
+    .ignore().union(knex.raw(`select * from users where facebook_id = ${data.fbid}`));
+    console.log("here's user in save-user", user);
     res.status(201).json({
       status: "success",
     });
@@ -288,74 +287,71 @@ router.post('/v1/users/save-user', async (req, res) => {
 //helperzzz
 
 async function createOrFindPlace(placeFields) {
+  const { name, formatted_address, coordinates, google_place_id } = placeFields;
   try {
-    const place = await knex("places").insert({
-      name: placeFields.name,
-      formatted_address: placeFields.formatted_address,
-      coordinates: [placeFields.coordinates.lat, placeFields.coordinates.lng],
-      google_place_id: placeFields.placeId})
+
+
+    let place = await knex("places").insert({
+      name, formatted_address, coordinates, google_place_id
+    })
       .onConflict("google_place_id")
       .ignore().union(function() {
-        this.from("places").where({google_place_id: placeFields.placeId});
-      });
-  
-      console.log("Place in createOrFindPlace: ", place);
-  
-      return place;
+        this.from("places").where({google_place_id: google_place_id});
+      }).returning('*');
+
+      //for now, going to do multiple queries if thing is found
+      if(!place.length) {
+        place =  await knex.select('place_id').from("places").where({google_place_id: placeFields.google_place_id});
+      }
+    
+      return place[0];
   } catch (err) {
     console.log("Error creating or finding place: ", err);
   }
   
-    // Place.findOneAndUpdate(
-    //   {placeId: placeFields.placeId}, 
-    //   {upsert: true}, 
-    //   (err, place) => {
-    //     if(err) {
-    //       console.log("Error while saving place: ", err);
-    //     } 
-    //     //if place wasn't found
-    //     if(!place) {
-    //       console.log("in place didn exist section\nhere is placefields: ", placeFields);
-    //       Place({
-    //           name: placeFields.name,
-    //           formatted_address: placeFields.address,
-    //           coordinates: placeFields.coordinates,
-    //           items: [],
-    //           placeId: placeFields.placeId
-    //         }).save(async (error, place) => {
-    //           console.log("we in place save");
-    //           if(error) {
-    //             console.log("in save error");
-    //             res.status(500).json({msg: 'Sry, server error while adding place...'});
-    //             reject('ERror with place saving');
-    //           } else {
-    //             console.log("No error, here is place: ", place);
-    //             resolve(place);
-    //           }
-    //           console.log("we in the post-save place world");
-    //         });
-    //     } else {
-    //       resolve(place);
-    //     }
-    // });
 
 }
 
 async function saveImage(payload) {
-  const {size, filename, filepath, mimetype} = payload;
-  return await knex("images").insert({
+  const {size, filename, filepath, mimetype} = payload.data;
+  const image = await knex("images").insert({
     size, filename, filepath, mimetype
-  });
+  }).returning('*');
+
+  return image[0];
 }
 
 async function saveItem(payload, placeID, imageID) {
-  const {price, name, description } = payload;
-  return await knex("items").insert({
-    price,
-    likes: 0,
-    image_id: imageID,
-    creator_id: payload
-  });
+  console.log("this is payload in save item", payload);
+  console.log("this is place id, imageid", placeID, imageID);
+  const {price, description} = payload;
+
+  const itemImagePlace = knex.with('inserted_item', (qb)=> {
+    qb.insert({
+      name: payload.itemName,
+      creator_id: payload.user.fbid,
+      price,
+      place_id: placeID,
+      likes: 0,
+      image_id: imageID,
+      description
+    }).into('items').returning('*')
+  }).innerJoin('images', 'inserted_item.image_id', 'images.image_id')
+  .innerJoin('places', 'inserted_item.place_id', 'places.place_id');
+  
+  console.log(itemImagePlace);
+
+  //12-14-21 uncomment below if desirable
+
+//   return await knex("items").insert({
+//     name: payload.itemName,
+//     creator_id: payload.user.fbid,
+//     price,
+//     place_id: placeID,
+//     likes: 0,
+//     image_id: imageID,
+//     description
+//   }).returning('*');
 }
 
 
