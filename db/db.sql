@@ -149,3 +149,11 @@ UNION  ALL
 SELECT id FROM names
 WHERE  name = 'bob'  -- only executed if no INSERT
 LIMIT  1;
+
+with inserted_item as 
+(insert into items(name, creator_id, price, place_id, likes, image_id, description)
+values('poopie500', 557357067800523, 17, 11, 0, 26, 'blue blue') 
+returning *)
+select * from inserted_item
+inner join images on inserted_item.image_id = images.image_id
+inner join places on inserted_item.place_id = places.place_id;

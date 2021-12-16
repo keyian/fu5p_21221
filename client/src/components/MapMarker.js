@@ -15,7 +15,7 @@ function handleMarkerClick(e) {
   console.log(props);
   //if already is center, then go to the item
   // if not center, then zoom in and center (via props.onclick)
-  props.onClick({lat: props.lat, lng: props.lng}, props.item._id);
+  props.onClick({lat: props.lat, lng: props.lng}, props.item.item_id);
   //href={"#"+props.item._id} 
 }
   return (

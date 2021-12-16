@@ -21,11 +21,11 @@ export default function ItemPost(props) {
     
 
     return(
-        <div id={item._id} className="item-post-container">
+        <div id={item.item_id} className="item-post-container">
             <div className="item-title-div">
                 <Link to={{pathname: `/item/${item.item_id}`, state: JSON.stringify(item)}}>
                     {/* 12-14-21 temporary... this should be item name @ place name */}
-                    <h1 className="itempost-h1">{item.coordinates} @ {item.filename}</h1>
+                    <h1 className="itempost-h1">{item.item_name} @ {item.place_name}</h1>
                 </Link>
             </div>
             

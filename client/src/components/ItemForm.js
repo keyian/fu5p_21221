@@ -108,7 +108,7 @@ export default function ItemForm(props) {
     }
     // Examine the text in the response
     console.log("this is respose in uploadimginitialcb", response);
-    payload.imagePayload = response;
+    payload.imagePayload = response.data;
     uploadImgResponseCB(payload);
   };
 
@@ -117,7 +117,7 @@ export default function ItemForm(props) {
     ItemFinder.post('/save-item', payload)
     .then((item)=> {
       console.log("here da item: ", item);
-      props.addItem(item.data);
+      props.addItem(item.data.item);
       clear();
     });  
   }

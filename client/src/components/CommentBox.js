@@ -25,13 +25,13 @@ export default function CommentBox(props) {
     };
 
     function getComments() {
-        Commenter.get('/get-comments',
-        { params: {
-            itemID: itemID
-        }}).then((response) => {
-            setComments(response.data);
-            console.log("get comments response", response);
-        })
+        // Commenter.get('/get-comments',
+        // { params: {
+        //     itemID: itemID
+        // }}).then((response) => {
+        //     setComments(response.data);
+        //     console.log("get comments response", response);
+        // })
     }
 
     function handleChange(e){
@@ -47,16 +47,16 @@ export default function CommentBox(props) {
 
 
     function submitComment() {
-        let comment = {comment: input, itemID: itemID, user: user}
-        setInput("");
-        Commenter.post("/add-comment", comment)
-        .then(res => {
-            const json = {type: 'comment'};
-            console.log("called add comment. now in socket portion");
-            json.data = res.data;
-            sock.send(JSON.stringify(json));
-        }
-        );
+        // let comment = {comment: input, itemID: itemID, user: user}
+        // setInput("");
+        // Commenter.post("/add-comment", comment)
+        // .then(res => {
+        //     const json = {type: 'comment'};
+        //     console.log("called add comment. now in socket portion");
+        //     json.data = res.data;
+        //     sock.send(JSON.stringify(json));
+        // }
+        // );
     }
     
     function scrollToBottom() {

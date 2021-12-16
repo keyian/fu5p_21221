@@ -1,6 +1,7 @@
 const express =  require('express');
 const router = express.Router();
 const knex = require('../knex/knex.js');
+// const db = require("./db");
 
 
 const imgLoc = 'images/uploads';
@@ -195,7 +196,7 @@ router.post('/v1/items/save-item', async (req, res) => {
   console.log("this is returned image after insert...", image);
   //does place exist?
   let placeFields = {
-    name: data.placeName,
+    place_name: data.placeName,
     formatted_address: data.address,
     coordinates: [data.coordinates.lat, data.coordinates.lng],
     items: [],
@@ -208,14 +209,11 @@ router.post('/v1/items/save-item', async (req, res) => {
   const place = await createOrFindPlace(placeFields);
   console.log("this is place after insert: ", place);
   
-  const item = saveItem(data, place.place_id, image.image_id, image.filepath);
+  const item = await saveItem(data, place.place_id, image.image_id, image.filepath);
 
   res.status(201).json({
     status: "success",
-    results: response.length,
-    data: {
-        item
-    }
+    item
   }) 
 
   } catch (err) {
@@ -225,6 +223,7 @@ router.post('/v1/items/save-item', async (req, res) => {
 
 router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
+  console.log("in save-user", data);
   try {
   console.log("we made it to try");
    let user = await knex("users").insert({
@@ -235,7 +234,7 @@ router.post('/v1/users/save-user', async (req, res) => {
     })
     .onConflict("facebook_id")
     .ignore().returning('*')
-    .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
+    // .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
 
     //until i can make this one query...
     if(!user.length) {
@@ -259,12 +258,12 @@ router.post('/v1/users/save-user', async (req, res) => {
 //helperzzz
 
 async function createOrFindPlace(placeFields) {
-  const { name, formatted_address, coordinates, google_place_id } = placeFields;
+  const { place_name, formatted_address, coordinates, google_place_id } = placeFields;
   try {
 
 
     let place = await knex("places").insert({
-      name, formatted_address, coordinates, google_place_id
+      place_name, formatted_address, coordinates, google_place_id
     })
       .onConflict("google_place_id")
       .ignore().union(function() {
@@ -285,7 +284,7 @@ async function createOrFindPlace(placeFields) {
 }
 
 async function saveImage(payload) {
-  const {size, filename, filepath, mimetype} = payload.data;
+  const {size, filename, filepath, mimetype} = payload;
   const image = await knex("images").insert({
     size, filename, filepath, mimetype
   }).returning('*');
@@ -294,24 +293,44 @@ async function saveImage(payload) {
 }
 
 async function saveItem(payload, placeID, imageID) {
-  console.log("this is payload in save item", payload);
-  console.log("this is place id, imageid", placeID, imageID);
+  console.log("in save item");
   const {price, description} = payload;
 
-  const itemImagePlace = knex.with('inserted_item', (qb)=> {
-    qb.insert({
-      name: payload.itemName,
+
+  const itemImagePlace = await knex.with('inserted_item', 
+  (qb) => {
+    qb.returning('*')
+    .insert({
+      item_name: payload.itemName,
       creator_id: payload.user.fbid,
       price,
       place_id: placeID,
       likes: 0,
       image_id: imageID,
       description
-    }).into('items').returning('*')
-  }).innerJoin('images', 'inserted_item.image_id', 'images.image_id')
+    })
+    .into('items')})
+  .select('*')
+    .from('inserted_item')
+  .innerJoin('images', 'inserted_item.image_id', 'images.image_id')
   .innerJoin('places', 'inserted_item.place_id', 'places.place_id');
-  
+
+  // const itemImagePlace = knex.with('inserted_item', (qb)=> {
+  //   qb.insert({
+  //     name: payload.itemName,
+  //     creator_id: payload.user.fbid,
+  //     price,
+  //     place_id: placeID,
+  //     likes: 0,
+  //     image_id: imageID,
+  //     description
+  //   }).into('items').returning('*')
+  // })
+  // .innerJoin('images', 'inserted_item.image_id', 'images.image_id')
+  // .innerJoin('places', 'inserted_item.place_id', 'places.place_id');
   console.log(itemImagePlace);
+  return itemImagePlace[0];
+  
 
   //12-14-21 uncomment below if desirable
 
