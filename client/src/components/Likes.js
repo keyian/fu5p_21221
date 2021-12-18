@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './styles/Likes.css';
 import Liker from '../apis/Liker';
+import { AppContext } from '../context/AppContext';
+
 
 
 export default function Likes(props) {
     //helper variables
-    const [user, setUser] = useState(props.user);
-    let login = props.login;
+    const {userData, login, setUserData} = useContext(AppContext);
     const [item, setItem] = useState(props.item);
     const [likes, setLikes] = useState(item.likes);
     const [dislikes, setDislikes] = useState(item.dislikes);
-    const [liked, setLiked] = useState(login ? user.like_status==1: false);
-    const [disliked, setDisliked] = useState(login ? user.like_status==-1 : false);
+    const [liked, setLiked] = useState(login ? userData.like_status==1: false);
+    const [disliked, setDisliked] = useState(login ? userData.like_status==-1 : false);
 
     function isItemLiked() {
-        console.log("isItemLiked iteration");
+        // console.log("isItemLiked iteration");
         //determine logic later, after testing liking
         // setLiked(login ? user.liked.includes(item._id) : false);
     }
 
     function isItemDisliked() {
-        console.log("isItemDisLiked iteration");
+        // console.log("isItemDisLiked iteration");
         //determine logic later, after testing liking
         // setDisliked(login ? user.disliked.includes(item._id) : false);
     }
@@ -72,7 +73,7 @@ export default function Likes(props) {
             }
         }
 
-        let body = {userID: user._id, itemID: item._id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
+        let body = {userID: userData._id, itemID: item._id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
         
         Liker.post('/like-click', body)
         .then((res)=>{
@@ -80,7 +81,7 @@ export default function Likes(props) {
                 console.log(user);
                 //update everything
                  window.localStorage.setItem('userData', JSON.stringify(user));
-                 setUser(user);
+                 setUserData(user);
                  setItem(item);
                  
                  const json = {type: 'likes'};
@@ -90,7 +91,7 @@ export default function Likes(props) {
         .catch((error)=>console.log("error in favorite-click: ", error));
     }
 
-    useEffect(()=>{isItemLiked(); isItemDisliked();}, [user]);
+    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData]);
 
     return(
         <div className="likes-container-div">

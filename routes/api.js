@@ -14,16 +14,17 @@ const imgLoc = 'images/uploads';
 //Routes
 
 router.post("/v1/comments/add-comment", async (req, res) => {
-  let comment = req.body;
+  const {item_id, comment_text, user_id, user_name} = req.body;
   try {
     const comment = await knex("comments").insert({
-      item_id: comment.itemID,
-      comment_text: comment.comment,
-      user_id: comment.user._id,
-      user_name: comment.user.name
-    });
+      item_id, comment_text, user_id, user_name
+    }).returning('*');
     
-    res.send(comment);
+    console.log("comment is", comment);
+    res.status(201).json({
+      status: "success",
+      comment: comment[0]
+    });
   } catch (err) {
     console.log("error adding comment: ", err);
   }
@@ -102,10 +103,13 @@ router.post('/v1/likes/like-click', async (req, res) => {
   // } 
 });
 
-router.get('/v1/comments/get-comments', async (req, res) => {
-  let itemID = req.query.itemID;
+router.get('/v1/comments/get-comments/:id', async (req, res) => {
+
   try {
-    const comments = await knex.select('*').from('comments').where({item_id: itemID});
+    let itemID = req.params.id;
+    console.log("itemID", itemID);
+    const comments = await knex('comments').where({item_id: itemID});
+    console.log("here r comments in get-comments", comments);
     if(!comments) {
       console.log("no comments");
     } else {
@@ -116,24 +120,16 @@ router.get('/v1/comments/get-comments', async (req, res) => {
   }
   
     
-  // Comment.find({'item': itemID}).exec(
-  //   function(err, comments, count) {
-  //     if(err) {
-  //       console.log("Error while getting comments... ", error);
-  //     } else {
-  //       res.send(comments);
-  //     }
-  //   }
-  // )
-  console.log('getComments item id..', itemID);
-});
+  });
 
 
 router.get('/v1/items/get-items', async (req, res) => {
   try {
     const response = await knex.select("*").from("items")
     .innerJoin('places', 'items.place_id', 'places.place_id')
-    .innerJoin('images', 'items.image_id', 'images.image_id');
+    .innerJoin('images', 'items.image_id', 'images.image_id')
+    .innerJoin('users', 'items.creator_id', 'users.facebook_id')
+    .orderBy('created_at', 'desc');
     console.log("response is...", response);
     res.status(200).json({
       status: "success",
@@ -147,24 +143,27 @@ router.get('/v1/items/get-items', async (req, res) => {
   }
 });
 
-router.get('/v1/items/get-one-item', async (req, res) => {
+router.get('/v1/items/get-one-item/:id', async (req, res) => {
   try {
-    console.log("in getOneItem");
+    console.log("in getOneItem, here's req.query", req.query);
     // const item  = await knex.select('*')
     // .from('items')
     // .where({item_id: req.query.itemID});
 
 
-    const itemComments =  await knex.from('items')
-      .innerJoin('comments', 'items.item_id', 'comments.item_id');
+    const itemPlaceComments =  await knex.raw(`
+    select i.*, c.comment_text, c.user_name, c.user_id, p.place_name, p.coordinates, img.filepath, u.name, u.picture
+    from (select * from items where item_id = ${req.params.id}) i 
+    left join comments c on i.item_id = c.item_id 
+    left join places p on i.place_id = p.place_id
+    left join images img on i.image_id = img.image_id
+    left join users u on i.creator_id = u.facebook_id`);
 
+    console.log("itemcomments", itemPlaceComments);
     res.status(200).json({
       status: "success",
-      results: response.length,
-      data: {
-          itemComments
-      }
-    }) 
+      results: itemPlaceComments.rows[0]
+    }); 
 
   } catch (err) {
     console.log("Error getting ONE item: ", err);
@@ -223,9 +222,7 @@ router.post('/v1/items/save-item', async (req, res) => {
 
 router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
-  console.log("in save-user", data);
   try {
-  console.log("we made it to try");
    let user = await knex("users").insert({
       name: data.name,
       picture: data.picture,
@@ -238,15 +235,13 @@ router.post('/v1/users/save-user', async (req, res) => {
 
     //until i can make this one query...
     if(!user.length) {
-      console.log("in not user length");
       user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
       .from("users").where({facebook_id: data.fbid})
       .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
-      console.log(user);
     }
     console.log("here's user in save-user", user);
     res.status(201).json({
-      status: "success",
+      status: "success", user
     });
   } catch(err) {
     console.log(err);
@@ -302,7 +297,7 @@ async function saveItem(payload, placeID, imageID) {
     qb.returning('*')
     .insert({
       item_name: payload.itemName,
-      creator_id: payload.user.fbid,
+      creator_id: payload.user.facebook_id,
       price,
       place_id: placeID,
       likes: 0,

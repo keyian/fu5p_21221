@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './../App.css';
 import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
 import ItemFinder from '../apis/ItemFinder'; 
@@ -9,6 +9,9 @@ import Button from './Button.js';
 //css
 import './styles/ItemForm.css';
 
+import { AppContext } from '../context/AppContext';
+
+
 
 export default function ItemForm(props) {
   const [itemName, setItemName] = useState("");
@@ -16,7 +19,7 @@ export default function ItemForm(props) {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [imageName, setImageName] = useState("");
-  const userData = props.userData;
+  const {userData} = useContext(AppContext);
   //try passing the GMapsAutoCompleteWrapper (object) hook from above...
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({
@@ -64,7 +67,6 @@ export default function ItemForm(props) {
   
     //logging
     console.log("in handlesubmit");
-    console.log("event.target", event.target);
     
     event.preventDefault();
     

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
 import './styles/ItemMap.css';
@@ -10,7 +10,7 @@ function ItemMap(props) {
   const [center, setCenter] = useState({lat: 40.7128, lng: -74.0060});
 
     // eslint-disable-next-line
-  const [itemsies, setItemsies] = [props.items, props.setItems];
+  const itemsies = props.items;
     // eslint-disable-next-line
   const [zoom, setZoom] = useState(11);
   //using "dictionary" to make sure state is tracked by google map
@@ -29,6 +29,21 @@ function ItemMap(props) {
       setZoom(15);
     }  
  }
+ 
+ function isSingleItem() {
+   if(itemsies.length === 1) {
+     setCenter(prevState => ({...prevState, lat: itemsies[0].coordinates[0], lng:itemsies[0].coordinates[1]}));
+     setZoom(15);
+    }
+  }
+
+
+  
+  useEffect(isSingleItem, [itemsies]);
+
+
+
+ console.log("this is itemsies", itemsies)
 
 
   return (itemsies.length > 0) ? (

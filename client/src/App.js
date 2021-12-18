@@ -12,22 +12,20 @@ import Item from './components/Item';
 //css
 import './App.css';
 
+//context
+import { AppContextProvider } from "./context/AppContext";
+
 
 function App(props) {
 
-  //facebook-login hooks
-  const [login, setLogin] = useState(false);
-  const [userData, setUserData] = useState({});
-  const [picture, setPicture] = useState('');
-  const hooks = {login, setLogin, userData, setUserData, picture, setPicture};
-
-
     return(
       <div className="app">
-        <Header hooks={hooks} />
-        <Route exact path="/"><Home login={login} userData={userData} /></Route>
-        <Route path="/user/:user"><User login={login} userData={userData} /></Route>
-        <Route path="/item/:item"><Item login={login} userData={userData} /></Route>
+        <AppContextProvider>
+          <Header />
+          <Route exact path="/"><Home /></Route>
+          <Route path="/user/:user"><User /></Route>
+          <Route path="/item/:item"><Item /></Route>
+        </AppContextProvider>
       </div>
     );
 }

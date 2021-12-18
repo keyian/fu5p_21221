@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import ItemFinder from '../apis/ItemFinder';
-
+import ItemMap from './ItemMap';
+import ItemFeed from './ItemFeed';
 
 import './styles/Item.css';
 
@@ -11,37 +12,44 @@ export default function Item(props) {
     //no location state means person was linked, we need to request Item with populated comments
 
     const location = useLocation();
-    console.log("this is location", location);
-    let item;
-    if(location.state) {
-        item = JSON.parse(location.state);
-    } else {
-        item = requestItem()
-    }
+
+    const [item, setItem] = useState([]);
+    // if(location.state) {
+    //     item = JSON.parse(location.state);
+    // } else {
+    //     item = requestItem()
+    // }
     // let item = (location.state ? JSON.parse(location.state) : requestItem());
     
+    useEffect( () => {
+        console.log("are we in useeffect?");
+        const requestItem = async () => {
+            let splitPath = location.pathname.split('/');
+            let itemID = splitPath[splitPath.length-1];
+            console.log("In use effect request item");
+            try {
+                let itemResults = await ItemFinder.get(`/get-one-item/${itemID}`)
+                setItem(itemResults.data.results);
+                console.log(itemResults)
+            } catch(err) {
+                console.log('Error retrieving getItems data!**: ', err);
+            }
+        };
 
-    async function requestItem() {
-        let splitPath = location.pathname.split('/');
-        let itemID = splitPath[splitPath.length-1];
-        console.log("in request item");
+        requestItem();
+    }, []);
 
-        ItemFinder.get('/get-one-item', { params: {
-            itemID: itemID
-        }})
-            .then((response) => {
-              console.log("response is...", response);
-              return response.data;
-            })
-            .catch((err) => {
-              console.log('Error retrieving getItems data!**: ', err);
-            });
-    }
+    console.log("this is item in item", item);
 
-    return (
+
+    return (item.item_name) ? (
+        
         <div>
-            <h1>{item.name} @ {item.place.name}</h1>
-            <p> test</p>
+            {console.log(item)}
+            <h1>{item.item_name} @ {item.place_name}</h1>
+            <h2>added by {item.name}<img src={item.picture} alt="facebook pic"/></h2>
+            <ItemMap items={[item]} />
+            <ItemFeed items={[item]} />
         </div>
-    );
+    ) : (<p>Item Page</p>);
 }

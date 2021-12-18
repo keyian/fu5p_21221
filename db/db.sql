@@ -31,6 +31,8 @@ select column_name, data_type from information_schema.columns where table_name =
 
 select column_name, data_type from information_schema.columns where table_name = 'users';
 
+select column_name, data_type from information_schema.columns where table_name = 'items';
+
 
 
 alter table places
@@ -157,3 +159,15 @@ returning *)
 select * from inserted_item
 inner join images on inserted_item.image_id = images.image_id
 inner join places on inserted_item.place_id = places.place_id;
+
+select*from items where item_id = 34 inner join comments on items.item_id = comments.item_id;
+
+select i.*, c.comment_text, c.user_name, c.user_id
+from items i
+inner join comments c on i.item_id = c.item_id;
+
+alter table items
+add column created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP;
+
+alter table comments
+alter column user_id type bigint;

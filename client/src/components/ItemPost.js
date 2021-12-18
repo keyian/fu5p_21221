@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import './styles/ItemPost.css';
 import Likes from './Likes';
 import CommentBox from './CommentBox';
 import { Link } from 'react-router-dom';
+
 let FILE_ROOT = '/client/public';
 if(process.env.NODE_ENV === 'production') {
   FILE_ROOT = '/client/build';
 } 
 
+
+
 export default function ItemPost(props) {
     // props
-    let item = props.item;
-    let place = item.place;
-    let user = props.user;
-    let userFirstName = user.name.split(" ")[0];
-    let filename = item.filepath.substring(FILE_ROOT.length);
-   
-    console.log("thisis item prop in itempost", item);
-    console.log(filename);
-    
+    const item = props.item;
+
+    let creatorFirstName = item.name.split(" ")[0];
+
+    const filename = item.filepath.substring(FILE_ROOT.length);
+    console.log(item);
 
     return(
         <div id={item.item_id} className="item-post-container">
@@ -30,12 +30,12 @@ export default function ItemPost(props) {
             </div>
             
             <div className="item-image-div"><img alt={item.name} className="item-image" src={filename} /></div>
-            <Likes sock={props.sock} item={item} user={user} login={props.login}/>
-            <CommentBox dataRef={props.dataRef} sock={props.sock} itemID={item._id} user={user} login={props.login} />
+            <Likes sock={props.sock} item={item} />
+            <CommentBox dataRef={props.dataRef} sock={props.sock} itemID={item.item_id} />
             <div className="itempost-user-img-name-div">
                 <p className="itempost-username-p">added by</p>
-                <img className="itempost-fb-img" src={user.picture} alt="facebook pic" />
-                <Link to={{pathname: `/user/${user._id}`}}><p className="itempost-username-p"> {userFirstName} </p></Link>
+                <img className="itempost-fb-img" src={item.picture} alt="facebook pic" />
+                <Link to={{pathname: `/user/${item.facebook_id}`}}><p className="itempost-username-p"> {creatorFirstName} </p></Link>
             </div>
         </div>
     );

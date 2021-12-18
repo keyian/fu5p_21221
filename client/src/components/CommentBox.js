@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './styles/CommentBox.css';
 import Commenter from '../apis/Commenter';
+import { AppContext } from '../context/AppContext';
 
 export default function CommentBox(props) {
     const[comments, setComments] = useState([]);
     const[input, setInput] = useState("");
     const itemID = props.itemID;
-    const user = props.user;
-    const login = props.login;
+    const {userData} = useContext(AppContext);
     const scrollID = props.dataRef+"-scroll-div";
-    console.log('this is scroll id', scrollID);
     const sock = props.sock;
 
     sock.onmessage = function(e) {
@@ -17,7 +16,8 @@ export default function CommentBox(props) {
         const message = JSON.parse(e.data);
         console.log("this is mesage in sock.onmessage", message);
         if(message.type === "comment") { 
-            if(itemID == message.data.item) {
+            console.log("this is itemID, this is message.data.item_id", itemID, message.data.item_id);
+            if(itemID == message.data.item_id) {
                 setComments(comments => [...comments, message.data]);
                 console.log("this is comments post setComments", comments);
             }
@@ -25,13 +25,13 @@ export default function CommentBox(props) {
     };
 
     function getComments() {
-        // Commenter.get('/get-comments',
-        // { params: {
-        //     itemID: itemID
-        // }}).then((response) => {
-        //     setComments(response.data);
-        //     console.log("get comments response", response);
-        // })
+        const runGetComments  =  async () => {
+            const comments = await Commenter.get(`/get-comments/${itemID}`);
+            console.log("get comments response", comments);
+            setComments(comments.data);
+        }
+
+        runGetComments();
     }
 
     function handleChange(e){
@@ -46,23 +46,23 @@ export default function CommentBox(props) {
     }
 
 
-    function submitComment() {
-        // let comment = {comment: input, itemID: itemID, user: user}
-        // setInput("");
-        // Commenter.post("/add-comment", comment)
-        // .then(res => {
-        //     const json = {type: 'comment'};
-        //     console.log("called add comment. now in socket portion");
-        //     json.data = res.data;
-        //     sock.send(JSON.stringify(json));
-        // }
-        // );
+    async function submitComment() {
+        let comment = {comment_text: input, 
+            item_id: itemID, 
+            user_id: userData.facebook_id, 
+            user_name: userData.name}
+        setInput("");
+        const addedComment = await Commenter.post("/add-comment", comment);
+        const json = {type: 'comment'};
+        console.log("called add comment. now in socket portion. added comment:", addedComment);
+        json.data = addedComment.data.comment;
+        console.log("Json", json);
+        sock.send(JSON.stringify(json));
     }
     
     function scrollToBottom() {
         let commentsDiv =  document.getElementById(scrollID);
         commentsDiv.scrollTop = commentsDiv.scrollHeight;
-        console.log('commentsDiv: ', commentsDiv);
     }
 
     useEffect(getComments, []);
@@ -71,7 +71,15 @@ export default function CommentBox(props) {
         <div className="comments-container-div">
             <div id={scrollID} className="comments-scroll-div">
                 <ul className="comments-ul">
-                    {comments.map((comment, i) => <li key={i}><span className="comment-username-span">{comment.userName.split(" ")[0]}:</span> <span className="comment-span">{comment.text}</span></li>)}
+                    {comments.map((comment, i) => 
+                    <li key={i}>
+                        <span className="comment-username-span">
+                            {comment.user_name.split(" ")[0]}:
+                        </span> 
+                        <span className="comment-span">
+                            {comment.comment_text}
+                        </span>
+                    </li>)}
                 </ul>
             </div>
             <div className="comments-textarea-div">

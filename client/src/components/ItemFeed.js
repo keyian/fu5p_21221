@@ -7,9 +7,11 @@ import ItemPost from './ItemPost';
 // live commenting websocket
 const sock = new WebSocket('ws://localhost:8080/');
 sock.onopen = function() {
-    console.log('open');
+    console.log('connection w socket opened');
 };
-
+sock.onclose= function() {
+    console.log('connection w socket closed');
+}
 
 
 export default function ItemFeed(props) {
@@ -20,7 +22,7 @@ export default function ItemFeed(props) {
     return(
         <div id="itemfeed-div">
             {items.map(
-                (item, i) => <ItemPost key={i} dataRef={i} sock={sock} item={item} user={props.user} login={props.login} />
+                (item, i) => <ItemPost key={i} dataRef={i} sock={sock} item={item} />
             )}
         </div>
     );

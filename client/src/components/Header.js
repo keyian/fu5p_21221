@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom';
 import './styles/Header.css';
 
 
-export default function Header(props) {
-    console.log(props);
+export default function Header() {
+
     return (
         <div id="header-div">
             <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>
-            <Login hooks={props.hooks} />
+            <Login />
         </div>
     );
 }
