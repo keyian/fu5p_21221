@@ -1,15 +1,12 @@
+const websockets = require('./websockets');
 require("dotenv").config();
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-//websockets
-const expressWs = require('express-ws');
+//websockets and express setup
 
-const app = express();
-
-//websockets
-const wsInstance = expressWs(app);
 
 const PORT = process.env.PORT || 8080;
 
@@ -24,23 +21,14 @@ var mimeToExt = {
   "image/png": "png"
 }
 
-
-// mongoose.connect(process.env.DB_URI || 'mongodb://localhost/fu5p_21221', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
-
-// mongoose.connection.on('connected', () => {
-//   console.log('Mongoose is connected baby!');
-// });
-
+//cross-origin resource sharing
 app.use(cors());
-// for parsing application/json
+// for parsing application as json
 app.use(bodyParser.json()); 
 // for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-//multer stuph
+//all multer image upload stuph
 if(process.env.NODE_ENV === "production") {
   // saveLoc = './client/build/'+imgLoc;
   // saveLoc = imgLoc;
@@ -50,6 +38,7 @@ if(process.env.NODE_ENV === "production") {
   saveLoc = './client/public/'+imgLoc;
   console.log("We are identifying development");
 }
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, saveLoc)
@@ -87,20 +76,20 @@ app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(re
 
 //websocket stuff...
 //live commenting
-app.ws('/', function(ws, req) {
-  console.log('in /comment websocket here is ws and req');
-  ws.on('message', function incoming(msg) {
-    console.log('this is message in websocket', msg);
-    ws.broadcast(msg);
-  });
+// app.ws('/', function(ws, req) {
+//   console.log('in /comment websocket here is ws and req');
+//   ws.on('message', function incoming(msg) {
+//     console.log('this is message in websocket', msg);
+//     ws.broadcast(msg);
+//   });
 
-  ws.broadcast = function broadcast(data) {
-    wsInstance.getWss().clients.forEach(function each(client) {
-      console.log("client");
-      client.send(data);
-    })
-  }
-});
+//   ws.broadcast = function broadcast(data) {
+//     expressWs.getWss().clients.forEach(function (client) {
+//       console.log("client send");
+//       client.send(data);
+//     })
+//   }
+// });
 
 // //live liking
 // app.ws('/like', function(ws, req) {
@@ -122,4 +111,5 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 } 
 
-app.listen(PORT, console.log(`Server is starting at ${PORT}`));
+const server = app.listen(PORT, console.log(`Server is starting at ${PORT}`));
+websockets(server);

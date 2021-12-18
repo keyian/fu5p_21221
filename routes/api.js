@@ -1,15 +1,9 @@
 const express =  require('express');
 const router = express.Router();
 const knex = require('../knex/knex.js');
-// const db = require("./db");
-
 
 const imgLoc = 'images/uploads';
 
-// const Item = require('../models/item');
-// const Place = require('../models/place');
-// const User = require('../models/user');
-// const Comment = require('../models/comment');
 
 //Routes
 
@@ -109,7 +103,6 @@ router.get('/v1/comments/get-comments/:id', async (req, res) => {
     let itemID = req.params.id;
     console.log("itemID", itemID);
     const comments = await knex('comments').where({item_id: itemID});
-    console.log("here r comments in get-comments", comments);
     if(!comments) {
       console.log("no comments");
     } else {
@@ -171,6 +164,7 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
   
 })
 
+//return user with favorites... probably going to delete
 router.get('/v1/users/populate-user-favorites', async (req, res) => {
   try {
     console.log("in populate user", req.query.userID);
@@ -186,6 +180,7 @@ router.get('/v1/users/populate-user-favorites', async (req, res) => {
   
 });
 
+//save each part of an item: image, place, and finally item. return cumulative object
 router.post('/v1/items/save-item', async (req, res) => {
   try { 
   let data = req.body;
@@ -205,7 +200,7 @@ router.post('/v1/items/save-item', async (req, res) => {
   console.log("here are placeFields", placeFields);
 
 
-  const place = await createOrFindPlace(placeFields);
+  const place = await savePlace(placeFields);
   console.log("this is place after insert: ", place);
   
   const item = await saveItem(data, place.place_id, image.image_id, image.filepath);
@@ -220,6 +215,7 @@ router.post('/v1/items/save-item', async (req, res) => {
   } 
 });
 
+//save a user or select a user and return the row
 router.post('/v1/users/save-user', async (req, res) => {
   const data = req.body;
   try {
@@ -251,8 +247,8 @@ router.post('/v1/users/save-user', async (req, res) => {
 
 
 //helperzzz
-
-async function createOrFindPlace(placeFields) {
+//save place or select it and return the row
+async function savePlace(placeFields) {
   const { place_name, formatted_address, coordinates, google_place_id } = placeFields;
   try {
 
@@ -278,6 +274,7 @@ async function createOrFindPlace(placeFields) {
 
 }
 
+//save image and return its info
 async function saveImage(payload) {
   const {size, filename, filepath, mimetype} = payload;
   const image = await knex("images").insert({
@@ -287,6 +284,7 @@ async function saveImage(payload) {
   return image[0];
 }
 
+//save an item and return the row
 async function saveItem(payload, placeID, imageID) {
   console.log("in save item");
   const {price, description} = payload;
@@ -310,36 +308,12 @@ async function saveItem(payload, placeID, imageID) {
   .innerJoin('images', 'inserted_item.image_id', 'images.image_id')
   .innerJoin('places', 'inserted_item.place_id', 'places.place_id');
 
-  // const itemImagePlace = knex.with('inserted_item', (qb)=> {
-  //   qb.insert({
-  //     name: payload.itemName,
-  //     creator_id: payload.user.fbid,
-  //     price,
-  //     place_id: placeID,
-  //     likes: 0,
-  //     image_id: imageID,
-  //     description
-  //   }).into('items').returning('*')
-  // })
-  // .innerJoin('images', 'inserted_item.image_id', 'images.image_id')
-  // .innerJoin('places', 'inserted_item.place_id', 'places.place_id');
+
   console.log(itemImagePlace);
   return itemImagePlace[0];
   
 
-  //12-14-21 uncomment below if desirable
-
-//   return await knex("items").insert({
-//     name: payload.itemName,
-//     creator_id: payload.user.fbid,
-//     price,
-//     place_id: placeID,
-//     likes: 0,
-//     image_id: imageID,
-//     description
-//   }).returning('*');
 }
-
 
 
 

@@ -5,7 +5,7 @@ import './styles/ItemFeed.css';
 import ItemPost from './ItemPost';
 
 // live commenting websocket
-const sock = new WebSocket('ws://localhost:8080/');
+const sock = new WebSocket('ws://localhost:8080/websockets');
 sock.onopen = function() {
     console.log('connection w socket opened');
 };
