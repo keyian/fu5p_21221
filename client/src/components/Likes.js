@@ -26,19 +26,7 @@ export default function Likes(props) {
         // setDisliked(login ? user.disliked.includes(item._id) : false);
     }
 
-    const sock = props.sock;
-
-    sock.onmessage = function(e) {
-        console.log("sock on msg");
-        const message = JSON.parse(e.data);
-        console.log("this is mesage in sock.onmessage", message);
-        if(message.type === "likes") { 
-            if(item._id == message.data._id) {
-                setLikes(message.data.likes);
-                setDislikes(message.data.dislikes);
-            }
-        }         
-    };
+  
 
     function handleClick(action) {
         //preserve so db knows what to do 
@@ -86,7 +74,7 @@ export default function Likes(props) {
                  
                  const json = {type: 'likes'};
                  json.data = item;
-                 sock.send(JSON.stringify(json));
+                //  client.send(JSON.stringify(json));
             })
         .catch((error)=>console.log("error in favorite-click: ", error));
     }

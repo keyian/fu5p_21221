@@ -1,11 +1,12 @@
-const websockets = require('./websockets');
 require("dotenv").config();
+
 const express = require('express');
 const app = express();
+
+
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-//websockets and express setup
 
 
 const PORT = process.env.PORT || 8080;
@@ -52,6 +53,37 @@ var storage = multer.diskStorage({
 var upload  = multer({storage: storage});
 
 
+/*
+******SOCKET.IO********
+*/
+//socket
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+// const io = new Server(server);
+
+const io = new Server(server, {
+  cors: {
+    origin: "https://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  //disconnect log
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  
+  //give comment to everyone
+  socket.on('client-new-comment', (comment) => {
+    socket.broadcast.emit(`server-new-comment-${comment.item_id}`, comment);
+  })
+});
+
+
 //HTTP Request Logger
 app.use(morgan('tiny'));
 app.use('/api', routes);
@@ -74,36 +106,7 @@ app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(re
   res.send(payload);
 }));
 
-//websocket stuff...
-//live commenting
-// app.ws('/', function(ws, req) {
-//   console.log('in /comment websocket here is ws and req');
-//   ws.on('message', function incoming(msg) {
-//     console.log('this is message in websocket', msg);
-//     ws.broadcast(msg);
-//   });
 
-//   ws.broadcast = function broadcast(data) {
-//     expressWs.getWss().clients.forEach(function (client) {
-//       console.log("client send");
-//       client.send(data);
-//     })
-//   }
-// });
-
-// //live liking
-// app.ws('/like', function(ws, req) {
-//   ws.on('message', function incoming(msg) {
-//     console.log("coming from /like socket", msg);
-//     //ws.broadcast(msg);
-//   });
-
-//   // ws.broadcast = function broadcast(data) {
-//   //   wsInstance.getWss().clients.forEach(function each(client) {
-//   //     client.send(data);
-//   //   })
-//   // }
-// });
 
 //Step 3
 if (process.env.NODE_ENV === 'production') {
@@ -111,5 +114,4 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 } 
 
-const server = app.listen(PORT, console.log(`Server is starting at ${PORT}`));
-websockets(server);
+server.listen(PORT, console.log(`Server is starting at ${PORT}`));

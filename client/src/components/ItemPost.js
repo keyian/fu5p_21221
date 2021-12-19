@@ -30,8 +30,8 @@ export default function ItemPost(props) {
             </div>
             
             <div className="item-image-div"><img alt={item.name} className="item-image" src={filename} /></div>
-            <Likes sock={props.sock} item={item} />
-            <CommentBox dataRef={props.dataRef} sock={props.sock} itemID={item.item_id} />
+            <Likes item={item} />
+            <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
             <div className="itempost-user-img-name-div">
                 <p className="itempost-username-p">added by</p>
                 <img className="itempost-fb-img" src={item.picture} alt="facebook pic" />

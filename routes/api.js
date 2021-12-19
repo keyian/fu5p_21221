@@ -123,7 +123,7 @@ router.get('/v1/items/get-items', async (req, res) => {
     .innerJoin('images', 'items.image_id', 'images.image_id')
     .innerJoin('users', 'items.creator_id', 'users.facebook_id')
     .orderBy('created_at', 'desc');
-    console.log("response is...", response);
+    // console.log("response is...", response);
     res.status(200).json({
       status: "success",
       results: response.length,

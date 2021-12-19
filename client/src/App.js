@@ -16,8 +16,8 @@ import './App.css';
 import { AppContextProvider } from "./context/AppContext";
 
 
-function App(props) {
 
+function App(props) {
     return(
       <div className="app">
         <AppContextProvider>

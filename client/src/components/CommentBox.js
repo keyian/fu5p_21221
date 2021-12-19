@@ -9,20 +9,16 @@ export default function CommentBox(props) {
     const itemID = props.itemID;
     const {userData} = useContext(AppContext);
     const scrollID = props.dataRef+"-scroll-div";
-    const sock = props.sock;
+    const socket = props.socket;
 
-    sock.onmessage = function(e) {
-        console.log("sock on msg");
-        const message = JSON.parse(e.data);
-        console.log("this is mesage in sock.onmessage", message);
-        if(message.type === "comment") { 
-            console.log("this is itemID, this is message.data.item_id", itemID, message.data.item_id);
-            if(itemID == message.data.item_id) {
-                setComments(comments => [...comments, message.data]);
-                console.log("this is comments post setComments", comments);
-            }
-        }         
-    };
+    //individualized socket function, would that work?
+    socket.on(`server-new-comment-${itemID}`, (comment) => {
+        if(comment.item_id === itemID) {
+            console.log("in correct item");
+            setComments(comments.concat(comment));
+        }
+        
+    })
 
     function getComments() {
         const runGetComments  =  async () => {
@@ -53,11 +49,9 @@ export default function CommentBox(props) {
             user_name: userData.name}
         setInput("");
         const addedComment = await Commenter.post("/add-comment", comment);
-        const json = {type: 'comment'};
-        console.log("called add comment. now in socket portion. added comment:", addedComment);
-        json.data = addedComment.data.comment;
-        console.log("Json", json);
-        sock.send(JSON.stringify(json));
+        console.log("added comment:", addedComment);
+        socket.emit("client-new-comment", addedComment.data.comment);
+        setComments(comments.concat(addedComment.data.comment));
     }
     
     function scrollToBottom() {
