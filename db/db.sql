@@ -171,3 +171,11 @@ add column created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP;
 
 alter table comments
 alter column user_id type bigint;
+
+alter table item_likes
+alter column user_id type bigint;
+
+select il.like_status, il.item_id, u.*
+from item_likes il
+inner join users u on u.facebook_id = il.user_id
+group by facebook_id;

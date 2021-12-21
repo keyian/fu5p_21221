@@ -1,3 +1,4 @@
+const e = require('express');
 const express =  require('express');
 const router = express.Router();
 const knex = require('../knex/knex.js');
@@ -27,7 +28,90 @@ router.post("/v1/comments/add-comment", async (req, res) => {
 
 router.post('/v1/likes/like-click', async (req, res) => {
   let { userID, itemID, liked, disliked, oldLiked, oldDisliked } = req.body;
-  
+  let likeChange = 0;
+  try {
+    if(liked) {
+      if(oldDisliked) {
+        //2 point swing--was disliked, now is liked
+        await knex('items')
+        .where('item_id', '=', itemID)
+        .increment('likes', 2);
+        likeChange = 2;
+
+        //update item_like
+        await knex('item_likes').where({
+          item_id: itemID,
+          user_id: userID
+        }).update('like_status', true);
+      } else {
+        //+1--was nothing, now liked
+        await knex('items')
+        .where('item_id', '=', itemID)
+        .increment('likes', 1);
+        likeChange = 1;
+
+        //create item_like
+        await knex('item_likes').insert({
+          item_id: itemID,
+          user_id: userID,
+          like_status: true
+        });
+      }
+    } else if (disliked) {
+      if(oldLiked) {
+        //2 point swing--was liked, now is disliked
+        await knex('items')
+        .where('item_id', '=', itemID)
+        .decrement('likes', 2);
+        likeChange = -2;
+
+        //update item_like
+        await knex('item_likes').where({
+          item_id: itemID,
+          user_id: userID
+        }).update('like_status', false);
+      } else {
+        //-1--was nothing, now disliked
+        await knex('items')
+        .where('item_id', '=', itemID)
+        .decrement('likes', 1);
+        likeChange = -1;
+
+        //create item_like
+        await knex('item_likes').insert({
+          item_id: itemID,
+          user_id: userID,
+          like_status: false
+        });
+      }
+    } else {
+      await knex('item_likes').where({
+        user_id: userID,
+        item_id: itemID
+      }).del();
+      
+      oldLiked ?
+      (likeChange = -1 &&  
+      await knex('items')
+        .where('item_id', '=', itemID)
+        .decrement('likes', 1))
+        
+      :
+
+      (likeChange = 1 && await knex('items')
+        .where('item_id', '=', itemID)
+        .increment('likes', 1))
+
+    }
+
+    res.status(201).json({
+      itemID,
+      likeChange: likeChange
+    });
+
+  } catch(err) {
+    console.log("Error updating item and item likes: ", err);
+  }
 
   // if(userID){
   //   Item.findOne({_id: itemID}, function(err, item) {
@@ -235,6 +319,7 @@ router.post('/v1/users/save-user', async (req, res) => {
       .from("users").where({facebook_id: data.fbid})
       .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
     }
+
     console.log("here's user in save-user", user);
     res.status(201).json({
       status: "success", user

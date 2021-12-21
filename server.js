@@ -81,6 +81,11 @@ io.on('connection', (socket) => {
   socket.on('client-new-comment', (comment) => {
     socket.broadcast.emit(`server-new-comment-${comment.item_id}`, comment);
   })
+
+  socket.on('client-new-like', (like) => {
+    console.log("receiving client new like", like);
+    socket.broadcast.emit(`server-new-like-${like.itemID}`, like)
+  })
 });
 
 

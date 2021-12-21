@@ -13,28 +13,27 @@ export default function Login() {
 
 
     //check if fb login is already stored in local storage...
-  // function checkFBLogin() {
-  //   console.log('getting userdata: ');
+  function checkFBLogin() {
+    console.log('getting userdata: ');
 
-  //   // const userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
-  //   // console.log('userdata: ', userDataLS);
+    const userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
+    console.log('userdata: ', userDataLS);
 
-  //   // if(userDataLS) {
-  //     console.log('inside userdatals');
-  //     //set state to match local storage... 
-  //     setLogin(true);
-  //     setUserData(userDataLS);
+    if(userDataLS) {
+      console.log('inside userdatals');
+      //set state to match local storage... 
+      setLogin(true);
+      setUserData(userDataLS);
+    }
 
-  //     setPicture(userDataLS.picture);
+  }
 
-  // }
+  //receive user fb login response data, set local storage
+  function setUserLocalStorage(userData){
+    console.log('setting userdata: ', userData);
+    window.localStorage.setItem('userData', JSON.stringify(userData));
 
-  // //receive user fb login response data, set local storage
-  // function setUserLocalStorage(userData){
-  //   console.log('setting userdata: ', userData);
-  //   window.localStorage.setItem('userData', JSON.stringify(userData));
-
-  // }
+  }
 
   const responseFacebook = (response) => {
     //monitoring
@@ -57,9 +56,10 @@ export default function Login() {
         try {
           const user = await UserFinder.post('/save-user', payload);
           console.log("userdata in adduser", userData);
-          setUserData(user.data.user[0]);
+          setUserData(manicureUserData(user.data.user));
+          // setUserData(user.data.user[0])
           setLogin(true);
-
+          setUserLocalStorage(user.data.user[0]);
           // setUserLocalStorage(payload);
           console.log("adding a user worked!. Here's response: ", user);
         } catch(err) {
@@ -76,9 +76,22 @@ export default function Login() {
     
   };
 
+  function manicureUserData(user) {
+    let finalUser = {email: user[0].email, facebook_id: user[0].facebook_id, name: user[0].name, picture: user[0].picture, itemLikes: [], itemDislikes: []};
+
+    user.forEach((itemLike, index) => {
+      if(itemLike.item_id){
+        (itemLike.like_status > 0) ?
+          finalUser.itemLikes.push(itemLike.item_id) :
+          finalUser.itemDislikes.push(itemLike.item_id);
+      }
+    });
+
+    return finalUser;
+  }
 
 
-    // useEffect(checkFBLogin, []);
+    useEffect(checkFBLogin, []);
 
     return(
         <div id="outer-login-div">
