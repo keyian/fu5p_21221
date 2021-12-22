@@ -249,15 +249,19 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
 })
 
 //return user with favorites... probably going to delete
-router.get('/v1/users/populate-user-favorites', async (req, res) => {
+router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
-    console.log("in populate user", req.query.userID);
+    console.log("in populate user", req.params.userID);
     
-    const userLikes = await knex.from("users")
-      .innerJoin("item-likes", "users.user_id", "item-likes.user_id")
-      .innerJoin("items", "item-likes.item_id", "items.item_id");
+    const userLikes = await knex.from("users").where('facebook_id', req.params.userID)
+      .innerJoin("item_likes", "users.facebook_id", "item_likes.user_id")
+      .innerJoin("items", "item_likes.item_id", "items.item_id")
+      .innerJoin('places', 'items.place_id', 'places.place_id')
+      .innerJoin('images', 'items.image_id', 'images.image_id')
+      .orderBy('created_at', 'desc');
   
-    res.send(userLikes);
+    console.log("user likes in populate user", userLikes);
+    res.status(200).json({userLikes});
   } catch (err) {
     console.log("Error populating user favorites: ", err);
   }

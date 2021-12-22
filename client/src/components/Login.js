@@ -7,6 +7,10 @@ import FacebookLogin from "react-facebook-login";
 
 import { AppContext } from '../context/AppContext';
 
+//import helper
+import manicureUserData from '../helpers/manicureUserData';
+
+
 export default function Login() {
 
   const {login, setLogin, userData, setUserData} = useContext(AppContext);
@@ -56,10 +60,11 @@ export default function Login() {
         try {
           const user = await UserFinder.post('/save-user', payload);
           console.log("userdata in adduser", userData);
-          setUserData(manicureUserData(user.data.user));
+          const manicuredUser = manicureUserData(user.data.user)
+          setUserData(manicuredUser);
           // setUserData(user.data.user[0])
           setLogin(true);
-          setUserLocalStorage(user.data.user[0]);
+          setUserLocalStorage(manicuredUser);
           // setUserLocalStorage(payload);
           console.log("adding a user worked!. Here's response: ", user);
         } catch(err) {
@@ -76,34 +81,30 @@ export default function Login() {
     
   };
 
-  function manicureUserData(user) {
-    let finalUser = {email: user[0].email, facebook_id: user[0].facebook_id, name: user[0].name, picture: user[0].picture, itemLikes: [], itemDislikes: []};
-
-    user.forEach((itemLike, index) => {
-      if(itemLike.item_id){
-        (itemLike.like_status > 0) ?
-          finalUser.itemLikes.push(itemLike.item_id) :
-          finalUser.itemDislikes.push(itemLike.item_id);
-      }
-    });
-
-    return finalUser;
+  function facebookLogout() {
+    setLogin(false);
+    setUserData({});
   }
-
+ 
 
     useEffect(checkFBLogin, []);
 
     return(
         <div id="outer-login-div">
             {(login) ? 
-            <Link to={{pathname: `/user/${userData._id}`}} >
-            <div id="login-div">
-                <div id="login-img-div" ><img alt="facebook" src={userData.picture}/></div>
-                <span id="login-span">{userData.name}</span>
+            <div>
+              <Link to={{pathname: `/user/${userData.facebook_id}`}} >
+              <div id="login-div">
+                  <div id="login-img-div" ><img alt="facebook" src={userData.picture}/></div>
+                  <span id="login-span">{userData.name}</span>
+              </div>
+              </Link> 
+              <div id="logout-div">
+                <a href="#" onClick={facebookLogout}>logout</a>
+              </div>
             </div>
-            </Link> 
             : 
-            <FacebookLogin appId="733666113451028" autoLoad={true} fields="name,email,picture" callback={responseFacebook} />
+            <FacebookLogin appId="733666113451028" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
         }
         </div>
     );

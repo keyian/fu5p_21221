@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import './styles/Likes.css';
 import Liker from '../apis/Liker';
 import { AppContext } from '../context/AppContext';
-
+import updateLikes from '../helpers/updateLikes';
 
 
 export default function Likes(props) {
@@ -46,7 +46,8 @@ export default function Likes(props) {
         let nuDisliked = false;
         console.log(liked, disliked);
         console.log(action);
-        if(action == "like") {
+        updateLikes(oldLiked, oldDisliked, action, setUserData, item.item_id);
+        if(action === "like") {
             console.log('in like acion');
             if(oldLiked) {
                 setLiked(false);
@@ -59,7 +60,7 @@ export default function Likes(props) {
                 nuLiked = true;
                 setDisliked(false);
                 nuDisliked = false;
-                
+
                 setLikes((oldDisliked ? likes + 2 : likes + 1));
             }
         } else {
@@ -90,7 +91,7 @@ export default function Likes(props) {
         }
     }
 
-    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData]);
+    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData.itemLikes, userData.itemDislikes]);
 
     return(
         <div className="likes-container-div">

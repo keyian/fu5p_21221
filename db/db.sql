@@ -179,3 +179,5 @@ select il.like_status, il.item_id, u.*
 from item_likes il
 inner join users u on u.facebook_id = il.user_id
 group by facebook_id;
+
+update items set likes = 0 where item_id = 39;
