@@ -17,18 +17,34 @@ export default function Login() {
 
 
     //check if fb login is already stored in local storage...
-  function checkFBLogin() {
+  function prepareUserData() {
     console.log('getting userdata: ');
+    const prepareIt = async () => {
+      try{
+        const userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
+        console.log('userdata: ', userDataLS);
 
-    const userDataLS = (JSON.parse(window.localStorage.getItem('userData'))) || false;
-    console.log('userdata: ', userDataLS);
+        //there shouldnt exist a situation in which a user is logged in and they dont exist in the db...
+        //but this is just to be safe
+        if(userDataLS) {
+          console.log('inside userdatals');
+          //set state to match local storage... 
+          const user = await UserFinder.get(`/get-user/${userDataLS.facebook_id}`);
+          console.log("this is user after get", user);
 
-    if(userDataLS) {
-      console.log('inside userdatals');
-      //set state to match local storage... 
-      setLogin(true);
-      setUserData(userDataLS);
+
+          const manicuredUser = manicureUserData(user.data.user)
+          setUserData(manicuredUser);
+          // setUserData(user.data.user[0])
+          setLogin(true);
+          setUserLocalStorage(manicuredUser);
+        }
+      } catch(err) {
+        console.log("error preparing userdata", err);
+      }
     }
+
+    prepareIt();
 
   }
 
@@ -87,7 +103,7 @@ export default function Login() {
   }
  
 
-    useEffect(checkFBLogin, []);
+    useEffect(prepareUserData, []);
 
     return(
         <div id="outer-login-div">

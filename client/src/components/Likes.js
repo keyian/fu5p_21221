@@ -10,8 +10,8 @@ export default function Likes(props) {
     const {userData, login, setUserData} = useContext(AppContext);
     const [item, setItem] = useState(props.item);
     const [likes, setLikes] = useState(item.likes);
-    const [liked, setLiked] = useState(login ? userData.like_status==1: false);
-    const [disliked, setDisliked] = useState(login ? userData.like_status==-1 : false);
+    const [liked, setLiked] = useState(login ? userData.itemLikes.includes(item.item_id): false);
+    const [disliked, setDisliked] = useState(login ? userData.itemDislikes.includes(item.item_id) : false);
 
     const socket = props.socket;
 
@@ -46,16 +46,17 @@ export default function Likes(props) {
         let nuDisliked = false;
         console.log(liked, disliked);
         console.log(action);
-        updateLikes(oldLiked, oldDisliked, action, setUserData, item.item_id);
         if(action === "like") {
             console.log('in like acion');
             if(oldLiked) {
+                console.log("was liked, like clicked");
                 setLiked(false);
                 nuLiked = false;
                 console.log(liked);
 
                 setLikes(likes -1);
             } else {
+                console.log("was not liked, like clicked");
                 setLiked(true);
                 nuLiked = true;
                 setDisliked(false);
@@ -65,11 +66,15 @@ export default function Likes(props) {
             }
         } else {
             if(oldDisliked) {
+                console.log("was disliked, dislike clicked");
+
                 setDisliked(false);
                 nuDisliked = false;
 
                 setLikes(likes +1);
             } else {
+                console.log("was not disliked, dislike clicked");
+
                 setDisliked(true);
                 nuDisliked = true;
                 setLiked(false);
@@ -79,6 +84,7 @@ export default function Likes(props) {
             }
         }
 
+        updateLikes(oldLiked, oldDisliked, action, userData, setUserData, item.item_id);
         let body = {userID: userData.facebook_id, itemID: item.item_id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
         try {
             console.log("in try statement)");
@@ -91,7 +97,7 @@ export default function Likes(props) {
         }
     }
 
-    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData.itemLikes, userData.itemDislikes]);
+    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData]);
 
     return(
         <div className="likes-container-div">

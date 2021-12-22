@@ -14,12 +14,7 @@ export default function Item(props) {
     const location = useLocation();
 
     const [item, setItem] = useState([]);
-    // if(location.state) {
-    //     item = JSON.parse(location.state);
-    // } else {
-    //     item = requestItem()
-    // }
-    // let item = (location.state ? JSON.parse(location.state) : requestItem());
+
     
     useEffect( () => {
         console.log("are we in useeffect?");
@@ -47,7 +42,7 @@ export default function Item(props) {
         <div>
             {console.log(item)}
             <h1>{item.item_name} @ {item.place_name}</h1>
-            <h2>added by {item.name}<img src={item.picture} alt="facebook pic"/></h2>
+            <h2>added by {item.name.split(" ")[0]}<img src={item.picture} alt="facebook pic"/></h2>
             <ItemMap items={[item]} />
             <ItemFeed items={[item]} />
         </div>

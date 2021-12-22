@@ -24,6 +24,8 @@ export default function User(props) {
         let splitPath = location.pathname.split('/');
         let userID = splitPath[splitPath.length-1];
         console.log('userdata in user', userData);
+        
+
         const runPopulateFavorites = async () => {
             try{
                 const user = await UserFinder.get(`/populate-user-favorites/${userID}`);
@@ -50,9 +52,9 @@ export default function User(props) {
     return (
         <div id="userbg">
             {/* <Header loginHooks={props.loginHooks}/> */}
-            <h1 id="userh1">{userFirstName}'s Page</h1>
-            <ItemMap items={favorites} />
-            <ItemFeed items={favorites} />
+            <h1 className="userWhite">{userFirstName}'s Page</h1>
+            {favorites.length === 0 ? <p className="userWhite"> {userFirstName} has no favorites</p> : <ItemMap items={favorites} />}
+            {favorites.length === 0 ? "" : <ItemFeed items={favorites} />}
         </div>
     );
 }

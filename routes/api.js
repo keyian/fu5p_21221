@@ -113,72 +113,6 @@ router.post('/v1/likes/like-click', async (req, res) => {
     console.log("Error updating item and item likes: ", err);
   }
 
-  // if(userID){
-  //   Item.findOne({_id: itemID}, function(err, item) {
-  //     if(err) {
-  //       console.log("error finding item to favorite...", err);
-  //       return;
-  //     }
-  //     console.log("this is req.body", req.body);
-  //     //no matter what like goes up, or it wouldnt be liked.
-  //     if(liked) {
-  //       item.likes++;
-  //       if(oldDisliked) {
-  //         item.dislikes--;
-  //       }
-  //     } else if (disliked) {
-  //       item.dislikes++;
-  //       if(oldLiked) {
-  //         item.likes--;
-  //       }
-  //     } else if (oldLiked) {
-  //       item.likes--;
-  //     } else if (oldDisliked) {
-  //       item.dislikes--;
-  //     }
-
-  //     item.save(function(err, item) {
-  //       if(err) {
-  //         console.log("error saving item favorite change");
-  //         return;
-  //       }
-  //       User.findOne({_id: userID}, function(err, user) {
-  //         if(err) {
-  //           console.log("error finding user to change favorite", err);
-  //           return;
-  //         } 
-  //         if(liked) {
-  //           user.liked.push(item._id);
-
-  //           if(oldDisliked) {
-  //             let index = user.disliked.indexOf(item._id);
-  //             user.disliked.splice(index, 1);
-  //           } 
-  //         } else if (disliked) {
-  //           user.disliked.push(item._id);
-  //           if(oldLiked) {
-  //             let index = user.liked.indexOf(item._id);
-  //             user.liked.splice(index, 1);
-  //           }
-  //         } else if (oldLiked) {
-  //           let index = user.liked.indexOf(item._id);
-  //           user.liked.splice(index, 1);
-  //         } else if (oldDisliked) {
-  //           let index = user.disliked.indexOf(item._id);
-  //           user.disliked.splice(index, 1);
-  //         }
-  //         user.save(function(err, user) {
-  //           if(err) {
-  //             console.log("error saving user favorie change", err);
-  //             return;
-  //           }
-  //           res.send({item: item, user: user});
-  //         });
-  //     });
-  //   });
-
-  //   });
-  // } 
 });
 
 router.get('/v1/comments/get-comments/:id', async (req, res) => {
@@ -248,18 +182,23 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
   
 })
 
-//return user with favorites... probably going to delete
+//return user with favorites... 
+//if no favorites, then just return user.
+
 router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
     console.log("in populate user", req.params.userID);
     
-    const userLikes = await knex.from("users").where('facebook_id', req.params.userID)
+    let userLikes = await knex.from("users").where('facebook_id', req.params.userID)
       .innerJoin("item_likes", "users.facebook_id", "item_likes.user_id")
       .innerJoin("items", "item_likes.item_id", "items.item_id")
       .innerJoin('places', 'items.place_id', 'places.place_id')
       .innerJoin('images', 'items.image_id', 'images.image_id')
       .orderBy('created_at', 'desc');
-  
+    console.log("userlieks.length", userLikes.length);
+    if(userLikes.length === 0) {
+      userLikes = await knex.from("users").where('facebook_id', req.params.userID);
+    }
     console.log("user likes in populate user", userLikes);
     res.status(200).json({userLikes});
   } catch (err) {
@@ -302,6 +241,17 @@ router.post('/v1/items/save-item', async (req, res) => {
     console.log("There was an error during Save Item...: ", err);
   } 
 });
+
+router.get('/v1/users/get-user/:id', async (req, res) => {
+  const fbid = req.params.id;
+  const user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
+      .from("users").where({facebook_id: fbid})
+      .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
+  
+  res.status(200).json({
+    status: "success", user
+  });
+})
 
 //save a user or select a user and return the row
 router.post('/v1/users/save-user', async (req, res) => {
