@@ -92,6 +92,7 @@ io.on('connection', (socket) => {
 //HTTP Request Logger
 app.use(morgan('tiny'));
 app.use('/api', routes);
+app.use('/api/v1/users/authentication', require('./routes/jwtAuth'));
 
 app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(req, res, next) {
   console.log("we startin upload image");
