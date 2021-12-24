@@ -11,7 +11,9 @@
 
 @supports (-webkit-text-stroke: 5px black) {
     .itempost-h1 {
-        
+        -webkit-text-stroke: 1px #152BFF;
+      -webkit-text-fill-color: #00E5E8;
+      font-size: 20px;
     }
 }
 
@@ -31,6 +33,7 @@
     width: 320px;
     padding: 5px;
     margin: 10px;
+    border-radius: 15px;
 }
 
 .item-title-div {
