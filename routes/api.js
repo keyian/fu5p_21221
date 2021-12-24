@@ -260,7 +260,7 @@ router.post('/v1/users/save-user', async (req, res) => {
    let user = await knex("users").insert({
       name: data.name,
       picture: data.picture,
-      user_id: data.fbid,
+      user_id: data.userID,
       email: data.email
     })
     .onConflict("user_id")

@@ -45,7 +45,7 @@ export default function CommentBox(props) {
     async function submitComment() {
         let comment = {comment_text: input, 
             item_id: itemID, 
-            user_id: userData.facebook_id, 
+            user_id: userData.user_id, 
             user_name: userData.name}
         setInput("");
         const addedComment = await Commenter.post("/add-comment", comment);

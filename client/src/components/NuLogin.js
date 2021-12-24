@@ -92,9 +92,8 @@ export default function Login() {
 
 //       //send request with this body
 //       const payload = {
-//         fbid: response.id,
+//         userID: response.id,
 //         name: response.name,
-//         picture: response.picture.data.url,
 //         email: response.email,
 //       }
 
