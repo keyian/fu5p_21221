@@ -139,7 +139,7 @@ router.get('/v1/items/get-items', async (req, res) => {
     const response = await knex.select("*").from("items")
     .innerJoin('places', 'items.place_id', 'places.place_id')
     .innerJoin('images', 'items.image_id', 'images.image_id')
-    .innerJoin('users', 'items.creator_id', 'users.facebook_id')
+    .innerJoin('users', 'items.creator_id', 'users.user_id')
     .orderBy('created_at', 'desc');
     // console.log("response is...", response);
     res.status(200).json({
@@ -168,7 +168,7 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
     left join comments c on i.item_id = c.item_id 
     left join places p on i.place_id = p.place_id
     left join images img on i.image_id = img.image_id
-    left join users u on i.creator_id = u.facebook_id`);
+    left join users u on i.creator_id = u.user_id`);
 
     console.log("itemcomments", itemPlaceComments);
     res.status(200).json({
@@ -189,15 +189,15 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
     console.log("in populate user", req.params.userID);
     
-    let userLikes = await knex.from("users").where('facebook_id', req.params.userID)
-      .innerJoin("item_likes", "users.facebook_id", "item_likes.user_id")
+    let userLikes = await knex.from("users").where('user_id', req.params.userID)
+      .innerJoin("item_likes", "users.user_id", "item_likes.user_id")
       .innerJoin("items", "item_likes.item_id", "items.item_id")
       .innerJoin('places', 'items.place_id', 'places.place_id')
       .innerJoin('images', 'items.image_id', 'images.image_id')
       .orderBy('created_at', 'desc');
     console.log("userlieks.length", userLikes.length);
     if(userLikes.length === 0) {
-      userLikes = await knex.from("users").where('facebook_id', req.params.userID);
+      userLikes = await knex.from("users").where('user_id', req.params.userID);
     }
     console.log("user likes in populate user", userLikes);
     res.status(200).json({userLikes});
@@ -243,10 +243,10 @@ router.post('/v1/items/save-item', async (req, res) => {
 });
 
 router.get('/v1/users/get-user/:id', async (req, res) => {
-  const fbid = req.params.id;
+  const userID = req.params.id;
   const user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
-      .from("users").where({facebook_id: fbid})
-      .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
+      .from("users").where({user_id: userID})
+      .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
   
   res.status(200).json({
     status: "success", user
@@ -260,18 +260,18 @@ router.post('/v1/users/save-user', async (req, res) => {
    let user = await knex("users").insert({
       name: data.name,
       picture: data.picture,
-      facebook_id: data.fbid,
+      user_id: data.fbid,
       email: data.email
     })
-    .onConflict("facebook_id")
+    .onConflict("user_id")
     .ignore().returning('*')
     // .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
 
     //until i can make this one query...
     if(!user.length) {
       user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
-      .from("users").where({facebook_id: data.fbid})
-      .leftJoin('item_likes', 'users.facebook_id', 'item_likes.user_id');
+      .from("users").where({user_id: data.userID})
+      .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
     }
 
     console.log("here's user in save-user", user);
@@ -334,7 +334,7 @@ async function saveItem(payload, placeID, imageID) {
     qb.returning('*')
     .insert({
       item_name: payload.itemName,
-      creator_id: payload.user.facebook_id,
+      creator_id: payload.user.user_id,
       price,
       place_id: placeID,
       likes: 0,

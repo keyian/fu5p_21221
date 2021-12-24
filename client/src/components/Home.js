@@ -32,7 +32,6 @@ export default function Home(props) {
        //trigger this when an item is added...
     const addItemB4Refresh = (nuItem) => {
         nuItem.name = userData.name;
-        nuItem.picture = userData.picture;
         //action
         setItems([nuItem].concat(items));
     }

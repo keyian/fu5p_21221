@@ -85,7 +85,7 @@ export default function Likes(props) {
         }
 
         updateLikes(oldLiked, oldDisliked, action, userData, setUserData, item.item_id);
-        let body = {userID: userData.facebook_id, itemID: item.item_id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
+        let body = {userID: userData.user_id, itemID: item.item_id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
         try {
             console.log("in try statement)");
             const itemLike = await Liker.post('/like-click', body);

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Register from './Register';
 import UserFinder from '../apis/UserFinder.js';
 //facebook-login
-import FacebookLogin from "react-facebook-login";
 
 import { AppContext } from '../context/AppContext';
 
@@ -62,7 +61,7 @@ export default function Login() {
 //         if(userDataLS) {
 //           console.log('inside userdatals');
 //           //set state to match local storage... 
-//           const user = await UserFinder.get(`/get-user/${userDataLS.facebook_id}`);
+//           const user = await UserFinder.get(`/get-user/${userDataLS.user_id}`);
 //           console.log("this is user after get", user);
 
 

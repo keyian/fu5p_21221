@@ -1,5 +1,5 @@
 const manicureUserData = (user) => {
-    let finalUser = {email: user[0].email, facebook_id: user[0].facebook_id, name: user[0].name, picture: user[0].picture, itemLikes: [], itemDislikes: []};
+    let finalUser = {email: user[0].email, user_id: user[0].user_id, name: user[0].name, itemLikes: [], itemDislikes: []};
 
     user.forEach((itemLike, index) => {
       if(itemLike.item_id){

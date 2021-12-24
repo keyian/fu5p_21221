@@ -181,3 +181,47 @@ inner join users u on u.facebook_id = il.user_id
 group by facebook_id;
 
 update items set likes = 0 where item_id = 40;
+
+SELECT (con.conname, con.contype)
+       FROM pg_catalog.pg_constraint con
+            INNER JOIN pg_catalog.pg_class rel
+                       ON rel.oid = con.conrelid
+            INNER JOIN pg_catalog.pg_namespace nsp
+                       ON nsp.oid = connamespace
+       WHERE rel.relname = 'users';
+
+
+alter table users drop column facebook_id cascade;
+
+alter table users
+   add column user_id serial primary key;
+
+
+
+
+alter table items
+drop constraint fk_user;
+
+alter table items
+add constraint fk_user
+foreign key(creator_id)
+references users(user_id)
+on delete set null;
+
+alter table item_likes
+drop constraint fk_user;
+
+alter table item_likes
+add constraint fk_user
+foreign key(user_id)
+references users(user_id)
+on delete set null;
+
+alter table comments
+drop constraint fk_user;
+
+alter table comments
+add constraint fk_user
+foreign key(user_id)
+references users(user_id)
+on delete set null;

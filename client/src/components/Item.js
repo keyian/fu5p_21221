@@ -42,7 +42,7 @@ export default function Item(props) {
         <div>
             {console.log(item)}
             <h1>{item.item_name} @ {item.place_name}</h1>
-            <h2>added by {item.name.split(" ")[0]}<img src={item.picture} alt="facebook pic"/></h2>
+            <h2>added by {item.name.split(" ")[0]}</h2>
             <ItemMap items={[item]} />
             <ItemFeed items={[item]} />
         </div>

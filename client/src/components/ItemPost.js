@@ -34,8 +34,7 @@ export default function ItemPost(props) {
             <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
             <div className="itempost-user-img-name-div">
                 <p className="itempost-username-p">added by</p>
-                <img className="itempost-fb-img" src={item.picture} alt="facebook pic" />
-                <Link to={{pathname: `/user/${item.facebook_id}`}}><p className="itempost-username-p"> {creatorFirstName} </p></Link>
+                <Link to={{pathname: `/user/${item.creator_id}`}}><p className="itempost-username-p"> {creatorFirstName} </p></Link>
             </div>
         </div>
     );
