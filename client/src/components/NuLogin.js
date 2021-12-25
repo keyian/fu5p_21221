@@ -11,7 +11,7 @@ import { AppContext } from '../context/AppContext';
 import manicureUserData from '../helpers/manicureUserData';
 
 
-export default function Login() {
+export default function NuLogin() {
 
   const {login, setLogin, userData, setUserData} = useContext(AppContext);
 
@@ -32,6 +32,8 @@ export default function Login() {
       console.log("this is  response in login ", response);
       if (response.data.jwtToken) {
         localStorage.setItem("token", response.data.jwtToken);
+        localStorage.setItem("userData", response.data.user);
+        setUserData(response.data.user);
         setLogin(true);
         // toast.success("Logged in Successfully");
       } else {
@@ -122,32 +124,58 @@ export default function Login() {
     
 //   };
 
-const checkAuthenticated = () => {
-  const runCheckAuthenticated = async () => {
-    try {
-      const res = await UserFinder.post("/authentication/verify", {
-        headers: { jwt_token: localStorage.token }}
-      );
-      // console.log("we're in the res", res);
-      // const parseRes = await res.json();
-      
-  
-      // parseRes === true ? setLogin(true) : setLogin(false);
-    } catch (err) {
-      console.error(err.message);
+  const checkAuthenticated = () => {
+    const runCheckAuthenticated = async () => {
+      try {
+        console.log("token?", localStorage.token);
+        const res = await UserFinder.post("/authentication/verify", {}, {
+          headers: { jwt_token: localStorage.token }}
+        );
+        console.log("we're in the check authenticated...", res);
+        // const parseRes = await res.json();
+        
+    
+        // (res.data.verified === true) ? setUserData(res.datasetLogin(true) : setLogin(false);
+      } catch (err) {
+        console.log("Error in check authenticated", err);
+      }
     }
+
+    runCheckAuthenticated();
+  };
+
+  const getUserData = () => {
+    
+    const runGetUserData = async () => {
+      try{
+        if((localStorage.token)) {
+          console.log("local storage token in get user data", localStorage.token);
+          const user = await UserFinder.post('/get-user', {}, {
+            headers: { jwt_token: localStorage.token }
+          });
+
+          console.log("this is user in get user data", user.data.user);
+          const manicuredUser = await manicureUserData(user.data.user);
+          console.log("this is manicured user", manicuredUser);
+          setUserData(manicuredUser);
+          setLogin(true);
+        }
+      } catch(err) {
+        console.log("err getting user data", err);
+      }
+      
+    }
+
+    runGetUserData();
   }
 
-  runCheckAuthenticated();
-};
-
-    // useEffect(checkAuthenticated(), []);
-
-    return(
-        <div id="outer-login-div">
-          {login ? 
+  // useEffect(checkAuthenticated, []);
+  useEffect(getUserData, [login]);
+  return(
+      <div id="outer-login-div">
+        {login ? 
           <p>Welcome {userData.name}</p> 
-          :
+        :
           <Fragment>
             {showLogin ?
               <Fragment>
@@ -172,9 +200,9 @@ const checkAuthenticated = () => {
               <a href="#" onClick={show_Login}>register</a>
               </Fragment>
               : <Register showLogin={showLogin} setShowLogin={setShowLogin} /> }
-            </Fragment>
+          </Fragment>
         }
-            
-        </div>
-    );
+          
+      </div>
+  );
 }

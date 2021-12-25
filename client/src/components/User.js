@@ -24,6 +24,7 @@ export default function User(props) {
         let splitPath = location.pathname.split('/');
         let userID = splitPath[splitPath.length-1];
         console.log('userdata in user', userData);
+        console.log('userid in user', userID);
         
 
         const runPopulateFavorites = async () => {

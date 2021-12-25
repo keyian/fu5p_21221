@@ -30,7 +30,7 @@ export default function ItemFeed(props) {
     return(
         <div id="itemfeed-div">
             {items.map(
-                (item, i) => <ItemPost key={i} dataRef={i} item={item} socket={socket} />
+                (item, i) => <ItemPost key={item.item_id} dataRef={i} item={item} socket={socket} />
             )}
         </div>
             // <Table striped  hover size="sm">

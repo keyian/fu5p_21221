@@ -2,6 +2,7 @@ const e = require('express');
 const express =  require('express');
 const router = express.Router();
 const knex = require('../knex/knex.js');
+const authorize = require("../middleware/authorize");
 
 const imgLoc = 'images/uploads';
 
@@ -189,7 +190,7 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
     console.log("in populate user", req.params.userID);
     
-    let userLikes = await knex.from("users").where('user_id', req.params.userID)
+    let userLikes = await knex.from("users").where('users.user_id', req.params.userID)
       .innerJoin("item_likes", "users.user_id", "item_likes.user_id")
       .innerJoin("items", "item_likes.item_id", "items.item_id")
       .innerJoin('places', 'items.place_id', 'places.place_id')
@@ -242,15 +243,25 @@ router.post('/v1/items/save-item', async (req, res) => {
   } 
 });
 
-router.get('/v1/users/get-user/:id', async (req, res) => {
-  const userID = req.params.id;
-  const user = await knex.select('users.*', 'item_likes.item_id', 'item_likes.like_status')
-      .from("users").where({user_id: userID})
-      .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id');
-  
-  res.status(200).json({
-    status: "success", user
-  });
+router.post('/v1/users/get-user', authorize, async (req, res) => {
+  console.log("get to server-side get user?");
+  try{
+    const userID = req.user.id;
+    console.log("this is req.header", userID);
+    const user = await knex("users").where({'users.user_id': userID})
+        .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id')
+        .select('users.email', 'users.name', 'users.user_id', 'item_likes.item_id', 'item_likes.like_status');
+    
+    console.log("in get user")
+
+    res.status(201).json({
+      status: "success", user
+    });
+
+  } catch(err) {
+
+    console.log("Error getting user: ", err)
+  }
 })
 
 //save a user or select a user and return the row

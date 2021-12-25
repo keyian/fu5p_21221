@@ -1,4 +1,4 @@
-const manicureUserData = (user) => {
+const manicureUserData = async (user) => {
     let finalUser = {email: user[0].email, user_id: user[0].user_id, name: user[0].name, itemLikes: [], itemDislikes: []};
 
     user.forEach((itemLike, index) => {

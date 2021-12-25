@@ -52,7 +52,7 @@ router.post("/login", validInfo, async (req, res) => {
       return res.status(401).json("Invalid Credential");
     }
     const jwtToken = jwtGenerator(user[0].user_id);
-    return res.json({ jwtToken });
+    return res.json({ jwtToken } );
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -61,10 +61,9 @@ router.post("/login", validInfo, async (req, res) => {
 
 router.post("/verify", authorize, (req, res) => {
   try {
-    console.log("this is res from verify?", res);
-    res.json(true);
+    res.status(200).json({verified: true, user: req.user});
   } catch (err) {
-    console.error(err.message);
+    console.log("Error in verify...", err);
     res.status(500).json("Server error");
   }
 });

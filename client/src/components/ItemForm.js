@@ -83,7 +83,6 @@ export default function ItemForm(props) {
       coordinates,
       google_place_id: placeId,
       user: userData,
-      image_name: imageName
     };
 
     handleSubmitStartImgUpload(event, formData, payload);

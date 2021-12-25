@@ -26,12 +26,14 @@ export default function Home(props) {
             }
         }
         if(items.length === 0){
-        runGetItems();}
+            runGetItems();
+        }
     }
 
        //trigger this when an item is added...
     const addItemB4Refresh = (nuItem) => {
         nuItem.name = userData.name;
+        console.log("in additem... this is nuItem, this is items", nuItem, items);
         //action
         setItems([nuItem].concat(items));
     }

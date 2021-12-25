@@ -3,6 +3,7 @@ import './styles/ItemPost.css';
 import Likes from './Likes';
 import CommentBox from './CommentBox';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 
 let FILE_ROOT = '/client/public';
 if(process.env.NODE_ENV === 'production') {
@@ -14,11 +15,15 @@ if(process.env.NODE_ENV === 'production') {
 export default function ItemPost(props) {
     // props
     const item = props.item;
+    const {userData} = useContext(AppContext);
 
-    let creatorFirstName = item.name.split(" ")[0];
+    console.log("this is item in itempost", item);
+    console.log("this is userdatra in itempost", userData);
+
+    let creatorFirstName = item.name? item.name.split(" ")[0] : userData.name.split(" ")[0];
 
     const filename = item.filepath.substring(FILE_ROOT.length);
-    console.log(item);
+    console.log("this is itemID in itempost", item.item_id);
 
     return(
         <div id={item.item_id} className="item-post-container">

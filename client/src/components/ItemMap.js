@@ -45,8 +45,9 @@ function ItemMap(props) {
 
  console.log("this is itemsies", itemsies)
 
-
-  return (itemsies.length > 0) ? (
+ 
+//  return (itemsies.length > 0) ? (
+ return (
       // Important! Always set the container height explicitly
       <div id="map-div" >
         {console.log("this is itemsies. You're watching VH1: ", itemsies)}
@@ -60,7 +61,8 @@ function ItemMap(props) {
         {/* <MapMarker lat={40.7128} lng={-74.0060} /> */}
         </GoogleMapReact>
        </div>
-    ) : (<p>Loading...</p>);
+    // ) : (<p>Loading...</p>);
+ )
 }
 
 export default ItemMap;

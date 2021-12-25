@@ -9,7 +9,10 @@ export default function CommentBox(props) {
     const itemID = props.itemID;
     const {userData, login} = useContext(AppContext);
     const scrollID = props.dataRef+"-scroll-div";
-    const socket = props.socket;
+    const socket = props.socket;    
+
+    console.log("this is itemID in commentbox", itemID);
+
 
     //individualized socket function, would that work?
     socket.on(`server-new-comment-${itemID}`, (comment) => {
