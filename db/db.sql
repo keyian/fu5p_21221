@@ -225,3 +225,68 @@ add constraint fk_user
 foreign key(user_id)
 references users(user_id)
 on delete set null;
+
+alter table users
+add constraint email_unique
+unique(email);
+
+alter table users
+add column password varchar(255)
+
+
+alter table users
+alter column user_id type uuid;
+
+--set of instructions to drop and re-add user constraint with uuid....
+alter table users
+alter column password set not null;
+
+alter table users 
+drop column user_id cascade;
+
+alter table users
+add column user_id uuid DEFAULT uuid_generate_v4();
+
+alter table items
+
+alter table items
+add constraint fk_user
+foreign key(creator_id)
+references users(user_id)
+on delete set null;
+
+alter table item_likes
+add constraint fk_user
+foreign key(user_id)
+references users(user_id)
+on delete set null;
+
+alter table comments
+add constraint fk_user
+foreign key(user_id)
+references users(user_id)
+on delete set null;
+
+alter table items 
+drop column creator_id,
+add column creator_id uuid,
+add constraint fk_user
+foreign key (creator_id)
+references users(user_id)
+on delete set null;
+
+alter table item_likes 
+drop column user_id,
+add column user_id uuid,
+add constraint fk_user
+foreign key (user_id)
+references users(user_id)
+on delete set null;
+
+alter table comments 
+drop column user_id,
+add column user_id uuid,
+add constraint fk_user
+foreign key (user_id)
+references users(user_id)
+on delete set null;

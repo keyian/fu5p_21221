@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 
 const routes = require('./routes/api.js');
-
+const authRoutes = require('./routes/jwtAuth.js');
 // multer
 const multer = require('multer');
 const imgLoc = "images/uploads";
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
 //HTTP Request Logger
 app.use(morgan('tiny'));
 app.use('/api', routes);
-app.use('/api/v1/users/authentication', require('./routes/jwtAuth'));
+app.use('/api/v1/users/authentication', authRoutes);
 
 app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(req, res, next) {
   console.log("we startin upload image");

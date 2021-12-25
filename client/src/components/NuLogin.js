@@ -17,7 +17,6 @@ export default function Login() {
 
   const [inputs, setInputs] = useState({email: "", password: ""});
   const [showLogin, setShowLogin] = useState(false);    
-
   const { email, password } = inputs;
 
 
@@ -30,8 +29,9 @@ export default function Login() {
       const credentials = { email: email, password: password };
       const response = await UserFinder.post("/authentication/login", credentials);
 
-      if (response.jwtToken) {
-        localStorage.setItem("token", response.jwtToken);
+      console.log("this is  response in login ", response);
+      if (response.data.jwtToken) {
+        localStorage.setItem("token", response.data.jwtToken);
         setLogin(true);
         // toast.success("Logged in Successfully");
       } else {
@@ -39,7 +39,7 @@ export default function Login() {
         // toast.error(response);
       }
     } catch (err) {
-      console.error(err.message);
+      console.log(err);
     }
   };
 
@@ -122,34 +122,59 @@ export default function Login() {
     
 //   };
 
+const checkAuthenticated = () => {
+  const runCheckAuthenticated = async () => {
+    try {
+      const res = await UserFinder.post("/authentication/verify", {
+        headers: { jwt_token: localStorage.token }}
+      );
+      // console.log("we're in the res", res);
+      // const parseRes = await res.json();
+      
+  
+      // parseRes === true ? setLogin(true) : setLogin(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
-//     useEffect(prepareUserData, []);
+  runCheckAuthenticated();
+};
+
+    // useEffect(checkAuthenticated(), []);
 
     return(
         <div id="outer-login-div">
+          {login ? 
+          <p>Welcome {userData.name}</p> 
+          :
+          <Fragment>
             {showLogin ?
-            <Fragment>
-            <h1 className="mt-5 text-center">Login</h1>
-             <form onSubmit={onSubmitForm}>
-                <input
-                type="text"
-                name="email"
-                value={email}
-                onChange={e => onChange(e)}
-                className="form-control my-3"
-                />
-                <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={e => onChange(e)}
-                className="form-control my-3"
-                />
-                <button className="btn btn-success btn-block">Submit</button>
-            </form>
-            <a href="#" onClick={show_Login}>login</a>
+              <Fragment>
+              <h1 className="mt-5 text-center">Login</h1>
+              <form onSubmit={onSubmitForm}>
+                  <input
+                  type="text"
+                  name="email"
+                  value={email}
+                  onChange={e => onChange(e)}
+                  className="form-control my-3"
+                  />
+                  <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={e => onChange(e)}
+                  className="form-control my-3"
+                  />
+                  <button className="btn btn-success btn-block">Submit</button>
+              </form>
+              <a href="#" onClick={show_Login}>login</a>
+              </Fragment>
+              : <Register showLogin={showLogin} setShowLogin={setShowLogin} /> }
             </Fragment>
-            : <Register showLogin={showLogin} setShowLogin={setShowLogin} /> }
+        }
+            
         </div>
     );
 }

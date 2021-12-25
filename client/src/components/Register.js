@@ -30,8 +30,9 @@ const Register = (props) => {
       const response = await UserFinder.post("/authentication/register",credentials);
 
       console.log("this is credentials ", credentials);
-      if (response.jwtToken) {
-        localStorage.setItem("token", response.jwtToken);
+      console.log("this is response", response);
+      if (response.data.jwtToken) {
+        localStorage.setItem("token", response.data.jwtToken);
         setLogin(true);
         // toast.success("Register Successfully");
       } else {
@@ -39,7 +40,7 @@ const Register = (props) => {
         // toast.error(parseRes);
       }
     } catch (err) {
-      console.error(err.message);
+      console.log(err);
     }
   };
 
@@ -47,37 +48,37 @@ const Register = (props) => {
     setShowLogin(!showLogin);
   }
   return (
-    <Fragment>
-      <h1 className="mt-5 text-center">Register</h1>
-      <form onSubmit={onSubmitForm}>
-        <input
-          type="text"
-          name="email"
-          value={email}
-          placeholder="email"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          placeholder="password"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
-        />
-        <input
-          type="text"
-          name="name"
-          value={name}
-          placeholder="name"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
-        />
-        <button className="btn btn-success btn-block">Submit</button>
-      </form>
-      <a href="#" onClick={show_Login}>login</a>
-    </Fragment>
+      <Fragment>
+        <h1 className="mt-5 text-center">Register</h1>
+        <form onSubmit={onSubmitForm}>
+          <input
+            type="text"
+            name="email"
+            value={email}
+            placeholder="email"
+            onChange={e => onChange(e)}
+            className="form-control my-3"
+          />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            placeholder="password"
+            onChange={e => onChange(e)}
+            className="form-control my-3"
+          />
+          <input
+            type="text"
+            name="name"
+            value={name}
+            placeholder="name"
+            onChange={e => onChange(e)}
+            className="form-control my-3"
+          />
+          <button className="btn btn-success btn-block">Submit</button>
+        </form>
+        <a href="#" onClick={show_Login}>login</a>
+      </Fragment>
   );
 };
 
