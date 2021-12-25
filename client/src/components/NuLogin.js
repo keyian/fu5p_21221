@@ -169,7 +169,7 @@ const checkAuthenticated = () => {
                   />
                   <button className="btn btn-success btn-block">Submit</button>
               </form>
-              <a href="#" onClick={show_Login}>login</a>
+              <a href="#" onClick={show_Login}>register</a>
               </Fragment>
               : <Register showLogin={showLogin} setShowLogin={setShowLogin} /> }
             </Fragment>
