@@ -4,6 +4,7 @@ import { AppContext } from '../context/AppContext';
 import { Link, Redirect } from "react-router-dom";
 // import { toast } from "react-toastify";
 import UserFinder from '../apis/UserFinder.js';
+import manicureUserData from "../helpers/manicureUserData";
 
 
 const Register = (props) => {
@@ -33,6 +34,9 @@ const Register = (props) => {
       console.log("this is response", response);
       if (response.data.jwtToken) {
         localStorage.setItem("token", response.data.jwtToken);
+        const manicuredUser = manicureUserData([response.data.user]);
+        setUserData(manicuredUser);
+        localStorage.setItem("userData", manicuredUser);
         setLogin(true);
         // toast.success("Register Successfully");
       } else {

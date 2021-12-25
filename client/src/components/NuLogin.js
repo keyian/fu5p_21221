@@ -32,8 +32,10 @@ export default function NuLogin() {
       console.log("this is  response in login ", response);
       if (response.data.jwtToken) {
         localStorage.setItem("token", response.data.jwtToken);
-        localStorage.setItem("userData", response.data.user);
-        setUserData(response.data.user);
+        const manicuredUser = manicureUserData([response.data.user]);
+        setUserData(manicuredUser);
+        localStorage.setItem("userData", manicuredUser);
+
         setLogin(true);
         // toast.success("Logged in Successfully");
       } else {
@@ -155,7 +157,7 @@ export default function NuLogin() {
           });
 
           console.log("this is user in get user data", user.data.user);
-          const manicuredUser = await manicureUserData(user.data.user);
+          const manicuredUser = manicureUserData(user.data.user);
           console.log("this is manicured user", manicuredUser);
           setUserData(manicuredUser);
           setLogin(true);
@@ -169,12 +171,30 @@ export default function NuLogin() {
     runGetUserData();
   }
 
+  const logout = async e => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem("token");
+      setUserData({});
+      setLogin(false);
+    } catch (err) {
+      console.log("Error logging out", err);
+    }
+  };
+
   // useEffect(checkAuthenticated, []);
   useEffect(getUserData, [login]);
   return(
       <div id="outer-login-div">
         {login ? 
-          <p>Welcome {userData.name}</p> 
+          <Fragment>
+            <p>Welcome, 
+              <Link to={{pathname: `/user/${userData.user_id}`}} >{userData.name}</Link>
+            </p>
+            <button onClick={e => logout(e)} className="btn btn-primary">
+              Logout
+            </button>
+          </Fragment>
         :
           <Fragment>
             {showLogin ?

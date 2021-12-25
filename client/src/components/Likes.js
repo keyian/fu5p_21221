@@ -8,7 +8,6 @@ import updateLikes from '../helpers/updateLikes';
 export default function Likes(props) {
     //helper variables
     const {userData, login, setUserData} = useContext(AppContext);
-    console.log("userdata in likes ", userData);
     const [item, setItem] = useState(props.item);
     const [likes, setLikes] = useState(item.likes);
     const [liked, setLiked] = useState(login ? userData.itemLikes.includes(item.item_id): false);

@@ -164,7 +164,7 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
 
 
     const itemPlaceComments =  await knex.raw(`
-    select i.*, c.comment_text, c.user_name, c.user_id, p.place_name, p.coordinates, img.filepath, u.name, u.picture
+    select i.*, c.comment_text, c.user_name, c.user_id, p.place_name, p.coordinates, img.filepath, u.name, u.email
     from (select * from items where item_id = ${req.params.id}) i 
     left join comments c on i.item_id = c.item_id 
     left join places p on i.place_id = p.place_id
@@ -198,6 +198,7 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
       .orderBy('created_at', 'desc');
     console.log("userlieks.length", userLikes.length);
     if(userLikes.length === 0) {
+      console.log("In no likes section");
       userLikes = await knex.from("users").where('user_id', req.params.userID);
     }
     console.log("user likes in populate user", userLikes);
