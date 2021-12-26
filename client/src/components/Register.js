@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 // import { toast } from "react-toastify";
 import UserFinder from '../apis/UserFinder.js';
 import manicureUserData from "../helpers/manicureUserData";
-
+import Draggable from "react-draggable";
 
 const Register = (props) => {
   const [inputs, setInputs] = useState({

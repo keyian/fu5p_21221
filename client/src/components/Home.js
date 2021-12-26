@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
+import NuItemFeed from './NuItemFeed';
 import ItemForm from './ItemForm';
 import './styles/Home.css';
 import ItemFinder from '../apis/ItemFinder';
@@ -46,7 +47,7 @@ export default function Home(props) {
             <ItemMap items={items} />
             {(login)?<ItemForm addItem={addItemB4Refresh} /> : <h2 className="message">Login w FB Above</h2>}
             <div id="itemfeed-container">
-                <ItemFeed items={items} />
+                <NuItemFeed items={items} />
             </div>
         </div>
     );

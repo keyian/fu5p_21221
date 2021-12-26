@@ -3,6 +3,7 @@ import './styles/Login.css';
 import { Link } from 'react-router-dom';
 import Register from './Register';
 import UserFinder from '../apis/UserFinder.js';
+import Draggable from 'react-draggable';
 //facebook-login
 
 import { AppContext } from '../context/AppContext';
@@ -196,6 +197,7 @@ export default function NuLogin() {
             </button>
           </Fragment>
         :
+
           <Fragment>
             {showLogin ?
               <Fragment>
