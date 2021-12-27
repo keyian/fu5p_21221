@@ -44,7 +44,7 @@ export default function ItemRow(props) {
             
             <Modal show={modalShow} onHide={handleClose} animation={true}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{item.item_name} @ {item.place_name}</Modal.Title>
+                    <Modal.Title><Link to={{pathname: `/item/${item.item_id}`}}>{item.item_name} @ {item.place_name}</Link></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Image width={"100%"} src={item.filepath.substring(FILE_ROOT.length)} />
