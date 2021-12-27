@@ -12,7 +12,7 @@ import { AppContext } from '../context/AppContext';
 import manicureUserData from '../helpers/manicureUserData';
 
 
-export default function NuLogin() {
+export default function NuLogin(props) {
 
   const {login, setLogin, userData, setUserData} = useContext(AppContext);
 
@@ -47,10 +47,6 @@ export default function NuLogin() {
       console.log(err);
     }
   };
-
-  const show_Login = () => {
-    setShowLogin(!showLogin);
-  }
 
 
     //check if fb login is already stored in local storage...
@@ -172,59 +168,34 @@ export default function NuLogin() {
     runGetUserData();
   }
 
-  const logout = async e => {
-    e.preventDefault();
-    try {
-      localStorage.removeItem("token");
-      setUserData({});
-      setLogin(false);
-    } catch (err) {
-      console.log("Error logging out", err);
-    }
-  };
+  
 
   // useEffect(checkAuthenticated, []);
   useEffect(getUserData, [login]);
   return(
-      <div id="outer-login-div">
-        {login ? 
-          <Fragment>
-            <p>Welcome, 
-              <Link to={{pathname: `/user/${userData.user_id}`}} >{userData.name}</Link>
-            </p>
-            <button onClick={e => logout(e)} className="btn btn-primary">
-              Logout
-            </button>
-          </Fragment>
-        :
 
-          <Fragment>
-            {showLogin ?
-              <Fragment>
-              <h1 className="mt-5 text-center">Login</h1>
-              <form onSubmit={onSubmitForm}>
-                  <input
-                  type="text"
-                  name="email"
-                  value={email}
-                  onChange={e => onChange(e)}
-                  className="form-control my-3"
-                  />
-                  <input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={e => onChange(e)}
-                  className="form-control my-3"
-                  />
-                  <button className="btn btn-success btn-block">Submit</button>
-              </form>
-              <a href="#" onClick={show_Login}>register</a>
-              </Fragment>
-              : <Register showLogin={showLogin} setShowLogin={setShowLogin} /> }
-          </Fragment>
-        }
-          
-      </div>
+    <Draggable>
+      <div>
+          <h1 className="mt-5 text-center">Login</h1>
+          <form onSubmit={onSubmitForm}>
+              <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={e => onChange(e)}
+              className="form-control my-3"
+              />
+              <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={e => onChange(e)}
+              className="form-control my-3"
+              />
+              <button className="btn btn-success btn-block">Submit</button>
+          </form>
+        </div>
+    </Draggable>
+        
   );
 }

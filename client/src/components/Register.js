@@ -18,7 +18,6 @@ const Register = (props) => {
 
 
   const { email, password, name } = inputs;
-  const {showLogin, setShowLogin} = props;
 
 
   const onChange = e =>
@@ -48,11 +47,9 @@ const Register = (props) => {
     }
   };
 
-  const show_Login = () => {
-    setShowLogin(!showLogin);
-  }
   return (
-      <Fragment>
+      <Draggable>
+        <div>
         <h1 className="mt-5 text-center">Register</h1>
         <form onSubmit={onSubmitForm}>
           <input
@@ -81,8 +78,8 @@ const Register = (props) => {
           />
           <button className="btn btn-success btn-block">Submit</button>
         </form>
-        <a href="#" onClick={show_Login}>login</a>
-      </Fragment>
+        </div>
+      </Draggable>
   );
 };
 
