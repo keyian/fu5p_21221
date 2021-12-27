@@ -290,3 +290,9 @@ add constraint fk_user
 foreign key (user_id)
 references users(user_id)
 on delete set null;
+
+alter table items
+add constraint not_null_creator
+
+alter table items
+alter column price type float;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import './styles/User.css';
 import ItemMap from './ItemMap';
-import ItemFeed from './ItemFeed';
+import NuItemFeed from './NuItemFeed';
 import UserFinder from '../apis/UserFinder';
 import { AppContext } from '../context/AppContext';
 import { useLocation } from "react-router-dom";
@@ -55,7 +55,7 @@ export default function User(props) {
             {/* <Header loginHooks={props.loginHooks}/> */}
             <h1 className="userWhite">{userFirstName}'s Page</h1>
             {favorites.length === 0 ? <p className="userWhite"> {userFirstName} has no favorites</p> : <ItemMap items={favorites} />}
-            {favorites.length === 0 ? "" : <ItemFeed items={favorites} />}
+            {favorites.length === 0 ? "" : <NuItemFeed items={favorites} />}
         </div>
     );
 }

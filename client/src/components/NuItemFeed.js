@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/ItemFeed.css';
+import './styles/NuItemFeed.css';
 import ItemRow from './ItemRow';
 //socket
 import { io } from "socket.io-client";
@@ -34,7 +34,7 @@ export default function NuItemFeed(props) {
         //         (item, i) => <ItemPost key={item.item_id} dataRef={i} item={item} socket={socket} />
         //     )}
         // </div>
-            <Table striped  hover className="col-md-1" size="sm">
+            <Table striped  hover className="col-md-1 feed-container" size="sm">
                 <thead>
                     <tr>
                         <th></th>

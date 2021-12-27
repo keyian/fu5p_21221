@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
 import './styles/ItemMap.css';
+import Draggable from 'react-draggable';
 
 function ItemMap(props) {
 
