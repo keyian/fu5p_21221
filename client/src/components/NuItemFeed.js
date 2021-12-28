@@ -18,10 +18,7 @@ socket.on('connection', () => {
 
 
 
-export default function NuItemFeed(props) {
-    let items = props.items;
-    
-
+export default function NuItemFeed({del, items, edit}) {
     
     //"dataRef" is used to record Index, because "key" is inaccessible in Child
     return(
@@ -42,7 +39,7 @@ export default function NuItemFeed(props) {
                 </thead>
                 <tbody>
                 {items.map(
-                    (item, i) => <ItemRow key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
+                    (item, i) => <ItemRow del={del} edit={edit} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
                 )}
                 </tbody>
             </Table>

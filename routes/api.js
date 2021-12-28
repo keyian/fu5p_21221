@@ -262,6 +262,20 @@ router.put('/v1/items/edit-item/:id', async (req, res) => {
   }
 })
 
+router.delete('/v1/items/delete-item/:id', async (req, res) => {
+  try {
+    console.log(req.params.id);
+//callback should remove item from item list and also redirect to home if its on item page
+    const deleted = await knex("items").where({item_id: req.params.id}).del(['*']);
+    console.log("this is deleted", deleted);
+    res.status(204).json({
+      status: "success"
+    })
+  } catch(err) {
+    console.log("Error deleting item...", err);
+  }
+})
+
 router.post('/v1/users/get-user', authorize, async (req, res) => {
   console.log("get to server-side get user?");
   try{

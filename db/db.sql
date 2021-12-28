@@ -300,3 +300,10 @@ alter column price type float;
 alter table item_likes
 add constraint uniq_clust_item_user
 unique (item_id, user_id);
+
+ALTER TABLE public.scores
+DROP CONSTRAINT scores_gid_fkey,
+ADD CONSTRAINT scores_gid_fkey
+   FOREIGN KEY (gid)
+   REFERENCES games(gid)
+   ON DELETE CASCADE;

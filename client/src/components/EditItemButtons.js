@@ -3,9 +3,10 @@ import Button from './Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import './../App.css';
 import EditItemModal from './EditItemModal';
+import DeleteButton from './DeleteButton';
 
-const EditItemButtons = (props) => {
-    const {item, setItem} = props;
+const EditItemButtons = ({edit, del, ...props}) => {
+    const {item} = props;
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const handleEdit = () => {
@@ -14,16 +15,15 @@ const EditItemButtons = (props) => {
 
         setEditShow(!editShow);
     }
-    const handleDelete = (e) => {
-        e.preventDefault();
-    }
+
     return(
+        
         <Fragment>
             <ButtonGroup>
                 <Button onClick={handleEdit}>Edit</Button>
-                <Button onClick={handleDelete}>Delete</Button>
+                <DeleteButton del={del} item={item} />
             </ButtonGroup>
-            <EditItemModal item={item} handleItemEdit={props.editItemCallback} show={editShow} setShow={setEditShow} />
+            <EditItemModal item={item} edit={edit} show={editShow} setShow={setEditShow} />
         </Fragment>
     );
     

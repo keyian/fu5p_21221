@@ -28,7 +28,7 @@ const EditItemModal = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const nuItem = await ItemFinder.put(`/edit-item/${item.item_id}`, inputs);
-        props.handleItemEdit(nuItem);
+        props.edit(nuItem);
         setShow(false);
     } 
 
