@@ -16,10 +16,6 @@ socket.on('connection', () => {
     console.log(`I'm connected with the back-end`);
 });
 
-let FILE_ROOT = '/client/public';
-if(process.env.NODE_ENV === 'production') {
-  FILE_ROOT = '/client/build';
-} 
 
 
 export default function NuItemFeed(props) {
@@ -46,7 +42,7 @@ export default function NuItemFeed(props) {
                 </thead>
                 <tbody>
                 {items.map(
-                    (item, i) => <ItemRow key={item.item_id} dataRef={i} item={item} socket={socket} />
+                    (item, i) => <ItemRow key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
                 )}
                 </tbody>
             </Table>

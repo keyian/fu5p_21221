@@ -244,6 +244,24 @@ router.post('/v1/items/save-item', async (req, res) => {
   } 
 });
 
+router.put('/v1/items/edit-item/:id', async (req, res) => {
+  //for now, you can't edit PLACE or IMAGE
+  const item_id = req.params.id;
+  console.log("edit item this is req.body", req.body);
+  const {item_name, price, description} = req.body;
+  try {
+    const item = await knex("items")
+    .where({item_id})
+    .update({
+      item_name, price, description
+    }).returning('*');
+
+    res.status(200).json({item});
+  } catch(err) {
+    console.log("error editing item...", err);
+  }
+})
+
 router.post('/v1/users/get-user', authorize, async (req, res) => {
   console.log("get to server-side get user?");
   try{

@@ -296,3 +296,7 @@ add constraint not_null_creator
 
 alter table items
 alter column price type float;
+
+alter table item_likes
+add constraint uniq_clust_item_user
+unique (item_id, user_id);

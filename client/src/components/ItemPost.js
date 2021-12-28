@@ -5,22 +5,18 @@ import CommentBox from './CommentBox';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
-let FILE_ROOT = '/client/public';
-if(process.env.NODE_ENV === 'production') {
-  FILE_ROOT = '/client/build';
-} 
 
 export default function ItemPost(props) {
     // props
     const item = props.item;
-    const {userData} = useContext(AppContext);
+    const {userData, fileRoot} = useContext(AppContext);
 
     console.log("this is item in itempost", item);
     console.log("this is userdatra in itempost", userData);
 
     let creatorFirstName = item.name? item.name.split(" ")[0] : userData.name.split(" ")[0];
 
-    const filename = item.filepath.substring(FILE_ROOT.length);
+    const filename = item.filepath.substring(fileRoot.length);
     console.log("this is itemID in itempost", item.item_id);
 
     return(
