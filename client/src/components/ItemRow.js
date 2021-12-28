@@ -27,10 +27,10 @@ export default function ItemRow(props) {
     }
 
     const handleItemEdit = (nuItem) => {
-        console.log("this is nuItem", Object.assign(item, nuItem.data.item[0]));
+        console.log("this is nuItem", Object.assign({...item}, nuItem.data.item[0]));
         //set item to item with updated fields
-        setItem(Object.assign(item, nuItem.data.item));
-        setModalShow(false);
+        setItem(Object.assign({...item}, nuItem.data.item[0]));
+        // setModalShow(false);
     }
 
     return(
