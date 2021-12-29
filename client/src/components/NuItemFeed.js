@@ -18,7 +18,7 @@ socket.on('connection', () => {
 
 
 
-export default function NuItemFeed({del, items, edit}) {
+export default function NuItemFeed({del, items, edit, like}) {
     
     //"dataRef" is used to record Index, because "key" is inaccessible in Child
     return(
@@ -39,7 +39,7 @@ export default function NuItemFeed({del, items, edit}) {
                 </thead>
                 <tbody>
                 {items.map(
-                    (item, i) => <ItemRow del={del} edit={edit} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
+                    (item, i) => <ItemRow del={del} edit={edit} like={like} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
                 )}
                 </tbody>
             </Table>

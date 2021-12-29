@@ -1,4 +1,4 @@
-export default function updateLikes(oldLiked, oldDisliked, action, userData, setUserData, itemID) {
+export function updateLikes(oldLiked, oldDisliked, action, userData, setUserData, itemID) {
     //remove from liked
     console.log("in update likes, item id ", itemID);
 

@@ -7,10 +7,12 @@ import { AppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import EditItemButtons from './EditItemButtons';
 
-export default function ItemRow({del, item, edit, ...props}) {
+export default function ItemRow({del, item, edit, like, ...props}) {
     const {userData, fileRoot} =  useContext(AppContext);
     // props
     const [modalShow, setModalShow] = useState(false);
+
+    console.log('item in likes', item);
 
     //if there's no item.name, that means it was live-added, so it has to be the current user...
     let creatorFirstName = item.name? item.name.split(" ")[0] : userData.name.split(" ")[0];
@@ -51,7 +53,7 @@ export default function ItemRow({del, item, edit, ...props}) {
                 </Modal.Header>
                 <Modal.Body>
                     <Image width={"100%"} src={item.filepath.substring(fileRoot.length)} />
-                    <Likes item={item} socket={props.socket} />
+                    <Likes item={item} like={like} socket={props.socket} />
                     <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
                     <EditItemButtons item={item} edit={edit} del={del}/>
                     <p className="itempost-username-p">added by</p>

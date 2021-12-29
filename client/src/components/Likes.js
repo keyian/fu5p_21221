@@ -2,14 +2,16 @@ import React, { useContext, useState, useEffect } from 'react';
 import './styles/Likes.css';
 import Liker from '../apis/Liker';
 import { AppContext } from '../context/AppContext';
-import updateLikes from '../helpers/updateLikes';
+import {updateLikes} from '../helpers/updateLikes';
 
 
-export default function Likes(props) {
+export default function Likes({like, item, ...props}) {
     //helper variables
     const {userData, login, setUserData} = useContext(AppContext);
-    const [item, setItem] = useState(props.item);
-    const [likes, setLikes] = useState(item.likes);
+    // const [item, setItem] = useState(props.item);
+    // const [likes, setLikes] = useState(item.likes);
+    console.log("this is literally item, right before likes...", item);
+    const likes = item.likes;
     const [liked, setLiked] = useState(login ? userData.itemLikes.includes(item.item_id): false);
     const [disliked, setDisliked] = useState(login ? userData.itemDislikes.includes(item.item_id) : false);
 
@@ -30,7 +32,8 @@ export default function Likes(props) {
     socket.on(`server-new-like-${item.item_id}`, (like) => {
         if(like.itemID === item.item_id) {
             console.log("in correct item");
-            setLikes(likes + like.likeChange);
+            // setLikes(likes + like.likeChange);
+            like(item.item_id, like.likeChange);
         }
         
     })
@@ -54,7 +57,8 @@ export default function Likes(props) {
                 nuLiked = false;
                 console.log(liked);
 
-                setLikes(likes -1);
+                // setLikes(likes -1);
+                like(item.item_id, -1);
             } else {
                 console.log("was not liked, like clicked");
                 setLiked(true);
@@ -62,7 +66,8 @@ export default function Likes(props) {
                 setDisliked(false);
                 nuDisliked = false;
 
-                setLikes((oldDisliked ? likes + 2 : likes + 1));
+                // setLikes((oldDisliked ? likes + 2 : likes + 1));
+                like(item.item_id, (oldDisliked ? 2 : 1));
             }
         } else {
             if(oldDisliked) {
@@ -71,7 +76,9 @@ export default function Likes(props) {
                 setDisliked(false);
                 nuDisliked = false;
 
-                setLikes(likes +1);
+                // setLikes(likes +1);
+                like(item.item_id, 1);
+
             } else {
                 console.log("was not disliked, dislike clicked");
 
@@ -80,11 +87,14 @@ export default function Likes(props) {
                 setLiked(false);
                 nuLiked = false;
 
-                setLikes((oldLiked ? likes - 2 : likes - 1));
+                // setLikes((oldLiked ? likes - 2 : likes - 1));
+                like(item.item_id, (oldLiked ? -2 : -1));
+
             }
         }
 
         updateLikes(oldLiked, oldDisliked, action, userData, setUserData, item.item_id);
+        // like(item.item_id, getLikeChange(oldLiked, oldDisliked, action));
         let body = {userID: userData.user_id, itemID: item.item_id, liked: nuLiked, disliked: nuDisliked, oldLiked: oldLiked, oldDisliked: oldDisliked}
         try {
             console.log("in try statement)");

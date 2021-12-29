@@ -301,9 +301,9 @@ alter table item_likes
 add constraint uniq_clust_item_user
 unique (item_id, user_id);
 
-ALTER TABLE public.scores
-DROP CONSTRAINT scores_gid_fkey,
-ADD CONSTRAINT scores_gid_fkey
-   FOREIGN KEY (gid)
-   REFERENCES games(gid)
+ALTER TABLE comments
+DROP CONSTRAINT fk_item,
+ADD CONSTRAINT fk_item
+   FOREIGN KEY (item_id)
+   REFERENCES items(item_id)
    ON DELETE CASCADE;
