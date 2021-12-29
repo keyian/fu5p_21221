@@ -234,6 +234,8 @@ router.post('/v1/items/save-item', async (req, res) => {
   
   const item = await saveItem(data, place.place_id, image.image_id, image.filepath);
 
+  saveItemLike(item.item_id, data.user.user_id);
+
   res.status(201).json({
     status: "success",
     item
@@ -381,7 +383,7 @@ async function saveItem(payload, placeID, imageID) {
       creator_id: payload.user.user_id,
       price,
       place_id: placeID,
-      likes: 0,
+      likes: 1,
       image_id: imageID,
       description
     })
@@ -395,6 +397,17 @@ async function saveItem(payload, placeID, imageID) {
   console.log(itemImagePlace);
   return itemImagePlace[0];
   
+}
+
+async function saveItemLike(itemID, userID) {
+  try{
+    await knex('item_likes').insert(
+      {item_id: itemID,
+      user_id: userID,
+    like_status: true});
+  } catch (err) {
+    console.log("error saving item's LIKE", err);
+  }
 
 }
 

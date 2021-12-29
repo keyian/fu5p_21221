@@ -10,7 +10,7 @@ import { AppContext } from '../context/AppContext';
 
 export default function Home(props) {
     const [items, setItems] = useState([]);
-    const {login, userData} = useContext(AppContext);
+    const {login, userData, setUserData} = useContext(AppContext);
 
     const  deleteItem = (deleted) => {
         console.log("this calls delete item?", deleted);
@@ -47,6 +47,8 @@ export default function Home(props) {
         console.log("in additem... this is nuItem, this is items", nuItem, items);
         //temporarily set items as new array with newly-returned item appended.
         setItems([nuItem].concat(items));
+        setUserData(userData => ({...userData, itemLikes: userData.itemLikes.concat(nuItem.item_id)}))
+
     }
 
     const likeItem = (likedItemID, likeChange) => {
