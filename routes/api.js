@@ -44,6 +44,7 @@ router.post('/v1/likes/like-click', async (req, res) => {
           item_id: itemID,
           user_id: userID
         }).update('like_status', true);
+
       } else {
         //+1--was nothing, now liked
         await knex('items')
@@ -58,6 +59,7 @@ router.post('/v1/likes/like-click', async (req, res) => {
           like_status: true
         });
       }
+
     } else if (disliked) {
       if(oldLiked) {
         //2 point swing--was liked, now is disliked
@@ -71,6 +73,7 @@ router.post('/v1/likes/like-click', async (req, res) => {
           item_id: itemID,
           user_id: userID
         }).update('like_status', false);
+
       } else {
         //-1--was nothing, now disliked
         await knex('items')
@@ -85,6 +88,7 @@ router.post('/v1/likes/like-click', async (req, res) => {
           like_status: false
         });
       }
+      
     } else {
       await knex('item_likes').where({
         user_id: userID,

@@ -55,7 +55,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
                     <Image width={"100%"} src={item.filepath.substring(fileRoot.length)} />
                     <Likes item={item} like={like} socket={props.socket} />
                     <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
-                    <EditItemButtons item={item} edit={edit} del={del}/>
+                    <EditItemButtons userData={userData} item={item} edit={edit} del={del}/>
                     <p className="itempost-username-p">added by</p>
                     <Link to={{pathname: `/user/${item.creator_id}`}}><p className="itempost-username-p"> {creatorFirstName} </p></Link>
                 </Modal.Body>

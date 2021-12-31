@@ -5,7 +5,6 @@ import NuItemFeed from './NuItemFeed';
 import ItemForm from './ItemForm';
 import './styles/Home.css';
 import ItemFinder from '../apis/ItemFinder';
-
 import { AppContext } from '../context/AppContext';
 
 export default function Home(props) {
@@ -86,9 +85,9 @@ export default function Home(props) {
     return (
         <div id="map-form-feed-div">
             <ItemMap items={items} />
-            {(login)?<ItemForm addItem={addItem} /> : <h2 className="message">Login w FB Above</h2>}
+            {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login w FB Above</h2>}
             <div id="itemfeed-container">
-                <NuItemFeed del={deleteItem} edit={editItem} like={likeItem} items={items} />
+                <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
             </div>
         </div>
     );

@@ -5,8 +5,7 @@ import './../App.css';
 import EditItemModal from './EditItemModal';
 import DeleteButton from './DeleteButton';
 
-const EditItemButtons = ({edit, del, ...props}) => {
-    const {item} = props;
+const EditItemButtons = ({edit, del, userData, item, ...props}) => {
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const handleEdit = () => {
@@ -15,15 +14,22 @@ const EditItemButtons = ({edit, del, ...props}) => {
 
         setEditShow(!editShow);
     }
-
+    console.log(userData.user_id, item.creator_id);
     return(
-        
+        <Fragment>
+        { (userData.user_id === item.creator_id) ?
         <Fragment>
             <ButtonGroup>
                 <Button onClick={handleEdit}>Edit</Button>
                 <DeleteButton del={del} item={item} />
             </ButtonGroup>
             <EditItemModal item={item} edit={edit} show={editShow} setShow={setEditShow} />
+        </Fragment>
+        :
+        <Fragment>
+            
+        </Fragment>
+        }
         </Fragment>
     );
     
