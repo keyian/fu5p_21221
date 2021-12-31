@@ -4,13 +4,25 @@ import {Link} from 'react-router-dom';
 import './styles/Header.css';
 import LoginBox from './LoginBox.js';
 
+//react-bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 export default function Header() {
 
     return (
-        <div id="header-div">
-            <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>
-            <LoginBox />
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>    
+                </Col>
+                <Col>
+                    <LoginBox />
+                </Col>
+            </Row>  
+        </Container>
+            
     );
 }

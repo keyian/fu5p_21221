@@ -14,12 +14,12 @@ a{
 
 
 .title {
-  display: inline;
+  /* display: inline; */
   font-size: 5em;
-  padding: 10px;
-  margin: 10px;
+  /* padding: 10px;
+  margin: 10px; */
   font-family: 'Arial Black', Arial, sans-serif;
-  margin: auto;
+  /* margin: auto; */
   text-shadow: 5px 5px #152BFF;
   /* animation-name: square;
   animation-timing-function: ease-in-out;
@@ -51,7 +51,7 @@ a{
 }
 
 p{
-  display: inline;
+  /* display: inline; */
 }
 
 /* body {

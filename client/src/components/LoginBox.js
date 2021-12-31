@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
-import './styles/Login.css';
+import './styles/LoginBox.css';
 import { Link } from 'react-router-dom';
 import Register from './Register';
 import NuLogin from './NuLogin';
@@ -18,6 +18,7 @@ export default function LoginBox() {
 
   const [showLogin, setShowLogin] = useState(false);    
   const [modalShow, setModalShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
 
   const show_Login = () => {
