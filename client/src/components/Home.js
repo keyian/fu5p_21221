@@ -3,7 +3,6 @@ import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
 import NuItemFeed from './NuItemFeed';
 import ItemForm from './ItemForm';
-import './styles/Home.css';
 import ItemFinder from '../apis/ItemFinder';
 import { AppContext } from '../context/AppContext';
 

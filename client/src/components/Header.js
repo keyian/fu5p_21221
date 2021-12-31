@@ -1,7 +1,6 @@
 import React from 'react';
 // import Login from './Login.js';
 import {Link} from 'react-router-dom';
-import './styles/Header.css';
 import LoginBox from './LoginBox.js';
 
 //react-bootstrap
