@@ -66,6 +66,7 @@ body {
   background-color: white;
 }
 
+
 .message {
   font-size: 24px;
   font-family: 'Arial Black', Arial, sans-serif;
@@ -79,3 +80,4 @@ body {
 @media only screen and (max-width: 480px) {
   
 }
+

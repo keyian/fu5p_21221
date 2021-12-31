@@ -6,6 +6,11 @@ import ItemForm from './ItemForm';
 import ItemFinder from '../apis/ItemFinder';
 import { AppContext } from '../context/AppContext';
 
+//react-bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 export default function Home(props) {
     const [items, setItems] = useState([]);
     const {login, userData, setUserData} = useContext(AppContext);
@@ -82,12 +87,16 @@ export default function Home(props) {
 
 
     return (
-        <div id="map-form-feed-div">
-            <ItemMap items={items} />
-            {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login w FB Above</h2>}
-            <div id="itemfeed-container">
+        <Container>
+            <Row>
+                <ItemMap items={items} />
+            </Row>
+            <Row>
+                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login w FB Above</h2>}
+            </Row>
+            <Row>
                 <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
-            </div>
-        </div>
+            </Row>
+        </Container>
     );
 }

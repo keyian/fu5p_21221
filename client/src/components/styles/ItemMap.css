@@ -1,11 +1,9 @@
 #map-div {
-    margin: 15px;
-    min-height: 400px;
+    /* padding 0 bc React-Bootstrap's Row adds padding. Undesirable here. */
+    padding: 0px;
+    /* height MUST be set for this component to work */
     height: 75vh; 
-    width: 55%;
-    display: block;
-    margin: auto;
-    resize: both;
+    /* border decorations */
     border-style: solid;
     border-width: 10px;
     border-radius: 20px;
