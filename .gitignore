@@ -4,3 +4,4 @@ client/public/images/
 .env
 knexfile.js
 .vscode
+.DS_Store
