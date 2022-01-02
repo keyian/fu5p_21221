@@ -44,35 +44,11 @@ export default function NuLogin(props) {
     }
   };
 
-  const getUserData = () => {
-    
-    const runGetUserData = async () => {
-      try{
-        if((localStorage.token)) {
-          console.log("local storage token in get user data", localStorage.token);
-          const user = await UserFinder.post('/get-user', {}, {
-            headers: { jwt_token: localStorage.token }
-          });
 
-          console.log("this is user in get user data", user.data.user);
-          const manicuredUser = manicureUserData(user.data.user);
-          console.log("this is manicured user", manicuredUser);
-          setUserData(manicuredUser);
-          setLogin(true);
-        }
-      } catch(err) {
-        console.log("err getting user data", err);
-      }
-      
-    }
-
-    runGetUserData();
-  }
 
   
 
   // useEffect(checkAuthenticated, []);
-  useEffect(getUserData, [login]);
   return(
 
       <Container>
