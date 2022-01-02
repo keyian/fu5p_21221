@@ -15,7 +15,7 @@ export default function Header() {
         <Container>
             <Row id="header-row">
                 <Col>
-                    <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>    
+                    <Link to={'/'} replace><h2 className="under5-title">Under 5</h2></Link>    
                 </Col>
                 <Col>
                     <LoginBox />

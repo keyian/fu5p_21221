@@ -8,6 +8,8 @@ import { AppContext } from '../context/AppContext';
 //react-bootstrap
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 export default function Home(props) {
     const [items, setItems] = useState([]);
@@ -87,14 +89,18 @@ export default function Home(props) {
     return (
         <Container>
             <Row>
-                <ItemMap items={items} />
+                <Col md={8}>
+                    <ItemMap items={items} />
+                </Col>
+                <Col md={4}>
+                    <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
+                </Col>
             </Row>
             <Row>
                 {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login w FB Above</h2>}
             </Row>
-            <Row>
-                <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
-            </Row>
+            {/* <Row>
+            </Row> */}
         </Container>
     );
 }

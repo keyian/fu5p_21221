@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './styles/LoginBox.css';
 import '../App.css';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,13 @@ import NuLogin from './NuLogin';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from './Button';
-//facebook-login
+
+//helpers
+import manicureUserData from '../helpers/manicureUserData';
+
+//axios
+import UserFinder from '../apis/UserFinder';
+
 
 import { AppContext } from '../context/AppContext';
 
@@ -17,11 +23,19 @@ export default function LoginBox() {
   const {login, setLogin, userData, setUserData} = useContext(AppContext);
 
   const [showLogin, setShowLogin] = useState(false);    
+  const [showRegister, setShowRegister] = useState(false);    
+
 
   const show_Login = () => {
     console.log("show log in getting called");
     setShowLogin(!showLogin);
+    setShowRegister(false);
 
+  }
+
+  const show_Register = () => {
+    setShowRegister(!showRegister);
+    setShowLogin(false);
   }
 
   const logout = async e => {
@@ -34,6 +48,33 @@ export default function LoginBox() {
       console.log("Error logging out", err);
     }
   };
+
+  const getUserData = () => {
+    
+    const runGetUserData = async () => {
+      try{
+        if((localStorage.token)) {
+          console.log("local storage token in get user data", localStorage.token);
+          const user = await UserFinder.post('/get-user', {}, {
+            headers: { jwt_token: localStorage.token }
+          });
+
+          console.log("this is user in get user data", user.data.user);
+          const manicuredUser = manicureUserData(user.data.user);
+          console.log("this is manicured user", manicuredUser);
+          setUserData(manicuredUser);
+          setLogin(true);
+        }
+      } catch(err) {
+        console.log("err getting user data", err);
+      }
+    }
+
+    runGetUserData();
+  }
+
+  useEffect(getUserData, [login]);
+
 
   return(
       <Container id="outer-login-div">
@@ -48,7 +89,7 @@ export default function LoginBox() {
           </Row>
         :
           <Row>
-            {showLogin ?
+            {(showRegister) &&
                 <Container>
                   <Row>
                     <Register /> 
@@ -57,15 +98,23 @@ export default function LoginBox() {
                     <Button className="no-dec-button" onClick={show_Login}>login</Button> 
                   </Row>
                 </Container>
-              : 
+          }{showLogin &&
+
                 <Container>
                   <Row>
                     <NuLogin/>
                   </Row>
                   <Row>
-                    <Button className="no-dec-button" onClick={show_Login}>register</Button>
+                    <Button className="no-dec-button" onClick={show_Register}>register</Button>
                   </Row>
                 </Container>
+          }{!showLogin && !showRegister && 
+              <Container>
+                <Row>
+                  <Button className="no-dec-button" onClick={show_Login}>login</Button> 
+                  <Button className="no-dec-button" onClick={show_Register}>register</Button>
+                </Row>
+              </Container>
             }
           </Row>
         }

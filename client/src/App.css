@@ -13,7 +13,7 @@ a{
 }
 
 
-.title {
+.under5-title {
   /* display: inline; */
   font-size: 5em;
   /* padding: 10px;
@@ -44,7 +44,7 @@ a{
 }
 
 @supports (-webkit-text-stroke: 5px black) {
-  .title {
+  .under5-title {
     -webkit-text-stroke: 4px #F0F600;
     -webkit-text-fill-color: #FF3CC7;
   }
