@@ -1,9 +1,6 @@
 import React from 'react';
-import ItemRow from './ItemRow';
 //socket
 import { io } from "socket.io-client";
-import ListGroup from "react-bootstrap/ListGroup";
-import Image from "react-bootstrap/Image";
 import ItemPost from './ItemPost';
 const SERVER = "https://localhost:3000";
 const socket = io(SERVER, {
@@ -13,12 +10,6 @@ const socket = io(SERVER, {
 socket.on('connection', () => {
     console.log(`I'm connected with the back-end`);
 });
-
-let FILE_ROOT = '/client/public';
-if(process.env.NODE_ENV === 'production') {
-  FILE_ROOT = '/client/build';
-} 
-
 
 export default function ItemFeed(props) {
     let items = props.items;

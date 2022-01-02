@@ -3,10 +3,7 @@ import './styles/NuItemFeed.css';
 import ItemRow from './ItemRow';
 //socket
 import { io } from "socket.io-client";
-import ListGroup from "react-bootstrap/ListGroup";
 import Table from 'react-bootstrap/Table';
-import NuListRow from './NuListRow';
-import ItemPost from './ItemPost';
 const SERVER = "https://localhost:3000";
 const socket = io(SERVER, {
     withCredentials: true

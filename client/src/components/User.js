@@ -5,12 +5,11 @@ import NuItemFeed from './NuItemFeed';
 import UserFinder from '../apis/UserFinder';
 import { AppContext } from '../context/AppContext';
 import { useLocation } from "react-router-dom";
-import manicureUserData from '../helpers/manicureUserData';
 
 export default function User(props) {
     //state
     const [favorites, setFavorites] = useState([]);
-    const {userData, login}  = useContext(AppContext);
+    const {userData}  = useContext(AppContext);
     const [userFirstName, setUserFirstName] = useState("");
     const location = useLocation();
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
 import './styles/ItemMap.css';
-import Draggable from 'react-draggable';
+import Container from 'react-bootstrap/Container';
 
 function ItemMap(props) {
 
@@ -50,7 +50,7 @@ function ItemMap(props) {
 //  return (itemsies.length > 0) ? (
  return (
       // Important! Always set the container height explicitly
-      <div id="map-div" >
+      <Container id="map-div" >
             <GoogleMapReact
               center={mapState.center}
               zoom={zoomState.zoom}
@@ -59,7 +59,7 @@ function ItemMap(props) {
                 <MapMarker key={index} onClick={handleMarkerClick} lat={item.coordinates[0]} lng={item.coordinates[1]} item={item}/>
               )}
             </GoogleMapReact>
-       </div>
+       </Container>
  )
 }
 

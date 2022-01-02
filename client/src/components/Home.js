@@ -1,6 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
 import ItemMap from './ItemMap';
-import ItemFeed from './ItemFeed';
 import NuItemFeed from './NuItemFeed';
 import ItemForm from './ItemForm';
 import ItemFinder from '../apis/ItemFinder';
@@ -9,7 +8,6 @@ import { AppContext } from '../context/AppContext';
 //react-bootstrap
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 export default function Home(props) {
     const [items, setItems] = useState([]);
@@ -18,7 +16,7 @@ export default function Home(props) {
     const  deleteItem = (deleted) => {
         console.log("this calls delete item?", deleted);
         //set items to a new array with deleted item id filtered out
-        setItems([...items].filter(item => item.item_id != deleted));
+        setItems([...items].filter(item => item.item_id !== deleted));
     }
 
     //replaces item with edited item, after combining data...
@@ -28,7 +26,7 @@ export default function Home(props) {
         edited = edited.data.item[0];
 
         //find index
-        const index = items.findIndex(item => item.item_id == edited.item_id);
+        const index = items.findIndex(item => item.item_id === edited.item_id);
         console.log("index is ", index);
 
         //overwrite data (has more data) on old item with new data on new item
@@ -56,7 +54,7 @@ export default function Home(props) {
 
     const likeItem = (likedItemID, likeChange) => {
         //on like, report back and change item likes
-        const index = items.findIndex(item => item.item_id == likedItemID);
+        const index = items.findIndex(item => item.item_id === likedItemID);
 
         const nuItems = [...items];
         nuItems[index].likes += likeChange;
