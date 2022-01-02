@@ -20,7 +20,7 @@ function handleMarkerClick(e) {
 }
   return (
     <div className="marker">
-        <a onClick={handleMarkerClick}><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></a>
+        <button className="no-dec-button marker-button" onClick={handleMarkerClick}><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></button>
         {/* <a href={"#"+props.item._id} ><img className="marker" src={source} width="25" height="25" alt={props.item.name} /></a> */}
     </div>
   );

@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AppContext } from '../context/AppContext';
 
-import { Link, Redirect } from "react-router-dom";
 // import { toast } from "react-toastify";
 import UserFinder from '../apis/UserFinder.js';
 import manicureUserData from "../helpers/manicureUserData";
@@ -14,7 +13,7 @@ const Register = (props) => {
     name: ""
   });
 
-  const {login, setLogin, userData, setUserData} = useContext(AppContext);
+  const {setLogin, setUserData} = useContext(AppContext);
 
 
   const { email, password, name } = inputs;

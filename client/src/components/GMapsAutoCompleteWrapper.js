@@ -51,14 +51,14 @@ function GMapsAutoCompleteWrapper(props) {
         );
 
     return (
-        <div id="autocomplete-div">
-      <PlacesAutoComplete 
-      value={address} 
-      onChange={setAddress} 
-      onSelect={handleSelect} >
-         {renderFunc}
-       </PlacesAutoComplete>
-       </div>
+      <div>
+        <PlacesAutoComplete 
+        value={address} 
+        onChange={setAddress} 
+        onSelect={handleSelect} >
+          {renderFunc}
+        </PlacesAutoComplete>
+      </div>
     );
 }
 

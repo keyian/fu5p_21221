@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import Register from './Register';
+import React, { useContext, useEffect, useState } from 'react';
 import UserFinder from '../apis/UserFinder.js';
 import Draggable from 'react-draggable';
 //facebook-login
@@ -13,10 +11,9 @@ import manicureUserData from '../helpers/manicureUserData';
 
 export default function NuLogin(props) {
 
-  const {login, setLogin, userData, setUserData} = useContext(AppContext);
+  const {login, setLogin, setUserData} = useContext(AppContext);
 
   const [inputs, setInputs] = useState({email: "", password: ""});
-  const [showLogin, setShowLogin] = useState(false);    
   const { email, password } = inputs;
 
 
@@ -45,26 +42,6 @@ export default function NuLogin(props) {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const checkAuthenticated = () => {
-    const runCheckAuthenticated = async () => {
-      try {
-        console.log("token?", localStorage.token);
-        const res = await UserFinder.post("/authentication/verify", {}, {
-          headers: { jwt_token: localStorage.token }}
-        );
-        console.log("we're in the check authenticated...", res);
-        // const parseRes = await res.json();
-        
-    
-        // (res.data.verified === true) ? setUserData(res.datasetLogin(true) : setLogin(false);
-      } catch (err) {
-        console.log("Error in check authenticated", err);
-      }
-    }
-
-    runCheckAuthenticated();
   };
 
   const getUserData = () => {

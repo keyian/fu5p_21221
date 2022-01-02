@@ -1,25 +1,19 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react';
+import React, { useContext, useState, Fragment } from 'react';
 import './styles/LoginBox.css';
 import { Link } from 'react-router-dom';
 import Register from './Register';
 import NuLogin from './NuLogin';
-import Modal from 'react-bootstrap/Modal';
+
+import Button from './Button';
 //facebook-login
 
 import { AppContext } from '../context/AppContext';
-
-//import helper
-import manicureUserData from '../helpers/manicureUserData';
-
 
 export default function LoginBox() {
 
   const {login, setLogin, userData, setUserData} = useContext(AppContext);
 
   const [showLogin, setShowLogin] = useState(false);    
-  const [modalShow, setModalShow] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-
 
   const show_Login = () => {
     console.log("show log in getting called");
@@ -54,12 +48,12 @@ export default function LoginBox() {
             {showLogin ?
                 <Fragment>
                     <Register /> 
-                    <a href="#" onClick={show_Login}>login</a>
+                    <Button onClick={show_Login}>login</Button>
                 </Fragment>
               : 
                 <Fragment>
                     <NuLogin/>
-                    <a href="#" onClick={show_Login}>register</a>
+                    <Button className="no-dec-button" onClick={show_Login}>register</Button>
                 </Fragment>
             }
           </Fragment>

@@ -1,4 +1,4 @@
-import React, {Link, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import Button from './Button';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';

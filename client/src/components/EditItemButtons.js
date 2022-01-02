@@ -7,7 +7,6 @@ import DeleteButton from './DeleteButton';
 
 const EditItemButtons = ({edit, del, userData, item, ...props}) => {
     const [editShow, setEditShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState(false);
     const handleEdit = () => {
         // e.preventDefault();
         console.log("this is handle edit");

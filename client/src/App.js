@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 //router
 import {Route} from 'react-router-dom';
@@ -12,7 +12,6 @@ import Item from './components/Item';
 //react-bootstrap
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 //css
 import './App.css';

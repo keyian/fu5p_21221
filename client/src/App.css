@@ -50,18 +50,6 @@ a{
   }
 }
 
-p{
-  /* display: inline; */
-}
-
-/* body {
-  background-color: #FF3CC7;
-  animation-name: bgColor;
-  animation-duration: 30s;
-  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-  animation-iteration-count: infinite;
-} */
-
 body {
   background-color: white;
 }
@@ -81,3 +69,9 @@ body {
   
 }
 
+
+.no-dec-button {
+  padding: 0;
+  border: none;
+  background: none;
+}

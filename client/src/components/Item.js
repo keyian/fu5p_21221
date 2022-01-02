@@ -5,8 +5,6 @@ import ItemMap from './ItemMap';
 import ItemFeed from './ItemFeed';
 import { AppContext } from '../context/AppContext';
 import EditItemButtons from './EditItemButtons';
-import './styles/Item.css';
-
 
 export default function Item(props) {
     //check for location state (means Item page clicked through Link)
@@ -20,11 +18,12 @@ export default function Item(props) {
     
     useEffect( () => {
         console.log("are we in useeffect?");
+        
         const requestItem = async () => {
-            let splitPath = location.pathname.split('/');
-            let itemID = splitPath[splitPath.length-1];
             console.log("In use effect request item");
             try {
+                let splitPath = location.pathname.split('/');
+                let itemID = splitPath[splitPath.length-1];
                 let itemResults = await ItemFinder.get(`/get-one-item/${itemID}`)
                 setItem(itemResults.data.results);
                 console.log(itemResults)
@@ -34,7 +33,7 @@ export default function Item(props) {
         };
 
         requestItem();
-    }, []);
+    }, [location]);
 
     console.log("this is item in item", item);
 

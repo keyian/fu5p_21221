@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles/Likes.css';
 import Liker from '../apis/Liker';
 import { AppContext } from '../context/AppContext';
@@ -16,18 +16,6 @@ export default function Likes({like, item, ...props}) {
     const [disliked, setDisliked] = useState(login ? userData.itemDislikes.includes(item.item_id) : false);
 
     const socket = props.socket;
-
-    function isItemLiked() {
-        console.log("isItemLiked iteration");
-        //determine logic later, after testing liking
-        setLiked(login ? userData.itemLikes?.includes(item.item_id) : false);
-    }
-
-    function isItemDisliked() {
-        console.log("isItemDisLiked iteration");
-        //determine logic later, after testing liking
-        setDisliked(login ? userData.itemDislikes?.includes(item.item_id) : false);
-    }
 
     socket.on(`server-new-like-${item.item_id}`, (like) => {
         if(like.itemID === item.item_id) {
@@ -107,14 +95,12 @@ export default function Likes({like, item, ...props}) {
         }
     }
 
-    useEffect(()=>{isItemLiked(); isItemDisliked();}, [userData]);
-
     return(
         <div className="likes-container-div">
             {(login)?
                 <div className="likes-div">
-                    <div className="notFilled like-button" onClick={()=>handleClick("like")}>{liked ? "👍" : "⬆️" }</div>
-                    <div className="notFilled like-button" onClick={()=>handleClick("dislike")}>{disliked ? "👎" : "⬇️"} </div>
+                    <div className="notFilled like-button" onClick={()=>handleClick("like")}>{liked ? <span role="img" aria-label="like">👍</span> : "⬆️" }</div>
+                    <div className="notFilled like-button" onClick={()=>handleClick("dislike")}>{disliked ? <span role="img" aria-label="dislike">👎</span> : "⬇️"} </div>
                 </div>
                 :
                 <p id="login-to-like-p"> login to like and dislike items! </p>
