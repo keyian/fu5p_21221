@@ -107,7 +107,7 @@ export default function Likes({like, item, ...props}) {
             }
             
             <div className="likes-count-div">
-                <p>👍: {likes}</p>
+                <p><span role="img" aria-label="like">👍</span>: {likes}</p>
             </div>
         </div>
     );

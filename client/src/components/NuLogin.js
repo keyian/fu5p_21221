@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import UserFinder from '../apis/UserFinder.js';
-import Draggable from 'react-draggable';
+import Container from 'react-bootstrap/Container';
 //facebook-login
 
 import { AppContext } from '../context/AppContext';
@@ -75,8 +75,7 @@ export default function NuLogin(props) {
   useEffect(getUserData, [login]);
   return(
 
-    <Draggable>
-      <div>
+      <Container>
           <h1 className="mt-5 text-center">Login</h1>
           <form onSubmit={onSubmitForm}>
               <input
@@ -95,8 +94,7 @@ export default function NuLogin(props) {
               />
               <button className="btn btn-success btn-block">Submit</button>
           </form>
-        </div>
-    </Draggable>
+        </Container>
         
   );
 }

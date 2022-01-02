@@ -1,9 +1,12 @@
-import React, { useContext, useState, Fragment } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles/LoginBox.css';
+import '../App.css';
 import { Link } from 'react-router-dom';
 import Register from './Register';
 import NuLogin from './NuLogin';
-
+//react-bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Button from './Button';
 //facebook-login
 
@@ -33,32 +36,40 @@ export default function LoginBox() {
   };
 
   return(
-      <div id="outer-login-div">
+      <Container id="outer-login-div">
         {login ? 
-          <Fragment>
+          <Row>
             <p>Welcome, 
               <Link to={{pathname: `/user/${userData.user_id}`}} >{userData.name}</Link>
             </p>
             <button onClick={e => logout(e)} className="btn btn-primary">
               Logout
             </button>
-          </Fragment>
+          </Row>
         :
-          <Fragment>
+          <Row>
             {showLogin ?
-                <Fragment>
+                <Container>
+                  <Row>
                     <Register /> 
-                    <Button onClick={show_Login}>login</Button>
-                </Fragment>
+                  </Row>
+                  <Row>
+                    <Button className="no-dec-button" onClick={show_Login}>login</Button> 
+                  </Row>
+                </Container>
               : 
-                <Fragment>
+                <Container>
+                  <Row>
                     <NuLogin/>
+                  </Row>
+                  <Row>
                     <Button className="no-dec-button" onClick={show_Login}>register</Button>
-                </Fragment>
+                  </Row>
+                </Container>
             }
-          </Fragment>
+          </Row>
         }
-      </div>
+      </Container>
     );
 }
 

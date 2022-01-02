@@ -14,11 +14,11 @@
     box-shadow: 2px 2px;
 } */
 
-#outer-login-div {
+/* #outer-login-div {
     display: inline;
     position: absolute;
     right: 50px;
-}
+} */
 
 
 @supports (-webkit-text-stroke: 5px black) {

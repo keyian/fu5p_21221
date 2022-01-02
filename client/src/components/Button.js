@@ -3,7 +3,7 @@ import './../App.css';
 
 const Button = (props) => {
   return (
-    <button onClick={props.onClick}>
+    <button className={props.className} onClick={props.onClick}>
       <span>{props.children}</span>
     </button>
   )

@@ -13,7 +13,7 @@ export default function Header() {
 
     return (
         <Container>
-            <Row>
+            <Row id="header-row">
                 <Col>
                     <Link to={'/'} replace><h2 className="title">Under 5</h2></Link>    
                 </Col>
