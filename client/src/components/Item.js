@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import ItemFinder from '../apis/ItemFinder';
 import ItemMap from './ItemMap';
-import ItemFeed from './ItemFeed';
+import NuItemFeed from './NuItemFeed';
 import { AppContext } from '../context/AppContext';
 import EditItemButtons from './EditItemButtons';
 
@@ -13,13 +13,13 @@ export default function Item(props) {
     const location = useLocation();
 
     const [item, setItem] = useState({});
+    console.log("userdata?", userData);
     const userIsCreator = (userData.user_id === item.creator_id);
 
-    
-    useEffect( () => {
+    const requestItem = () => {
         console.log("are we in useeffect?");
         
-        const requestItem = async () => {
+        const runRequestItem = async () => {
             console.log("In use effect request item");
             try {
                 let splitPath = location.pathname.split('/');
@@ -32,8 +32,9 @@ export default function Item(props) {
             }
         };
 
-        requestItem();
-    }, [location]);
+        runRequestItem();
+    }
+    useEffect(requestItem, [location]);
 
     console.log("this is item in item", item);
 
@@ -53,7 +54,7 @@ export default function Item(props) {
             <h1>{item.item_name} @ {item.place_name}</h1>
             <h2>added by {item.name.split(" ")[0]}</h2>
             <ItemMap items={[item]} />
-            <ItemFeed items={[item]} />
+            <NuItemFeed items={[item]} />
         </div>
     ) : (<p>Item Page</p>);
 }

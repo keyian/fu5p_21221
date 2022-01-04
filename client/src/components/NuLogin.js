@@ -44,11 +44,6 @@ export default function NuLogin(props) {
     }
   };
 
-
-
-  
-
-  // useEffect(checkAuthenticated, []);
   return(
 
       <Container>
