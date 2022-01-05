@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 
 
 const PORT = process.env.PORT || 8080;
+console.log("LOGGING PORT", PORT);
 
 const routes = require('./routes/api.js');
 const authRoutes = require('./routes/jwtAuth.js');

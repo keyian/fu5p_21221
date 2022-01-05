@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "http://localhost:8080/api/v1/items"
+    baseURL: `http://localhost:${process.env.PORT}/api/v1/items`
     }
 );

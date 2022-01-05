@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import UserFinder from '../apis/UserFinder.js';
 import Container from 'react-bootstrap/Container';
 //facebook-login
@@ -11,7 +11,7 @@ import manicureUserData from '../helpers/manicureUserData';
 
 export default function NuLogin(props) {
 
-  const {login, setLogin, setUserData} = useContext(AppContext);
+  const {setLogin, setUserData} = useContext(AppContext);
 
   const [inputs, setInputs] = useState({email: "", password: ""});
   const { email, password } = inputs;
