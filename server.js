@@ -96,10 +96,6 @@ app.use('/api', routes);
 app.use('/api/v1/users/authentication', authRoutes);
 
 app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(req, res, next) {
-  console.log("we startin upload image");
-  console.log("req.file", req.file);
-  console.log("req.body", req.body);
-
   
   //we should only get the path AFTER whatever is static...
   payload = {
@@ -112,8 +108,6 @@ app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(re
   console.log("payload",payload);
   res.send(payload);
 }));
-
-
 
 //Step 3
 if (process.env.NODE_ENV === 'production') {

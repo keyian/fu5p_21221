@@ -14,11 +14,11 @@ export default function Item(props) {
 
     const [item, setItem] = useState({});
     console.log("userdata?", userData);
-    const userIsCreator = (userData.user_id === item.creator_id);
 
     const requestItem = () => {
         console.log("are we in useeffect?");
         
+
         const runRequestItem = async () => {
             console.log("In use effect request item");
             try {
@@ -34,7 +34,9 @@ export default function Item(props) {
 
         runRequestItem();
     }
-    useEffect(requestItem, [location]);
+
+    
+    useEffect(requestItem, [location, userData]);
 
     console.log("this is item in item", item);
 
@@ -50,7 +52,9 @@ export default function Item(props) {
         <div>
             
             {console.log("item logged in item",item)}
-            {userIsCreator ? <EditItemButtons editItemCallback={handleItemEdit} item={item} /> : <p>you can't edit or deletet</p>}
+            {/* {(userData.user_id === item.creator_id) ? <EditItemButtons editItemCallback={handleItemEdit} item={item} /> : <p>you can't edit or deletet</p>} */}
+            <EditItemButtons edit={handleItemEdit}  userData={userData} item={item} />
+
             <h1>{item.item_name} @ {item.place_name}</h1>
             <h2>added by {item.name.split(" ")[0]}</h2>
             <ItemMap items={[item]} />

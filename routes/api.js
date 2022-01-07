@@ -334,6 +334,10 @@ router.post('/v1/users/save-user', async (req, res) => {
 
 });
 
+router.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"))
+})
+
 
 //helperzzz
 //save place or select it and return the row

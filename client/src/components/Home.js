@@ -97,7 +97,7 @@ export default function Home(props) {
                 </Col>
             </Row>
             <Row>
-                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login w FB Above</h2>}
+                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login Above</h2>}
             </Row>
             {/* <Row>
             </Row> */}
