@@ -38,11 +38,8 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      host: '127.0.0.1',
-      user: process.env.PGUSER,
-      password: process.env.PGPASSWORD,
-      database: process.env.PGDATABASE,
-      charset: 'utf8'
+      connectionString: process.env.DATABASE_URL,
+      ssl: {rejectUnauthorized: false}
     },
     pool: {
       min: 2,
@@ -51,7 +48,6 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     },
-    ssl: true
   }
 
 };
