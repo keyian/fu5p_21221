@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 // import { toast } from "react-toastify";
 import UserFinder from '../apis/UserFinder.js';
 import manicureUserData from "../helpers/manicureUserData";
-import Draggable from "react-draggable";
+import Container from 'react-bootstrap/Container';
 
 const Register = (props) => {
   const [inputs, setInputs] = useState({
@@ -47,7 +47,7 @@ const Register = (props) => {
   };
 
   return (
-      <Draggable>
+      <Container>
         <div>
         <h1 className="mt-5 text-center">Register</h1>
         <form onSubmit={onSubmitForm}>
@@ -78,7 +78,7 @@ const Register = (props) => {
           <button className="btn btn-success btn-block">Submit</button>
         </form>
         </div>
-      </Draggable>
+      </Container>
   );
 };
 
