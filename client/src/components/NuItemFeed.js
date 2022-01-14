@@ -5,9 +5,17 @@ import ItemRow from './ItemRow';
 import { io } from "socket.io-client";
 import Table from 'react-bootstrap/Table';
 const SERVER = "https://localhost:3000";
-const socket = io(SERVER, {
-    withCredentials: true
-  });;
+var socket;
+if(process.env.NODE_ENV === "production") {
+    socket = io({
+        withCredentials: true
+      });;
+} else {
+    socket = io(SERVER, {
+        withCredentials: true
+      });;
+}
+
 
 socket.on('connection', () => {
     console.log(`I'm connected with the back-end`);

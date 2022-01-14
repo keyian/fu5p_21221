@@ -12,6 +12,8 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 console.log("LOGGING PORT", PORT);
 
+console.log("this is process.env.PGUSER", process.env.PGUSER);
+
 const routes = require('./routes/api.js');
 const authRoutes = require('./routes/jwtAuth.js');
 // multer
