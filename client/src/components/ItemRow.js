@@ -34,13 +34,15 @@ export default function ItemRow({del, item, edit, like, ...props}) {
     //     // setModalShow(false);
     // }
 
+    console.log("item in item row", item);
+
    
 
     return(
         <Fragment>
 
             <tr id={item.item_id} onClick={handleClick}>
-                <th className="col-md-2"><Image thumbnail src={item.filepath.substring(fileRoot.length)} /></th>
+                <th className="col-md-2"><Image thumbnail src={item.s3_url} /></th>
                 <td>{item.item_name}</td>
                 <td>{item.price}</td>
                 <td>{item.place_name}</td>

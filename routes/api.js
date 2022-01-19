@@ -168,7 +168,7 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
 
 
     const itemPlaceComments =  await knex.raw(`
-    select i.*, c.comment_text, c.user_name, c.user_id, p.place_name, p.coordinates, img.filepath, u.name, u.email
+    select i.*, c.comment_text, c.user_name, c.user_id, p.place_name, p.coordinates, img.s3_url, u.name, u.email
     from (select * from items where item_id = ${req.params.id}) i 
     left join comments c on i.item_id = c.item_id 
     left join places p on i.place_id = p.place_id

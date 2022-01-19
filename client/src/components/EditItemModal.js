@@ -41,7 +41,7 @@ const EditItemModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Image width={"100%"} src={item.filepath.substring(fileRoot.length)} />
+                    <Image width="100%" src={item.s3_url} />
                     <input type="text" name="item_name" value={item_name || ''} onChange={onChange} placeholder={item_name}/>
                     <div id="price-input-div">
                         <span id="dollar-span">$</span>

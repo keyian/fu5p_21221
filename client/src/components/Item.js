@@ -55,7 +55,7 @@ export default function Item(props) {
             {console.log("item logged in item",item)}
             {/* {(userData.user_id === item.creator_id) ? <EditItemButtons editItemCallback={handleItemEdit} item={item} /> : <p>you can't edit or deletet</p>} */}
             <EditItemButtons edit={handleItemEdit}  userData={userData} item={item} />
-            <Image src={item.s3_url} />
+            <Image width="50%" src={item.s3_url} />
             <h1>{item.item_name} @ {item.place_name}</h1>
             <h2>added by {item.name.split(" ")[0]}</h2>
             <ItemMap items={[item]} />
