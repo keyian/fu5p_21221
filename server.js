@@ -111,7 +111,7 @@ app.post('/api/v1/items/upload-image', upload.single('item_image'), (async (req,
     filename: req.file.filename,
     filepath: req.file.path,
     mimetype: req.file.mimetype,
-    s3URL: imageURL
+    s3_url: imageURL
   }
  
   console.log("payload",payload);

@@ -52,7 +52,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
                     <Modal.Title><Link to={{pathname: `/item/${item.item_id}`}}>{item.item_name} @ {item.place_name}</Link></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Image className="itemfeed-image" src={item.filepath.substring(fileRoot.length)} />
+                    <Image className="itemfeed-image" src={item.s3_url} />
                     <Likes item={item} like={like} socket={props.socket} />
                     <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
                     <EditItemButtons userData={userData} item={item} edit={edit} del={del}/>

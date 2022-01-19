@@ -42,6 +42,7 @@ export default function ItemForm(props) {
     setAddress('');
     setCoordinates({lat: null, lng: null});
     setPlaceId('');
+    clearImgPrev();
     document.getElementById("itemImage").value = "";
 
   }
@@ -58,6 +59,21 @@ export default function ItemForm(props) {
     imgPrev.style.display = "inline";
 
     console.log('in handle photo, image name: ',imageName);
+  }
+
+  const clearImgPrev = () => {
+    let imgPrev =document.getElementById("img-prev");
+    let parent = imgPrev.parentNode;
+    parent.removeChild(imgPrev);
+    console.log(parent);
+
+    let nuImg = document.createElement("img");
+    nuImg.src = '#';
+    nuImg.alt = "your img";
+    nuImg.id = "img-prev";
+    let imgInput = document.getElementById("itemImage");
+    parent.insertBefore(nuImg, imgInput);
+
   }
 
 

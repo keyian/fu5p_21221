@@ -5,6 +5,7 @@ import ItemMap from './ItemMap';
 import NuItemFeed from './NuItemFeed';
 import { AppContext } from '../context/AppContext';
 import EditItemButtons from './EditItemButtons';
+import Image from 'react-bootstrap/Image';
 
 export default function Item(props) {
     //check for location state (means Item page clicked through Link)
@@ -54,7 +55,7 @@ export default function Item(props) {
             {console.log("item logged in item",item)}
             {/* {(userData.user_id === item.creator_id) ? <EditItemButtons editItemCallback={handleItemEdit} item={item} /> : <p>you can't edit or deletet</p>} */}
             <EditItemButtons edit={handleItemEdit}  userData={userData} item={item} />
-
+            <Image src={item.s3_url} />
             <h1>{item.item_name} @ {item.place_name}</h1>
             <h2>added by {item.name.split(" ")[0]}</h2>
             <ItemMap items={[item]} />

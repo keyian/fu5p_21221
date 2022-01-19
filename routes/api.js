@@ -369,9 +369,9 @@ async function savePlace(placeFields) {
 
 //save image and return its info
 async function saveImage(payload) {
-  const {size, filename, filepath, mimetype} = payload;
+  const {size, filename, filepath, mimetype, s3_url} = payload;
   const image = await knex("images").insert({
-    size, filename, filepath, mimetype
+    size, filename, filepath, mimetype, s3_url
   }).returning('*');
 
   return image[0];
