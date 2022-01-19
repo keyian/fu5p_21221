@@ -12,6 +12,10 @@ a{
   text-decoration: none;
 }
 
+.itemfeed-image {
+  width: 50px;
+}
+
 
 .under5-title {
   /* display: inline; */
