@@ -6,7 +6,6 @@ const app = express();
 
 const cors = require('cors');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 
 
 const PORT = process.env.PORT || 8080;
@@ -28,11 +27,16 @@ var mimeToExt = {
 //cross-origin resource sharing
 app.use(cors());
 // for parsing application as json
-app.use(bodyParser.json()); 
+app.use(express.json()); 
 // for parsing application/xwww-
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true })); 
 
 //all multer image upload stuph
+
+const {
+  singlePublicFileUpload
+} = require("./awsS3");
+
 if(process.env.NODE_ENV === "production") {
   // saveLoc = './client/build/'+imgLoc;
   // saveLoc = imgLoc;
@@ -97,14 +101,17 @@ app.use(morgan('tiny'));
 app.use('/api', routes);
 app.use('/api/v1/users/authentication', authRoutes);
 
-app.post('/api/v1/items/upload-image', upload.single('item_image'), (function(req, res, next) {
-  
+app.post('/api/v1/items/upload-image', upload.single('item_image'), (async (req, res, next) => {
+
+  const imageURL = await singlePublicFileUpload(req.file);
+  console.log("this is imageurl", imageURL);
   //we should only get the path AFTER whatever is static...
   payload = {
     size: req.file.size,
     filename: req.file.filename,
     filepath: req.file.path,
-    mimetype: req.file.mimetype
+    mimetype: req.file.mimetype,
+    s3URL: imageURL
   }
  
   console.log("payload",payload);
