@@ -140,7 +140,7 @@ export default function ItemForm(props) {
   }
 
   return (
-      <Draggable cancel="input">
+      <Draggable cancel="input, .suggestions-div, textarea">
        <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
           <span id="drag-span">DRAG THIS</span>
           <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
