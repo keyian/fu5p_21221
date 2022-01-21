@@ -17,14 +17,14 @@ export default function Likes({like, item, ...props}) {
 
     const socket = props.socket;
 
-    socket.on(`server-new-like-${item.item_id}`, (like) => {
-        if(like.itemID === item.item_id) {
-            console.log("in correct item");
-            // setLikes(likes + like.likeChange);
-            like(item.item_id, like.likeChange);
-        }
+    // socket.on(`server-new-like-${item.item_id}`, (like) => {
+    //     if(like.itemID === item.item_id) {
+    //         console.log("in correct item");
+    //         // setLikes(likes + like.likeChange);
+    //         like(item.item_id, like.likeChange);
+    //     }
         
-    })
+    // })
 
   
 
@@ -89,7 +89,6 @@ export default function Likes({like, item, ...props}) {
             const itemLike = await Liker.post('/like-click', body);
 
             console.log("this is itemLike", itemLike);
-            socket.emit("client-new-like", itemLike.data);
         } catch(error) {
             console.log("error in favorite-click: ", error);
         }

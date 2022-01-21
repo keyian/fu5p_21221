@@ -89,10 +89,10 @@ export default function Home(props) {
     return (
         <Container>
             <Row>
-                <Col md={8}>
+                <Col xs={12} sm={12} md={6}>
                     <ItemMap items={items} />
                 </Col>
-                <Col md={4}>
+                <Col xs={12} sm={12} md={6}>
                     <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
                 </Col>
             </Row>

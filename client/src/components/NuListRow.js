@@ -15,9 +15,9 @@ export default function NuListRow(props) {
 
     return(
         <ListGroup.Item>
-            <Image className="col-sm" src={item.filepath.substring(FILE_ROOT.length)} rounded thumbnail width="100px"/>
-            <p className="col-sm">test {item.item_name}</p>
-            <Likes className="col-sm" item={item} socket={props.socket}/>
+            <Image src={item.filepath.substring(FILE_ROOT.length)}  />
+            <p >test {item.item_name}</p>
+            <Likes item={item} socket={props.socket}/>
         </ListGroup.Item> 
     );
 }
