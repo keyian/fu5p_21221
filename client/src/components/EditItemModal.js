@@ -1,13 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import Button from './Button';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
-import { AppContext } from '../context/AppContext';
 import ItemFinder from '../apis/ItemFinder';
 
 const EditItemModal = (props) => {
-    const {fileRoot} = useContext(AppContext);
     const {item, show, setShow} = props;
 
     const [inputs, setInputs] = useState({

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import EditItemButtons from './EditItemButtons';
 
 export default function ItemRow({del, item, edit, like, ...props}) {
-    const {userData, fileRoot} =  useContext(AppContext);
+    const {userData} =  useContext(AppContext);
     // props
     const [modalShow, setModalShow] = useState(false);
 
@@ -55,7 +55,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
                 </Modal.Header>
                 <Modal.Body>
                     <Image className="itemfeed-image" src={item.s3_url} />
-                    <Likes item={item} like={like} socket={props.socket} />
+                    <Likes item={item} like={like} />
                     <CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} />
                     <EditItemButtons userData={userData} item={item} edit={edit} del={del}/>
                     <p className="itempost-username-p">added by</p>

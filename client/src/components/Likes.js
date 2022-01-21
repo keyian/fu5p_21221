@@ -15,8 +15,6 @@ export default function Likes({like, item, ...props}) {
     const [liked, setLiked] = useState(login ? userData.itemLikes.includes(item.item_id): false);
     const [disliked, setDisliked] = useState(login ? userData.itemDislikes.includes(item.item_id) : false);
 
-    const socket = props.socket;
-
     // socket.on(`server-new-like-${item.item_id}`, (like) => {
     //     if(like.itemID === item.item_id) {
     //         console.log("in correct item");

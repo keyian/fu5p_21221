@@ -17,7 +17,7 @@ export default function Header() {
                 <Col>
                     <Link to={'/'} replace><h2 className="under5-title">Under 5</h2></Link>    
                 </Col>
-                <Col className="my-auto">
+                <Col md={3}className="my-auto">
                     <LoginBox />
                 </Col>
             </Row>  

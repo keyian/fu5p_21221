@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import UserFinder from '../apis/UserFinder.js';
 import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form'
+
 //facebook-login
 
 import { AppContext } from '../context/AppContext';
@@ -47,24 +49,29 @@ export default function NuLogin(props) {
   return(
 
       <Container>
-          <h1 className="mt-5 text-center">Login</h1>
-          <form onSubmit={onSubmitForm}>
-              <input
-              type="text"
-              name="email"
-              value={email}
-              onChange={e => onChange(e)}
-              className="form-control my-3"
-              />
+          <h3>Login</h3>
+          <Form onSubmit={onSubmitForm}>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="email"
+                value={email}
+                onChange={e => onChange(e)}
+                className="form-control my-3"
+                placeholder="email"
+                />
+            </Form.Group>
+              
               <input
               type="password"
               name="password"
               value={password}
               onChange={e => onChange(e)}
               className="form-control my-3"
+              placeholder="password"
               />
               <button className="btn btn-success btn-block">Submit</button>
-          </form>
+          </Form>
         </Container>
         
   );
