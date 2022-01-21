@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from '../context/AppContext';
+import Form from 'react-bootstrap/Form'
+
 
 // import { toast } from "react-toastify";
 import UserFinder from '../apis/UserFinder.js';
@@ -48,10 +50,9 @@ const Register = (props) => {
 
   return (
       <Container>
-        <div>
-        <h1 className="mt-5 text-center">Register</h1>
-        <form onSubmit={onSubmitForm}>
-          <input
+        <h3>Register</h3>
+        <Form onSubmit={onSubmitForm}>
+          <Form.Control
               type="text"
               name="name"
               value={name}
@@ -59,7 +60,7 @@ const Register = (props) => {
               onChange={e => onChange(e)}
               className="form-control my-3"
             />
-            <input
+            <Form.Control
               type="text"
               name="email"
               value={email}
@@ -67,7 +68,7 @@ const Register = (props) => {
               onChange={e => onChange(e)}
               className="form-control my-3"
             />
-            <input
+            <Form.Control
               type="password"
               name="password"
               value={password}
@@ -76,8 +77,7 @@ const Register = (props) => {
               className="form-control my-3"
             />
           <button className="btn btn-success btn-block">Submit</button>
-        </form>
-        </div>
+        </Form>
       </Container>
   );
 };

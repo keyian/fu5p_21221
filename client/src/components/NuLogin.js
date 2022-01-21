@@ -51,7 +51,6 @@ export default function NuLogin(props) {
       <Container>
           <h3>Login</h3>
           <Form onSubmit={onSubmitForm}>
-            <Form.Group>
               <Form.Control
                 type="text"
                 name="email"
@@ -60,9 +59,7 @@ export default function NuLogin(props) {
                 className="form-control my-3"
                 placeholder="email"
                 />
-            </Form.Group>
-              
-              <input
+            <Form.Control
               type="password"
               name="password"
               value={password}
@@ -70,6 +67,7 @@ export default function NuLogin(props) {
               className="form-control my-3"
               placeholder="password"
               />
+              
               <button className="btn btn-success btn-block">Submit</button>
           </Form>
         </Container>
