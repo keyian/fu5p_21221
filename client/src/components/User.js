@@ -6,6 +6,11 @@ import UserFinder from '../apis/UserFinder';
 import { AppContext } from '../context/AppContext';
 import { useLocation } from "react-router-dom";
 
+//react-bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 export default function User(props) {
     //state
     const [favorites, setFavorites] = useState([]);
@@ -50,11 +55,11 @@ export default function User(props) {
     
     useEffect(populateFavorites, [userData]);
     return (
-        <div id="userbg">
+        <Container id="userbg">
             {/* <Header loginHooks={props.loginHooks}/> */}
             <h1 className="userWhite">{userFirstName}'s Page</h1>
             {favorites.length === 0 ? <p className="userWhite"> {userFirstName} has no favorites</p> : <ItemMap items={favorites} />}
             {favorites.length === 0 ? "" : <NuItemFeed items={favorites} />}
-        </div>
+        </Container>
     );
 }

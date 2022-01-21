@@ -194,11 +194,11 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
     console.log("in populate user", req.params.userID);
     
-    let userLikes = await knex.from("users").where('users.user_id', req.params.userID)
-      .innerJoin("item_likes", "users.user_id", "item_likes.user_id")
+    let userLikes = await knex.from("item_likes").where('item_likes.user_id', req.params.userID)
       .innerJoin("items", "item_likes.item_id", "items.item_id")
       .innerJoin('places', 'items.place_id', 'places.place_id')
       .innerJoin('images', 'items.image_id', 'images.image_id')
+      .innerJoin('users', 'items.creator_id', 'users.user_id')
       .orderBy('created_at', 'desc');
     console.log("userlieks.length", userLikes.length);
     if(userLikes.length === 0) {

@@ -1,5 +1,4 @@
 import React from 'react';
-import './styles/NuItemFeed.css';
 import ItemRow from './ItemRow';
 //socket
 import { io } from "socket.io-client";
