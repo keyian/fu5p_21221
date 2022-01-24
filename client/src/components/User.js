@@ -52,7 +52,7 @@ export default function User(props) {
     }
 
     
-    useEffect(populateFavorites, [userData]);
+    useEffect(populateFavorites, [location]);
     return (
         <Container id="userbg">
             <Row>

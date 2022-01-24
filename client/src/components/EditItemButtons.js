@@ -13,7 +13,6 @@ const EditItemButtons = ({edit, del, userData, item, ...props}) => {
 
         setEditShow(!editShow);
     }
-    console.log(userData.user_id, item.creator_id);
     return(
         <Fragment>
         { (userData.user_id === item.creator_id) ?
