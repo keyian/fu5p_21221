@@ -23,7 +23,7 @@ var socket;
 
 
 
-export default function NuItemFeed({del, items, edit, like}) {
+export default function NuItemFeed({del, items, edit, like, ...props}) {
     useEffect(() => {
 
 
@@ -45,7 +45,7 @@ export default function NuItemFeed({del, items, edit, like}) {
                 </thead>
                 <tbody>
                 {items.map(
-                    (item, i) => <ItemRow del={del} edit={edit} like={like} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
+                    (item, i) => <ItemRow click={props.click} del={del} edit={edit} like={like} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
                 )}
                 </tbody>
             </Table>

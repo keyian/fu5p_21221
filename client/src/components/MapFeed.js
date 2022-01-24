@@ -9,9 +9,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-export default function Home(props) {
+export default function MapFeed(props) {
     const {items, setItems} = props;
-    const {login, userData, setUserData} = useContext(AppContext);
+    const [center, setCenter] = useState([]);
 
     const  deleteItem = (deleted) => {
         console.log("this calls delete item?", deleted);
@@ -68,7 +68,9 @@ export default function Home(props) {
         }
     }
 
-
+    function markerClick(coords) {
+        setCenter(coords);
+    }
 
     useEffect(getItems, []);
 
@@ -76,10 +78,10 @@ export default function Home(props) {
     return (
         <Row>
             <Col xs={12} sm={12} md={6}>
-                <ItemMap items={items} />
+                <ItemMap center={center} items={items} />
             </Col>
             <Col xs={12} sm={12} md={6}>
-                <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
+                <NuItemFeed click={markerClick} del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
             </Col>
         </Row>
     );

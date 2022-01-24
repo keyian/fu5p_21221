@@ -22,6 +22,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
 
     const handleClick = (e) => {
         e.preventDefault();
+        props.click(item.coordinates);
         setModalShow(true);
     }
 

@@ -49,9 +49,16 @@ function ItemMap(props) {
     }
   }
 
+  function reCenter() {
+    if(props.center?.length > 1) {
+      setCenter(prevState => ({...prevState, lat: props.center[0], lng: props.center[1]}));
+      setZoom(14);
+    }
+  }
 
-  
   useEffect(isSingleItem, [itemsies]);
+
+  useEffect(reCenter, [props.center]);
  
 //  return (itemsies.length > 0) ? (
  return (
