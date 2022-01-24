@@ -17,11 +17,8 @@ export default function ItemRow({del, item, edit, like, ...props}) {
     // props
     const [modalShow, setModalShow] = useState(false);
 
-    console.log('item in likes', item);
-
     //if there's no item.name, that means it was live-added, so it has to be the current user...
     let creatorFirstName = item.name? item.name.split(" ")[0] : userData.name.split(" ")[0];
-
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -31,17 +28,6 @@ export default function ItemRow({del, item, edit, like, ...props}) {
     const handleClose = () => {
         setModalShow(false);
     }
-
-    // const handleItemEdit = (nuItem) => {
-    //     console.log("this is nuItem", Object.assign({...item}, nuItem.data.item[0]));
-    //     //set item to item with updated fields
-    //     setItem(Object.assign({...item}, nuItem.data.item[0]));
-    //     // setModalShow(false);
-    // }
-
-    console.log("item in item row", item);
-
-   
 
     return(
         <Fragment>

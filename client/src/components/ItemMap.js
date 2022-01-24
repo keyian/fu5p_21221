@@ -41,11 +41,6 @@ function ItemMap(props) {
 
   
   useEffect(isSingleItem, [itemsies]);
-
-
-
- console.log("this is itemsies", itemsies)
-
  
 //  return (itemsies.length > 0) ? (
  return (
