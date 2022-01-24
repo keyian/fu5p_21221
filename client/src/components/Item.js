@@ -1,11 +1,32 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import ItemFinder from '../apis/ItemFinder';
-import ItemMap from './ItemMap';
-import NuItemFeed from './NuItemFeed';
 import { AppContext } from '../context/AppContext';
+
+//components
+import ItemMap from './ItemMap';
 import EditItemButtons from './EditItemButtons';
+import CommentBox from './CommentBox';
+
+//react-bootstrap
 import Image from 'react-bootstrap/Image';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+
+//comment socket
+import { io } from "socket.io-client";
+const SERVER = "https://localhost:3000";
+var socket;
+if(process.env.NODE_ENV === "production") {
+    socket = io({
+        withCredentials: true
+      });;
+} else {
+    socket = io(SERVER, {
+        withCredentials: true
+      });;
+}
 
 export default function Item(props) {
     //check for location state (means Item page clicked through Link)
@@ -51,15 +72,28 @@ export default function Item(props) {
     return (item.item_name) ? (
         
         <div>
+            <Container>
+                <Row>
+                    <EditItemButtons edit={handleItemEdit}  userData={userData} item={item} />
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <h3>{item.item_name} @ {item.place_name}</h3>
+                        <Image className="non-map-img" src={item.s3_url} />
+                    </Col>
+                    <Col md={4} className="my-auto">
+                        <ItemMap id="item-pg-map" items={[item]} />
+                    </Col>
+                </Row>
+                <Row>
+                    <CommentBox itemID={item.item_id} socket={socket} />
+                </Row>
+
+                
+                <h4>added by {item.name.split(" ")[0]}</h4>
+                
+            </Container>
             
-            {console.log("item logged in item",item)}
-            {/* {(userData.user_id === item.creator_id) ? <EditItemButtons editItemCallback={handleItemEdit} item={item} /> : <p>you can't edit or deletet</p>} */}
-            <EditItemButtons edit={handleItemEdit}  userData={userData} item={item} />
-            <Image width="50%" src={item.s3_url} />
-            <h1>{item.item_name} @ {item.place_name}</h1>
-            <h2>added by {item.name.split(" ")[0]}</h2>
-            <ItemMap items={[item]} />
-            <NuItemFeed items={[item]} />
         </div>
     ) : (<p>Item Page</p>);
 }

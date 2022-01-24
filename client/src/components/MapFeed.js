@@ -1,20 +1,16 @@
 import React, {useContext, useState, useEffect} from 'react';
-
+import ItemMap from './ItemMap';
+import NuItemFeed from './NuItemFeed';
 import ItemFinder from '../apis/ItemFinder';
 import { AppContext } from '../context/AppContext';
 
-//components
-import ItemForm from './ItemForm';
-import MapFeed from './MapFeed';
-
 //react-bootstrap
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
 export default function Home(props) {
-    const [items, setItems] = useState([]);
+    const {items, setItems} = props;
     const {login, userData, setUserData} = useContext(AppContext);
 
     const  deleteItem = (deleted) => {
@@ -43,17 +39,6 @@ export default function Home(props) {
         console.log("this is nuitems", nuItems);
         //set items to copied array
         setItems(nuItems);
-    }
-
-    //trigger this when an item is added...
-    const addItem = (nuItem) => {
-        //add on user info (which will be loaded upon refresh)
-        nuItem.name = userData.name;
-        console.log("in additem... this is nuItem, this is items", nuItem, items);
-        //temporarily set items as new array with newly-returned item appended.
-        setItems([nuItem].concat(items));
-        setUserData(userData => ({...userData, itemLikes: userData.itemLikes.concat(nuItem.item_id)}))
-
     }
 
     const likeItem = (likedItemID, likeChange) => {
@@ -89,13 +74,13 @@ export default function Home(props) {
 
 
     return (
-        <Container>
-            <MapFeed items={items} setItems={setItems} />
-            <Row>
-                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login Above</h2>}
-            </Row>
-            {/* <Row>
-            </Row> */}
-        </Container>
+        <Row>
+            <Col xs={12} sm={12} md={6}>
+                <ItemMap items={items} />
+            </Col>
+            <Col xs={12} sm={12} md={6}>
+                <NuItemFeed del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
+            </Col>
+        </Row>
     );
 }

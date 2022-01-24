@@ -161,7 +161,6 @@ router.get('/v1/items/get-items', async (req, res) => {
 
 router.get('/v1/items/get-one-item/:id', async (req, res) => {
   try {
-    console.log("in getOneItem, here's req.query", req.query);
     // const item  = await knex.select('*')
     // .from('items')
     // .where({item_id: req.query.itemID});
@@ -175,7 +174,6 @@ router.get('/v1/items/get-one-item/:id', async (req, res) => {
     left join images img on i.image_id = img.image_id
     left join users u on i.creator_id = u.user_id`);
 
-    console.log("itemcomments", itemPlaceComments);
     res.status(200).json({
       status: "success",
       results: itemPlaceComments.rows[0]
@@ -200,12 +198,10 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
       .innerJoin('images', 'items.image_id', 'images.image_id')
       .innerJoin('users', 'items.creator_id', 'users.user_id')
       .orderBy('created_at', 'desc');
-    console.log("userlieks.length", userLikes.length);
     if(userLikes.length === 0) {
       console.log("In no likes section");
       userLikes = await knex.from("users").where('user_id', req.params.userID);
     }
-    console.log("user likes in populate user", userLikes);
     res.status(200).json({userLikes});
   } catch (err) {
     console.log("Error populating user favorites: ", err);

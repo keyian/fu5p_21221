@@ -1,8 +1,8 @@
 #itemform-button {
   background-color: #152BFF;
   padding: .375rem .75rem;
-  font-size: 2.25rem;
-  line-height: 1.5;
+  font-size: 100%;
+  line-height: 1.5; 
   border-radius: .1rem;
   cursor: pointer;
   outline: none;
@@ -10,7 +10,7 @@
   font-weight: 725;
   font-family: Helvetica, sans-serif;
   letter-spacing: 8px;
-  align-self: center;
+  align-self: center; 
   
 }
 
@@ -85,14 +85,13 @@ form input, form textarea {
 form>input, textarea {
     border-width: 5px;
     border-color: #152BFF;
-  
   }
 
 
 
 @supports (-webkit-text-stroke: 5px black) {
     #itemform-button {
-      -webkit-text-stroke: .75px #00E5E8;
+      -webkit-text-stroke: .45px #00E5E8;
       -webkit-text-fill-color: #152BFF;
 
     }

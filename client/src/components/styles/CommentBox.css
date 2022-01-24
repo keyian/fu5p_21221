@@ -1,23 +1,21 @@
 .comments-container-div {
-    text-align: center;
-    flex-basis: 100%;
     margin-top: 10px;
 }
 
 .comments-scroll-div {
     width: 320px;
-    height: 125px;
+    max-height: 125px;
     overflow:auto;
     text-align: left;
     background-color: #fff;
 }
 
 .comments-textarea {
-    margin-top: 10px; 
+    margin-top: 5px; 
+    height: 35px;
 }
 
 .comments-textarea-div {
-    flex-basis: 100%;
     background-color: white;
 }
 

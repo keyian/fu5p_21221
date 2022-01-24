@@ -8,7 +8,7 @@ export default function CommentBox(props) {
     const[input, setInput] = useState("");
     const itemID = props.itemID;
     const {userData, login} = useContext(AppContext);
-    const scrollID = props.dataRef+"-scroll-div";
+    const scrollID = (props.dataRef || 0)+"-scroll-div";
     const socket = props.socket;    
 
     console.log("this is itemID in commentbox", itemID);

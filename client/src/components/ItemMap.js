@@ -50,7 +50,7 @@ function ItemMap(props) {
 //  return (itemsies.length > 0) ? (
  return (
       // Important! Always set the container height explicitly
-      <Container id="map-div" >
+      <Container className="map-div" id={props.id}>
             <GoogleMapReact
               center={mapState.center}
               zoom={zoomState.zoom}

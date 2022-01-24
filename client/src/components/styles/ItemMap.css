@@ -1,4 +1,8 @@
-#map-div {
+#item-pg-map {
+    height: 30vh;
+}
+
+.map-div {
     /* padding 0 bc React-Bootstrap's Row adds padding. Undesirable here. */
     padding: 0px;
     /* height MUST be set for this component to work */

@@ -26,7 +26,7 @@ export default function NuItemFeed({del, items, edit, like}) {
     
     //"dataRef" is used to record Index, because "key" is inaccessible in Child
     return(
-            <Table striped  hover className="col-md-4 feed-container" size="sm">
+            <Table striped hover className="col-md-4 feed-container">
                 <thead>
                     <tr>
                         <th></th>
