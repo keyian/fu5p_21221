@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import  { useHistory } from "react-router-dom";
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
 import './styles/ItemMap.css';
 import Container from 'react-bootstrap/Container';
+import { DataSync } from 'aws-sdk';
 
 function ItemMap(props) {
 
@@ -18,13 +20,22 @@ function ItemMap(props) {
   const mapState = {center: center};
   const zoomState = {zoom: zoom};
 
+  const history = useHistory();
+
   function handleMarkerClick(coords, itemID) {
     console.log("hit handlemarkerclick");
     let lat=coords.lat;
     let lng=coords.lng;
     //if we already have centered this marker, then take us to it...
     if(center.lat === lat && center.lng ===lng) {
-      document.getElementById(itemID).scrollIntoView(true);
+      //either scroll into view in the item feed, or go to the item's page
+      // document.getElementById(itemID)? document.getElementById(itemID).scrollIntoView(true) : history.push(`/item/${itemID}`);
+      const SLUG_SPLIT = history.location.pathname.split("/");
+      console.log("slug_split", SLUG_SPLIT);
+      if(!SLUG_SPLIT.includes("item")) {
+        history.push(`/item/${itemID}`)
+      } 
+      
     } else {
       setCenter(prevState => ({...prevState, lat: lat, lng: lng}));
       setZoom(15);
