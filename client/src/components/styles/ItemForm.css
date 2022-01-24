@@ -25,18 +25,23 @@
   
 }
 
+input[name=itemName] {
+  border-style: solid;
+  border-color: #152BFF;
+  border-width: 5px;
+  border-radius: 20px;
+}
+
 @keyframes fade-out {
   0% {opacity: 100%; display: block;}
   100% {opacity: 0%; display: none;}
 }
 
-#dollar-span {
-  flex-grow: 1;
-}
 
 #addItemForm {
-    max-width: 300px;
-    width: 55%;
+    /* max-width: 300px; */
+    width: 45%;
+    max-width: 400px;
     /* background-color: #FF3CC7; */
     padding: 10px 0px 10px 10px;
     /* animation-name: bgColor;
@@ -77,14 +82,10 @@
 
 
 
-form input, form textarea {
-    width: 80%;
-    max-height: 30px;
-}
-
 form>input, textarea {
     border-width: 5px;
     border-color: #152BFF;
+    border-radius: 20px;
   }
 
 
@@ -102,14 +103,18 @@ form>input, textarea {
     }
 
     #dollar-span{
-      -webkit-text-stroke: 1.8px #28502E;
+      -webkit-text-stroke: 1px #28502E;
       -webkit-text-fill-color: #63C132;
-      font-size: 72px;
+      font-size: 36px;
       font-family: 'Times New Roman', Times, serif;
       font-weight: 5;
+      vertical-align: bottom;
     }
 
-
+    #price-input {
+      -webkit-text-stroke: .75px #28502E;
+      -webkit-text-fill-color: #63C132;
+    }
     
 
     input, textarea {
@@ -123,42 +128,42 @@ form>input, textarea {
     }
 
 }
-
+/* 
 input, label, textarea {
     margin-bottom: 4.5px;
-}
+} */
 
 
   label {
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     font-family: "Comic-Sans";
     padding: 5px;
     background-color: white;
     color: #00E5E8;
-    text-align: left;
-    width: 80%;
+    text-align: center;
     border-style: solid;
     border-width: 5px;
     border-color: #FF3CC7;
-    border-radius: 100px;
+    border-radius: 10px;
   }
+
 
   #price-input {
     height: 40px;
-    width: 40px;
+    width: 100px;
+    vertical-align: center;
   }
 
-  #price-input-div {
-    float: left;
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-
-
-  }
   
+  #form-textarea {
+    width: 50%;
+    margin: auto;
+  }
+
+  .hidden {
+    display: none;
+  }
   
 
   

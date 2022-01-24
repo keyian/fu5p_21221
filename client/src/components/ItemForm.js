@@ -11,6 +11,12 @@ import './styles/ItemForm.css';
 
 import { AppContext } from '../context/AppContext';
 
+//react-bootstrap
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
+
 
 
 export default function ItemForm(props) {
@@ -140,24 +146,50 @@ export default function ItemForm(props) {
   }
 
   return (
-      <Draggable cancel="input, .suggestions-div, textarea, button">
+      <Draggable cancel="input, .suggestions-div, textarea, button, img-label">
        <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
-          <span id="drag-span">DRAG THIS</span>
-          <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's under $5?"/>
-          <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
-            <div id="price-input-div"><span id="dollar-span">$</span><input type="text" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" /></div>
-          <label>Image</label>
-          <img id="img-prev" src="#" alt="your pic" />
-            <input 
-                type="file" 
-                accept=".png, .jpg, .jpeg"
-                name="item_image"
-                id="itemImage"
-                onChange={onChangeImage}
-                placeholder="Image"
-              />
-            <textarea rows="4" cols="30" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
-          <br />
+          <Row><span id="drag-span">DRAG THIS</span></Row>
+          <Row>
+            <Col xs={12} md={6}>
+              <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's the thing?"/>
+            </Col>
+            <Col xs={12} md={6}>
+              <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="my-auto" xs={12} md={6}>
+              <div id="price-input-div"><span id="dollar-span">$</span><input type="text" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" /></div>
+            </Col>
+            <Col className="my-auto" xs={12} md={6}>
+              <Form.Group>
+                <Form.Label id="img-label" for="itemImage">Add an Image</Form.Label>
+                <Image thumbnail id="img-prev" src="#" alt="your pic" />
+                <Form.Control type="file" 
+                  accept=".png, .jpg, .jpeg"
+                  name="item_image"
+                  id="itemImage"
+                  onChange={onChangeImage}
+                  placeholder="Image" 
+                  className="hidden" />
+              </Form.Group>
+              {/* <label>Image</label>
+              <img id="img-prev" src="#" alt="your pic" />
+              <input 
+                  type="file" 
+                  accept=".png, .jpg, .jpeg"
+                  name="item_image"
+                  id="itemImage"
+                  onChange={onChangeImage}
+                  placeholder="Image"
+                /> */}
+            </Col>
+            <Col>
+            <textarea id="form-textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
+            </Col>
+          </Row>
+          
+
           <Button id="itemform-button">SUBMIT</Button>
         </form>
       </Draggable>
