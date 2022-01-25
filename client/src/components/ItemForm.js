@@ -1,14 +1,20 @@
+//react
 import React, { useContext, useState } from 'react';
+
+//styling
 import './../App.css';
-import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
+import './styles/ItemForm.css';
+import {BsCardImage, BsUpload} from 'react-icons/bs';
+
+//api
 import ItemFinder from '../apis/ItemFinder'; 
+
 //componentz
 import Draggable from 'react-draggable';
 import Button from './Button.js';
+import GMapsAutoCompleteWrapper from './GMapsAutoCompleteWrapper.js';
 
-//css
-import './styles/ItemForm.css';
-
+//context
 import { AppContext } from '../context/AppContext';
 
 //react-bootstrap
@@ -16,6 +22,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
+
 
 
 
@@ -163,7 +170,7 @@ export default function ItemForm(props) {
             </Col>
             <Col className="my-auto" xs={12} md={6}>
               <Form.Group>
-                <Form.Label id="img-label" for="itemImage">Add an Image</Form.Label>
+                <Form.Label class="img-label" id="img-label" for="itemImage"><BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/></Form.Label>
                 <Image thumbnail id="img-prev" src="#" alt="your pic" />
                 <Form.Control type="file" 
                   accept=".png, .jpg, .jpeg"
