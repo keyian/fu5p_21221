@@ -25,10 +25,10 @@
   
 }
 
-input[name=itemName] {
+input[name=itemName], input[name=price], input[type=file] {
   border-style: solid;
   border-color: #152BFF;
-  border-width: 5px;
+  border-width: 3px;
   border-radius: 20px;
 }
 
@@ -43,7 +43,7 @@ input[name=itemName] {
     width: 45%;
     max-width: 400px;
     /* background-color: #FF3CC7; */
-    padding: 10px 0px 10px 10px;
+    padding: 10px 10px 10px 10px;
     /* animation-name: bgColor;
     animation-duration: 10s;
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -138,14 +138,14 @@ input, label, textarea {
     display: inline-block;
     font-size: 12px;
     font-family: "Comic-Sans";
-    padding: 5px;
+    /* padding: 5px; */
     background-color: white;
     color: #00E5E8;
     text-align: center;
-    border-style: solid;
-    border-width: 5px;
-    border-color: #FF3CC7;
-    border-radius: 10px;
+    /* border-style: solid;
+    border-width: 3px;
+    border-color: #152bff;
+    border-radius: 10px; */
   }
 
 
@@ -157,13 +157,19 @@ input, label, textarea {
 
   
   #form-textarea {
-    width: 50%;
+    width: 80%;
     margin: auto;
+  }
+
+  input, #form-textarea {
+    padding: 5px;
   }
 
   .hidden {
     display: none;
   }
   
-
+  .row-with-space {
+    margin-bottom: 5px;
+  }
   

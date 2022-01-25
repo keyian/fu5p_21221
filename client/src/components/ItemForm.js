@@ -156,21 +156,23 @@ export default function ItemForm(props) {
       <Draggable cancel="input, .suggestions-div, textarea, button, label">
        <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
           <Row><span id="drag-span">DRAG THIS</span></Row>
-          <Row>
+          <Row className="row-with-space">
             <Col xs={12} md={6}>
-              <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="What's the thing?"/>
+              <input type="text" name="itemName" value={itemName || ''} onChange={e => setItemName(e.target.value)} placeholder="Whuss the thing?"/>
             </Col>
             <Col xs={12} md={6}>
               <GMapsAutoCompleteWrapper hooks={{address, setAddress, setCoordinates, setPlaceName, setPlaceId}} />
             </Col>
           </Row>
-          <Row>
+          <Row className="row-with-space">
             <Col className="my-auto" xs={12} md={6}>
-              <span id="dollar-span">$</span><input type="number" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
+              <span id="dollar-span">$</span><input type="number" id="price-input" name="price" value={price || ''} onChange={e => setPrice(e.target.value)} placeholder="Price" />
             </Col>
             <Col className="my-auto" xs={12} md={6}>
               <Form.Group>
-                <Form.Label id="img-label" for="itemImage"><BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/></Form.Label>
+                <Form.Label id="img-label" for="itemImage">
+                  <BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/>
+                </Form.Label>
                 <Image thumbnail id="img-prev" src="#" alt="your pic" />
                 <Form.Control type="file" 
                   accept=".png, .jpg, .jpeg"
@@ -178,15 +180,15 @@ export default function ItemForm(props) {
                   id="itemImage"
                   onChange={onChangeImage}
                   placeholder="Image" 
-                  className="hidden" />
+                   />
               </Form.Group>
             </Col>
-            <Col>
-            <textarea id="form-textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>
-            </Col>
-          </Row>
-          
-
+            </Row>
+            <Row>
+              <Col>
+              <textarea id="form-textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Notes..."/>
+              </Col>
+            </Row>
           <Button id="itemform-button">SUBMIT</Button>
         </form>
       </Draggable>
