@@ -153,7 +153,7 @@ export default function ItemForm(props) {
   }
 
   return (
-      <Draggable cancel="input, .suggestions-div, textarea, button, img-label">
+      <Draggable cancel="input, .suggestions-div, textarea, button, label">
        <form method="POST" encType="multipart/form-data" onSubmit={prepareSubmit} id="addItemForm">
           <Row><span id="drag-span">DRAG THIS</span></Row>
           <Row>
@@ -166,11 +166,11 @@ export default function ItemForm(props) {
           </Row>
           <Row>
             <Col className="my-auto" xs={12} md={6}>
-              <div id="price-input-div"><span id="dollar-span">$</span><input type="text" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" /></div>
+              <span id="dollar-span">$</span><input type="number" id="price-input" name="price" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" />
             </Col>
             <Col className="my-auto" xs={12} md={6}>
               <Form.Group>
-                <Form.Label class="img-label" id="img-label" for="itemImage"><BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/></Form.Label>
+                <Form.Label id="img-label" for="itemImage"><BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/></Form.Label>
                 <Image thumbnail id="img-prev" src="#" alt="your pic" />
                 <Form.Control type="file" 
                   accept=".png, .jpg, .jpeg"
@@ -180,16 +180,6 @@ export default function ItemForm(props) {
                   placeholder="Image" 
                   className="hidden" />
               </Form.Group>
-              {/* <label>Image</label>
-              <img id="img-prev" src="#" alt="your pic" />
-              <input 
-                  type="file" 
-                  accept=".png, .jpg, .jpeg"
-                  name="item_image"
-                  id="itemImage"
-                  onChange={onChangeImage}
-                  placeholder="Image"
-                /> */}
             </Col>
             <Col>
             <textarea id="form-textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description..."/>

@@ -108,7 +108,7 @@ form>input, textarea {
       font-size: 36px;
       font-family: 'Times New Roman', Times, serif;
       font-weight: 5;
-      vertical-align: bottom;
+      vertical-align: center;
     }
 
     #price-input {
@@ -151,8 +151,8 @@ input, label, textarea {
 
   #price-input {
     height: 40px;
-    width: 100px;
-    vertical-align: center;
+    width: 75px;
+    vertical-align: bottom;
   }
 
   
