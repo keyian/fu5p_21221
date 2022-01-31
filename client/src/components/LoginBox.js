@@ -111,8 +111,8 @@ export default function LoginBox() {
           }{!showLogin && !showRegister && 
               <Container>
                 <Row>
-                  <Button className="no-dec-button" onClick={show_Login}>login</Button> 
-                  <Button className="no-dec-button" onClick={show_Register}>register</Button>
+                  <Button className="no-dec-button login-btns" onClick={show_Login}>login</Button> 
+                  <Button className="no-dec-button login-btns" onClick={show_Register}>register</Button>
                 </Row>
               </Container>
             }
