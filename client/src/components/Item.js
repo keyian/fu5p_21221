@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext';
 import ItemMap from './ItemMap';
 import EditItemButtons from './EditItemButtons';
 import CommentBox from './CommentBox';
+import { Link } from 'react-router-dom';
 
 //react-bootstrap
 import Image from 'react-bootstrap/Image';
@@ -90,7 +91,7 @@ export default function Item(props) {
                 </Row>
 
                 
-                <h4>added by {item.name.split(" ")[0]}</h4>
+                <h4>added by <Link to={{pathname: `/user/${item.creator_id}`}}>{item.name.split(" ")[0]}</Link></h4>
                 
             </Container>
             
