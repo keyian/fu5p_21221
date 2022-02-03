@@ -33,21 +33,25 @@ export default function NuItemFeed({del, items, edit, like, ...props}) {
     })
     //"dataRef" is used to record Index, because "key" is inaccessible in Child
     return(
-            <Table striped hover className="col-md-4 feed-container">
+            <Table striped hover className="col-md-4">
                 <thead>
                     <tr>
-                        <th></th>
+                        {/* <th></th>
                         <th>Item</th>
                         <th>Price</th>
                         <th>@</th>
-                        <th>Likes</th>
+                        <th>Likes</th> */}
+                        <th>Things</th>
                     </tr>
                 </thead>
-                <tbody>
-                {items.map(
-                    (item, i) => <ItemRow click={props.click} del={del} edit={edit} like={like} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
-                )}
-                </tbody>
+                <div id="feed-container">
+                    <tbody>
+                    {items.map(
+                        (item, i) => <ItemRow click={props.click} del={del} edit={edit} like={like} key={item.item_id} dataRef={item.item_id} item={item} socket={socket} />
+                    )}
+                    </tbody>
+                </div>
+                
             </Table>
 
     );

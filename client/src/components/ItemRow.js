@@ -32,13 +32,18 @@ export default function ItemRow({del, item, edit, like, ...props}) {
 
     return(
         <Fragment>
-                <tr id={item.item_id} onClick={handleClick}>
-                    <td><Image className="itemrow-img non-map-img" src={item.s3_url} /></td>
-                    <td>{item.item_name}</td>
-                    <td>{item.price}</td>
-                    <td>{item.place_name}</td>
-                    <td>{item.likes} likes</td>
-                </tr>
+                <Row id={item.item_id} onClick={handleClick}>
+                    <Col xs={8} sm={6} md={6}>
+                        <td className="inline"><img className="itemrow-img non-map-img" src={item.s3_url} /></td>
+                    </Col>
+                    <Col className="my-auto" xs={4} sm={6} md={6}>
+                        <td className="block"><b>{item.item_name}</b></td>
+                        <td className="block"><b>$</b>{item.price}</td>
+                        <td className="block"><b>@</b> {item.place_name}</td>
+                        <td className="block">{item.likes} <b>likes</b></td>
+                    </Col>
+                    
+                </Row>
             
             
             <Modal show={modalShow} onHide={handleClose} animation={true}>

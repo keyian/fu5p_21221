@@ -77,10 +77,10 @@ export default function MapFeed(props) {
 
     return (
         <Row>
-            <Col xs={12} sm={12} md={6}>
+            <Col xs={12} sm={8} md={8}>
                 <ItemMap center={center} items={items} />
             </Col>
-            <Col xs={12} sm={12} md={6}>
+            <Col xs={12} sm={4} md={4}>
                 <NuItemFeed click={markerClick} del={deleteItem.bind(this)} edit={editItem.bind(this)} like={likeItem.bind(this)} items={items} />
             </Col>
         </Row>

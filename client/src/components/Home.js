@@ -90,9 +90,10 @@ export default function Home(props) {
 
     return (
         <Container>
+            <h3 className={(login? "hidden": "visible")} id="login-prompt">login or create an account to add things, like &amp; comment</h3>
             <MapFeed items={items} setItems={setItems} />
             <Row>
-                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2 className="message">Login Above</h2>}
+                {(login)?<ItemForm addItem={addItem.bind(this)} /> : <h2></h2>}
             </Row>
             {/* <Row>
             </Row> */}

@@ -29,19 +29,58 @@
     -webkit-text-stroke: 4px #F0F600;
     -webkit-text-fill-color: #FF3CC7;
   }
+
+  #login-prompt {
+    -webkit-text-stroke: .75px black;
+    -webkit-text-fill-color: #e8e8e8;
+  }
 }
 
 a{
   text-decoration: none;
 }
 
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.itemrow-img {
+  height: 120px;
+  object-fit: scale-down;
+}
+
+
 body {
-  background-color: white;
+  background-color: white
+}
+
+.hidden {
+  display: none;
+
+}
+
+.visible {
+  display: initial;
+
+}
+
+
+
+#feed-container {
+  max-height: 73vh;
+  height: auto;
+  overflow: auto;
 }
 
 #header-row {
   margin-bottom: 50px;;
 }
+
+
 
 .login-btns {
   color: #152bff;
