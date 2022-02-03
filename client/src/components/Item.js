@@ -83,12 +83,15 @@ export default function Item(props) {
                         <Image className="non-map-img" src={item.s3_url} />
                     </Col>
                     <Col md={4} className="my-auto">
-                        <ItemMap id="item-pg-map" items={[item]} />
+                        <Row>
+                            <ItemMap id="item-pg-map" items={[item]} />
+                        </Row>
+                        <Row>
+                            <CommentBox itemID={item.item_id} socket={socket} />
+                        </Row>
                     </Col>
                 </Row>
-                <Row>
-                    <CommentBox itemID={item.item_id} socket={socket} />
-                </Row>
+                
 
                 
                 <h4>added by <Link to={{pathname: `/user/${item.creator_id}`}}>{item.name.split(" ")[0]}</Link></h4>
