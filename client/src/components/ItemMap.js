@@ -4,7 +4,6 @@ import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker.js';
 import './styles/ItemMap.css';
 import Container from 'react-bootstrap/Container';
-import { DataSync } from 'aws-sdk';
 
 function ItemMap(props) {
 
@@ -59,6 +58,10 @@ function ItemMap(props) {
   useEffect(isSingleItem, [itemsies]);
 
   useEffect(reCenter, [props.center]);
+
+  const apiIsLoaded = (map, maps) => {
+    map.setClickableIcons(false) // Need to call this to disable POIs
+  }
  
 //  return (itemsies.length > 0) ? (
  return (
@@ -67,6 +70,8 @@ function ItemMap(props) {
             <GoogleMapReact
               center={mapState.center}
               zoom={zoomState.zoom}
+              yesIWantToUseGoogleMapApiInternals
+              onGoogleApiLoaded={({map, maps}) => apiIsLoaded(map, maps)}
             >
               {itemsies.map((item, index) =>
                 <MapMarker key={index} onClick={handleMarkerClick} lat={item.coordinates[0]} lng={item.coordinates[1]} item={item}/>

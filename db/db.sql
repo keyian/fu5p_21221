@@ -307,3 +307,5 @@ ADD CONSTRAINT fk_item
    FOREIGN KEY (item_id)
    REFERENCES items(item_id)
    ON DELETE CASCADE;
+
+   
