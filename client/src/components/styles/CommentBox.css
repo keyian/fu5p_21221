@@ -13,6 +13,7 @@
 .comments-textarea {
     margin-top: 5px; 
     height: 35px;
+    padding: 3px;
 }
 
 .comments-textarea-div {

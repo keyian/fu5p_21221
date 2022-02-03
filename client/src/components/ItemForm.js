@@ -189,7 +189,7 @@ export default function ItemForm(props) {
               <textarea id="form-textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Notes..."/>
               </Col>
             </Row>
-          <Button id="itemform-button">SUBMIT</Button>
+          <Button className="fu5p-button">SUBMIT</Button>
         </form>
       </Draggable>
     );

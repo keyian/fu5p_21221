@@ -79,7 +79,7 @@ export default function Item(props) {
                 </Row>
                 <Row>
                     <Col md={6}>
-                        <h3>{item.item_name} @ {item.place_name}</h3>
+                        <h3 className="black-white-125-stroke">{item.item_name} @ {item.place_name}</h3>
                         <Image className="non-map-img" src={item.s3_url} />
                     </Col>
                     <Col md={4} className="my-auto">

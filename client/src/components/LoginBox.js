@@ -80,10 +80,12 @@ export default function LoginBox() {
       <Container id="outer-login-div">
         {login ? 
           <Row>
-            <p>Welcome, 
-              <Link to={{pathname: `/user/${userData.user_id}`}} >{userData.name}</Link>
+            <p className="black-white-75-stroke">Welcome,&nbsp;
+              <Link to={{pathname: `/user/${userData.user_id}`}} >
+                <span className="blue-white-75-stroke">{userData.name}</span>
+              </Link>
             </p>
-            <button onClick={e => logout(e)} className="btn btn-primary">
+            <button onClick={e => logout(e)} className="btn btn-primary fu5p-button">
               Logout
             </button>
           </Row>
@@ -111,8 +113,8 @@ export default function LoginBox() {
           }{!showLogin && !showRegister && 
               <Container>
                 <Row>
-                  <Button className="no-dec-button login-btns" onClick={show_Login}>login</Button> 
-                  <Button className="no-dec-button login-btns" onClick={show_Register}>register</Button>
+                  <Button className="no-dec-button login-btns blue-white-75-stroke" onClick={show_Login}>login</Button> 
+                  <Button className="no-dec-button login-btns blue-white-75-stroke" onClick={show_Register}>register</Button>
                 </Row>
               </Container>
             }

@@ -33,7 +33,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
     return(
         <Fragment>
                 <Row id={item.item_id} onClick={handleClick}>
-                    <Col xs={8} sm={6} md={6}>
+                    <Col className="my-auto" xs={8} sm={6} md={6}>
                         <td className="inline"><img className="itemrow-img non-map-img" src={item.s3_url} /></td>
                     </Col>
                     <Col className="my-auto" xs={4} sm={6} md={6}>
@@ -48,22 +48,24 @@ export default function ItemRow({del, item, edit, like, ...props}) {
             
             <Modal show={modalShow} onHide={handleClose} animation={true}>
                 <Modal.Header closeButton>
-                    <Modal.Title><Link to={{pathname: `/item/${item.item_id}`}}>{item.item_name} @ {item.place_name}</Link></Modal.Title>
+                    <Modal.Title><Link to={{pathname: `/item/${item.item_id}`}}><span className="blue-white-125-stroke">{item.item_name} @ {item.place_name}</span></Link></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
                         <Row>
-                            <Image className="itemfeed-image" src={item.s3_url} />
+                            <Image className="modal-image modal-img" src={item.s3_url} />
                         </Row>
                         <Row>
-                            <Col><Likes item={item} like={like} /></Col>
-                            <Col><CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} /></Col>
+                            <Col className="inline">"{item.description}" -added by
+                            <Link to={{pathname: `/user/${item.creator_id}`}}><p className="inline"> {creatorFirstName} </p></Link></Col>
+                        </Row>
+                        <Row>
+                            <Col className="my-auto"><Likes item={item} like={like} /></Col>
+                            <Col className="my-auto"><CommentBox dataRef={props.dataRef} itemID={item.item_id} socket={props.socket} /></Col>
                         </Row>
                         
                         <Row>
                             <EditItemButtons userData={userData} item={item} edit={edit} del={del}/>
-                            <p className="itempost-username-p">added by</p>
-                            <Link to={{pathname: `/user/${item.creator_id}`}}><p className="itempost-username-p"> {creatorFirstName} </p></Link>
                         </Row>
                     </Container>
                     

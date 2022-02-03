@@ -1,18 +1,4 @@
-#itemform-button {
-  background-color: #152BFF;
-  padding: .375rem .75rem;
-  font-size: 100%;
-  line-height: 1.5; 
-  border-radius: .1rem;
-  cursor: pointer;
-  outline: none;
-  color: #00E5E8;
-  font-weight: 725;
-  font-family: Helvetica, sans-serif;
-  letter-spacing: 8px;
-  align-self: center; 
-  
-}
+
 
 #drag-span {
   /* animation-name: fade-out;
@@ -91,11 +77,6 @@ form>input, textarea {
 
 
 @supports (-webkit-text-stroke: 5px black) {
-    #itemform-button {
-      -webkit-text-stroke: .45px #00E5E8;
-      -webkit-text-fill-color: #152BFF;
-
-    }
 
     #drag-span{
       -webkit-text-stroke: .5px #FF3CC7;
