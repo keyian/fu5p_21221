@@ -31,7 +31,8 @@ export default function Header() {
                     opacity: interpolatedStyles.opacity}}>
                     <Row id="header-row">
                         <Col>
-                            <Link to={'/'} replace><h2 className="under5-title">things we like</h2></Link>    
+                            <Link to={'/'} replace><h2 className="under5-title">pennylover</h2></Link> 
+                            {/* <h5 className="under5-subtitle" style={{"font-size": "48px"}}>share cheap things with your friends</h5>    */}
                         </Col>
                         <Col md={3}className="my-auto">
                             <LoginBox />
