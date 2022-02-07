@@ -67,7 +67,7 @@ var upload  = multer({storage: storage});
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const ORIGIN = (process.env.NODE_ENV ==="production") ? "https://localhost:3000" : "https://pennylover.net:3000";
+const ORIGIN = (process.env.NODE_ENV ==="production") ? "https://localhost:3000" : "https://pennylover.net/";
 
 // const io = new Server(server);
 
