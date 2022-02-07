@@ -67,11 +67,13 @@ var upload  = multer({storage: storage});
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const ORIGIN = (process.env.NODE_ENV ==="production") ? "https://localhost:3000" : "https://pennylover.net:3000";
+
 // const io = new Server(server);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://localhost:3000",
+    origin: ORIGIN,
     methods: ["GET", "POST"],
     credentials: true
   }
