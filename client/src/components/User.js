@@ -58,7 +58,7 @@ export default function User(props) {
             <Row>
                 {/* <Header loginHooks={props.loginHooks}/> */}
                 <h1 className="userWhite">{userFirstName}'s Likes</h1>
-                <MapFeed items={favorites} setItems={setFavorites} />
+                <MapFeed parent="user" items={favorites} setItems={setFavorites} />
                 {/* {favorites.length === 0 ? <p className="userWhite"> {userFirstName} has no favorites</p> : <ItemMap items={favorites} />}
                 {favorites.length === 0 ? "" : <NuItemFeed items={favorites} />} */}
             </Row>

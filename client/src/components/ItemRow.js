@@ -47,10 +47,10 @@ export default function ItemRow({del, item, edit, like, ...props}) {
             
             
             <Modal show={modalShow} onHide={handleClose} animation={true}>
-                <Modal.Header closeButton>
+                <Modal.Header  closeButton>
                     <Modal.Title><Link to={{pathname: `/item/${item.item_id}`}}><span className="blue-white-125-stroke">{item.item_name} @ {item.place_name}</span></Link></Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="border-shadow-pink-yellow" >
                     <Container>
                         <Row>
                             <Image className="modal-image modal-img" src={item.s3_url} />

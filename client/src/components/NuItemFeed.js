@@ -36,7 +36,7 @@ export default function NuItemFeed({del, items, edit, like, ...props}) {
             <Table striped hover className="col-md-4">
                 <thead>
                     <tr>
-                        <th className='black-white-75-stroke'>Things</th>
+                        <th className='black-white-75-stroke'>pennies</th>
                     </tr>
                 </thead>
                 <div id="feed-container">

@@ -63,7 +63,7 @@ export default function MapFeed(props) {
                 console.log('Error retrieving getItems data!: ', err);
             }
         }
-        if(items.length === 0){
+        if((!props.parent==="user") && (items.length === 0)){
             runGetItems();
         }
     }

@@ -170,7 +170,7 @@ export default function ItemForm(props) {
             </Col>
             <Col className="my-auto" xs={12} md={6}>
               <Form.Group>
-                <Form.Label id="img-label" for="itemImage">
+                <Form.Label id="img-label" htmlFor="itemImage">
                   <BsUpload color="black"/>&nbsp;Add an Image&nbsp;<BsCardImage color="black"/>
                 </Form.Label>
                 <Image thumbnail id="img-prev" src="#" alt="your pic" />
