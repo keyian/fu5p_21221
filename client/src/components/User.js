@@ -33,7 +33,8 @@ export default function User(props) {
         const runPopulateFavorites = async () => {
             try{
                 const user = await UserFinder.get(`/populate-user-favorites/${userID}`);
-                setUserFirstName(user.data.userLikes[0].name.split(" ")[0]);
+                console.log(user.data.userLikes);
+                setUserFirstName(user.data.userLikes[0].user_name.split(" ")[0]);
 
                 console.log("populate favorites response: ", user);
                 setFavorites(user.data.userLikes.filter((item => {

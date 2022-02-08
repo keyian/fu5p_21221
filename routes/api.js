@@ -192,11 +192,13 @@ router.get('/v1/users/populate-user-favorites/:userID', async (req, res) => {
   try {
     console.log("in populate user", req.params.userID);
     
-    let userLikes = await knex.from("item_likes").where('item_likes.user_id', req.params.userID)
-      .innerJoin("items", "item_likes.item_id", "items.item_id")
-      .innerJoin('places', 'items.place_id', 'places.place_id')
-      .innerJoin('images', 'items.image_id', 'images.image_id')
-      .innerJoin('users', 'items.creator_id', 'users.user_id')
+    let userLikes = await knex.select('il.*', 'i.*', 'p.*', 'img.*', 'creator.name AS name', 'creator.user_id AS creator_user_id', 'user.name AS user_name')
+    .from('item_likes AS il').where('il.user_id', req.params.userID)
+      .innerJoin("items AS i", "il.item_id", "i.item_id")
+      .innerJoin('places AS p', 'i.place_id', 'p.place_id')
+      .innerJoin('images AS img', 'i.image_id', 'img.image_id')
+      .innerJoin('users AS creator', 'i.creator_id', 'creator.user_id')
+      .leftJoin('users AS user', 'il.user_id', 'user.user_id')
       .orderBy('created_at', 'desc');
     if(userLikes.length === 0) {
       console.log("In no likes section");
