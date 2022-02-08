@@ -28,7 +28,7 @@ export default function NuItemFeed({del, items, edit, like, ...props}) {
 
 
         return function cleanup() {
-            socket.disconnect();
+            // socket.disconnect();
         }
     })
     //"dataRef" is used to record Index, because "key" is inaccessible in Child
