@@ -308,4 +308,9 @@ ADD CONSTRAINT fk_item
    REFERENCES items(item_id)
    ON DELETE CASCADE;
 
-   
+alter table users 
+add column admin boolean;
+
+update users 
+set likes = 0 
+where item_id = 40;

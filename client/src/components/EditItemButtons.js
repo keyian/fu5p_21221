@@ -18,7 +18,7 @@ const EditItemButtons = ({edit, del, userData, item, ...props}) => {
     }
     return(
         <Fragment>
-        { (userData.user_id === item.creator_id) ?
+        { ((userData.user_id === item.creator_id) || (userData.admin)) ?
         <Container>
                 <Col>
                     <Button className="fu5p-button" onClick={handleEdit}>Edit</Button>

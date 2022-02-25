@@ -287,7 +287,7 @@ router.post('/v1/users/get-user', authorize, async (req, res) => {
     console.log("this is req.header", userID);
     const user = await knex("users").where({'users.user_id': userID})
         .leftJoin('item_likes', 'users.user_id', 'item_likes.user_id')
-        .select('users.email', 'users.name', 'users.user_id', 'item_likes.item_id', 'item_likes.like_status');
+        .select('users.email', 'users.name', 'users.user_id', 'users.admin', 'item_likes.item_id', 'item_likes.like_status');
     
     console.log("in get user")
 
