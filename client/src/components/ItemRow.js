@@ -40,7 +40,7 @@ export default function ItemRow({del, item, edit, like, ...props}) {
                         <td className="block"><b>{item.item_name}</b></td>
                         <td className="block"><b>$</b>{item.price}</td>
                         <td className="block"><b>@</b> {item.place_name}</td>
-                        <td className="block">{item.likes} <b>likes</b></td>
+                        <td className="block">{item.likes} <b>{(item.likes===1)?"like":"likes"}</b></td>
                     </Col>
                     
                 </Row>

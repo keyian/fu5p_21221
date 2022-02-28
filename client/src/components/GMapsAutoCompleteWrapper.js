@@ -31,7 +31,7 @@ function GMapsAutoCompleteWrapper(props) {
 
     const renderFunc = ({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div className="places-outer-div">
-            <input {...getInputProps({ placeholder: "Where?" })} />
+            <input required {...getInputProps({ placeholder: "Where?" })} />
 
             <div className="places-inner-div">
               {loading ? <div>...loading</div> : null}
@@ -52,7 +52,7 @@ function GMapsAutoCompleteWrapper(props) {
 
     return (
       <div>
-        <PlacesAutoComplete 
+        <PlacesAutoComplete
         value={address} 
         onChange={setAddress} 
         onSelect={handleSelect} >
