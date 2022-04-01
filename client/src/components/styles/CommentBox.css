@@ -11,9 +11,10 @@
 }
 
 .comments-textarea {
-    margin-top: 5px; 
-    height: 35px;
-    padding: 3px;
+    margin-top: 5px;
+    height: 40px;
+    width: 100%;
+    padding: 5px;
 }
 
 .comments-textarea-div {

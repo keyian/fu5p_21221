@@ -30,6 +30,9 @@ app.use(express.json());
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: true })); 
 
+
+//https redirect
+app.enable("trust proxy");
 //all multer image upload stuph
 
 const {
@@ -96,6 +99,15 @@ io.on('connection', (socket) => {
   })
 });
 
+//https redirect
+app.use(function(request, response, next) {
+
+  if (process.env.NODE_ENV != 'development' && !request.secure) {
+     return response.redirect("https://" + request.headers.host + request.url);
+  }
+
+  next();
+})
 
 //HTTP Request Logger
 app.use(morgan('tiny'));
