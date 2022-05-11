@@ -27,7 +27,7 @@ router.post("/v1/comments/add-comment", async (req, res) => {
   
 })
 
-router.post("/v1/follow/add-follow", async (req, res) => {
+router.post("/v1/follow/change-follow", async (req, res) => {
   const {followed_id, following_id} = req.body;
   try{
     const follow = await knex("follows").insert({
