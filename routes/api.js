@@ -27,6 +27,23 @@ router.post("/v1/comments/add-comment", async (req, res) => {
   
 })
 
+router.post("/v1/follow/add-follow", async (req, res) => {
+  const {followed_id, following_id} = req.body;
+  try{
+    const follow = await knex("follows").insert({
+      following_id, followed_id
+    }).returning('*');
+
+    console.log("follow is", follow);
+    res.status(201).json({
+      status: "success",
+      follow: follow[0]
+    })
+  } catch (err) {
+    console.log("error following: ", err);
+  }
+})
+
 router.post('/v1/likes/like-click', async (req, res) => {
   let { userID, itemID, liked, disliked, oldLiked, oldDisliked } = req.body;
   let likeChange = 0;
