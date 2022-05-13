@@ -28,20 +28,48 @@ router.post("/v1/comments/add-comment", async (req, res) => {
 })
 
 router.post("/v1/follow/change-follow", async (req, res) => {
-  const {followed_id, following_id} = req.body;
+  const {followed_id, following_id, followStatus} = req.body;
   try{
-    const follow = await knex("follows").insert({
-      following_id, followed_id
-    }).returning('*');
+    //if followed already, delete follow row. 
+    //if not followed, create follow row.
+    const follow = followStatus ?
+      await knex("follows").where({
+        following_id,
+        followed_id})
+        .del() :
+      await knex("follows").insert({
+        following_id, followed_id
+        })
+        .returning('*');
 
     console.log("follow is", follow);
     res.status(201).json({
       status: "success",
-      follow: follow[0]
+      followStatus: follow != 1 ? true : false
     })
   } catch (err) {
     console.log("error following: ", err);
   }
+})
+
+router.get("/v1/follow/get-follow/:following_id/:followed_id", async (req, res) => {
+  try {
+    const {followed_id, following_id} = req.params;
+
+    const followStatus = await knex('follows').where({
+      following_id,
+      followed_id});
+     
+    if(!followStatus.length) {
+      res.send(false);
+    } else {
+
+      res.send(true);
+    }
+  } catch(err) {
+    console.log("Error getting follow status: ", err);
+  }
+  
 })
 
 router.post('/v1/likes/like-click', async (req, res) => {
