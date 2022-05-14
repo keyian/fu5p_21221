@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import './styles/User.css';
 import MapFeed from './MapFeed';
-import FollowButton from './FollowButton';
+import FollowButton from './DimeButton';
 import UserFinder from '../apis/UserFinder';
 import { AppContext } from '../context/AppContext';
 import { useLocation } from "react-router-dom";
@@ -56,14 +56,13 @@ export default function User(props) {
         <Container id="userbg">
             <Row>
                 {/* <Header loginHooks={props.loginHooks}/> */}
-                <h1 className="userWhite">{userFirstName}'s Likes</h1>
+                <Row><h1 className="userWhite">{userFirstName}'s Likes</h1></Row>
                 {(login && userData.user_id != userID) && 
-                <FollowButton userID={userID} />}
-                <MapFeed parent="user" items={favorites} setItems={setFavorites} />
+                <Row><FollowButton userID={userID} /></Row>}
+                <Row><MapFeed parent="user" items={favorites} setItems={setFavorites} /></Row>
                 {/* {favorites.length === 0 ? <p className="userWhite"> {userFirstName} has no favorites</p> : <ItemMap items={favorites} />}
                 {favorites.length === 0 ? "" : <NuItemFeed items={favorites} />} */}
-            </Row>
-            
+            </Row>       
         </Container>
     );
 }
